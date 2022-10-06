@@ -3,16 +3,19 @@ package com.naukma.ticketsservice.train;
 import com.naukma.ticketsservice.runs.Run;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Train {
 
 
+    private final UUID id;
     private List<Wagon> wagons;
     private int speed;
     private List<Run> runs;
 
-    public Train(){
+    public Train(UUID id){
 
+        this.id = id;
     }
 
     public List<Wagon> getWagons() {

@@ -2,14 +2,18 @@ package com.naukma.ticketsservice.station;
 
 import java.time.Duration;
 import java.util.Map;
+import java.util.UUID;
 
 public class Station {
+
+    private final UUID id;
 
     private Map<Station, Integer> adjacentStations;
     private Duration duration;
 
-    public Station() {
+    public Station(UUID id) {
 
+        this.id = id;
     }
 
     public void addAdjacentStation(Station station, int distance) {

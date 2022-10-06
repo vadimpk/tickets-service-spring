@@ -1,10 +1,15 @@
 package com.naukma.ticketsservice.train;
 
+import java.util.UUID;
+
 public class Wagon {
+
+    private final UUID id;
 
     private int numberOfSits;
 
-    public Wagon(int numberOfSits){
+    public Wagon(UUID id, int numberOfSits){
+        this.id = id;
         this.numberOfSits=numberOfSits;
     }
 

@@ -4,15 +4,18 @@ import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
 
 import java.time.Duration;
+import java.util.UUID;
 
 public class Run {
 
+    private final UUID id;
     private Route route;
     private Train train;
     private Duration departureTime;
     private Duration arrivalTime;
 
-    public Run() {
+    public Run(UUID id) {
+        this.id = id;
     }
 
     public Route getRoute() {
