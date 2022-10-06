@@ -1,26 +1,41 @@
 package com.naukma.ticketsservice.route;
 
 import com.naukma.ticketsservice.station.Station;
+
+import java.time.Duration;
 import java.util.List;
+import java.util.UUID;
 
 public class Route {
 
-    private Station startingStation;
+    private final UUID id;
+    private Station startStation;
     private Station finishStation;
     private List<Station> stations;
     private int distance;
-//    private Time duration;
+    private Duration duration;
 
-    public Route(){
 
+
+    public Route(UUID id, Station startStation, Station finishStation, List<Station> stations, int distance, Duration duration) {
+        this.id = id;
+        this.startStation = startStation;
+        this.finishStation = finishStation;
+        this.stations = stations;
+        this.distance = distance;
+        this.duration = duration;
     }
 
-    public Station getStartingStation() {
-        return startingStation;
+    public UUID getId() {
+        return id;
     }
 
-    public void setStartingStation(Station startingStation) {
-        this.startingStation = startingStation;
+    public Station getStartStation() {
+        return startStation;
+    }
+
+    public void setStartStation(Station startStation) {
+        this.startStation = startStation;
     }
 
     public Station getFinishStation() {
@@ -46,4 +61,12 @@ public class Route {
     public void setDistance(int distance) {
         this.distance = distance;
     }
+
+    public Duration getDuration() {
+        return duration;
+    }
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
 }
