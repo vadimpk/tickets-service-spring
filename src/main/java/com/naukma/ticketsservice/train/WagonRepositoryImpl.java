@@ -1,34 +1,35 @@
-package com.naukma.ticketsservice.route;
+package com.naukma.ticketsservice.train;
 
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
+
 @Repository
-public class RouteRepositoryImpl implements RouteRepository {
+public class WagonRepositoryImpl implements WagonRepository {
     @Override
-    public void add(Route route) {
+    public void add(Wagon wagon) {
 
     }
 
     @Override
-    public Route read(UUID id) {
+    public Wagon read(UUID id) {
         return null;
     }
 
     @Override
-    public List<Route> readAll() {
+    public List<Wagon> readAll() {
         return null;
     }
 
     @Override
-    public Route update(UUID id, Route route) {
+    public Wagon update(UUID id, Wagon wagon) {
         return null;
     }
 
     @Override
-    public Route delete(UUID id) {
+    public Wagon delete(UUID id) {
         return null;
     }
 }

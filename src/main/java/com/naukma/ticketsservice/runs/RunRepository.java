@@ -1,13 +1,9 @@
 package com.naukma.ticketsservice.runs;
 
-import org.springframework.stereotype.Repository;
+import com.naukma.ticketsservice.CRUDOperations;
 
 import java.util.UUID;
 
-@Repository
-public class RunRepository implements IRunRepository{
-    @Override
-    public void update(UUID id) {
+public interface RunRepository extends CRUDOperations<Run> {
 
-    }
 }

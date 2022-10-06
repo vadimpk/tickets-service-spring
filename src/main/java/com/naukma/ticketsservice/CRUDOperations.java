@@ -1,12 +1,15 @@
 package com.naukma.ticketsservice;
 
+import java.util.List;
 import java.util.UUID;
 
-public interface ObjectRepository<T> {
+public interface CRUDOperations<T> {
 
     void add(T t);
 
-    T read();
+    T read(UUID id);
+
+    List<T> readAll();
 
     T update(UUID id, T t);
 
