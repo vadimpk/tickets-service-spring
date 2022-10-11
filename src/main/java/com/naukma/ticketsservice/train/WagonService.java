@@ -5,9 +5,9 @@ import java.util.UUID;
 
 public interface WagonService {
 
-    Wagon createWagon(int numberOfSeats);
+    void createWagon(Wagon wagon);
 
-    List<Wagon> findWagon(int numberOfSeats);
+    Wagon findWagon(UUID id);
 
     List<Wagon> getWagons();
 

@@ -1,13 +1,11 @@
 package com.naukma.ticketsservice.train;
 
-import com.naukma.ticketsservice.runs.Run;
-
 import java.util.List;
 import java.util.UUID;
 
 public interface TrainService {
 
-    Train createTrain(List<Wagon> wagons, int speed, List<Run> runs);
+    void createTrain(Train train);
 
     Train findTrain(UUID id);
 
@@ -17,7 +15,7 @@ public interface TrainService {
 
     void delete(UUID id);
 
-    void addWagon(UUID id, Wagon wagon);
+    void addWagon(UUID id, UUID wagonID);
 
-    void deleteWagon(UUID id, Wagon wagon);
+    void deleteWagon(UUID id, UUID wagonID);
 }

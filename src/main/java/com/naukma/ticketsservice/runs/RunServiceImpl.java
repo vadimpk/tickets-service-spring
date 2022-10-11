@@ -1,7 +1,6 @@
 package com.naukma.ticketsservice.runs;
 
 import com.naukma.ticketsservice.route.Route;
-import com.naukma.ticketsservice.route.RouteRepository;
 import com.naukma.ticketsservice.train.Train;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,28 +17,28 @@ public class RunServiceImpl implements RunService{
     }
 
     @Override
-    public Run createRun(Route route, Train train, Duration departureTime, Duration arrivalTime) {
-        return null;
+    public void createRun(Run run) {
+        repository.add(run);
     }
 
     @Override
-    public Run findRun(Duration departureTime, Duration arrivalTime) {
-        return null;
+    public Run findRun(UUID id) {
+        return repository.read(id);
     }
 
     @Override
     public List<Run> getRuns() {
-        return null;
+        return repository.readAll();
     }
 
     @Override
-    public Run update(UUID id, Duration departureTime, Duration arrivalTime) {
-        return null;
+    public Run update(UUID id, Run run) {
+        return repository.update(id, run);
     }
 
     @Override
     public void delete(UUID id) {
-
+        repository.delete(id);
     }
 
     @Override

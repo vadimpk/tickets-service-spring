@@ -1,6 +1,5 @@
 package com.naukma.ticketsservice.train;
 
-import com.naukma.ticketsservice.route.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -16,27 +15,27 @@ public class WagonServiceImpl implements WagonService{
 
 
     @Override
-    public Wagon createWagon(int numberOfSeats) {
-        return null;
+    public void createWagon(Wagon wagon) {
+        repository.add(wagon);
     }
 
     @Override
-    public List<Wagon> findWagon(int numberOfSeats) {
-        return null;
+    public Wagon findWagon(UUID id) {
+        return repository.read(id);
     }
 
     @Override
     public List<Wagon> getWagons() {
-        return null;
+        return repository.readAll();
     }
 
     @Override
     public Wagon update(UUID id, Wagon wagon) {
-        return null;
+        return repository.update(id, wagon);
     }
 
     @Override
     public void delete(UUID id) {
-
+        repository.delete(id);
     }
 }

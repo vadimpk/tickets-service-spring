@@ -9,13 +9,13 @@ import java.util.UUID;
 
 public interface RunService {
 
-    Run createRun(Route route, Train train, Duration departureTime, Duration arrivalTime);
+    void createRun(Run run);
 
-    Run findRun(Duration departureTime, Duration arrivalTime);
+    Run findRun(UUID id);
 
     List<Run> getRuns();
 
-    Run update(UUID id, Duration departureTime, Duration arrivalTime);
+    Run update(UUID id, Run run);
 
     void delete(UUID id);
 

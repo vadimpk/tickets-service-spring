@@ -1,6 +1,5 @@
 package com.naukma.ticketsservice.station;
 
-import com.naukma.ticketsservice.route.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -15,32 +14,32 @@ public class StationServiceImpl implements StationService{
     }
 
     @Override
-    public Station createStation(UUID id) {
-        return null;
+    public void createStation(Station station) {
+        repository.add(station);
     }
 
     @Override
     public Station findStation(UUID id) {
-        return null;
+        return repository.read(id);
     }
 
     @Override
     public List<Station> getStations() {
-        return null;
+        return repository.readAll();
     }
 
     @Override
     public Station update(UUID id, Station station) {
-        return null;
+        return repository.update(id, station);
     }
 
     @Override
     public void delete(UUID id) {
-
+        repository.delete(id);
     }
 
     @Override
-    public void addAdjacentStation(Station station, Station adjacentStation, int distance) {
-
+    public void addAdjacentStation(UUID id, UUID adjacentID, int distance) {
+        repository.addAdjacentStation(id, adjacentID, distance);
     }
 }

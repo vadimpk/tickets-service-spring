@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface StationService {
 
-    Station createStation(UUID id);
+    void createStation(Station station);
 
     Station findStation(UUID id);
 
@@ -15,5 +15,5 @@ public interface StationService {
 
     void delete(UUID id);
 
-    void addAdjacentStation(Station station, Station adjacentStation, int distance);
+    void addAdjacentStation(UUID id, UUID adjacentID, int distance);
 }
