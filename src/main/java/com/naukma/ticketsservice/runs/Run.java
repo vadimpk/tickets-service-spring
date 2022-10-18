@@ -14,8 +14,13 @@ public class Run {
     private Duration departureTime;
     private Duration arrivalTime;
 
-    public Run(UUID id) {
-        this.id = id;
+    public Run(Route route) {
+        this.id = UUID.randomUUID();
+        this.route = route;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public Route getRoute() {

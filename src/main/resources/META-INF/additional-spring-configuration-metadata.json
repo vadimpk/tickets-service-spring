@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "service.pricemanager.default-rate",
+      "type": "java.lang.Integer",
+      "description": "Description for service.pricemanager.default-rate."
+  }
+] }

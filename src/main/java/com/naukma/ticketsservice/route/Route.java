@@ -17,8 +17,8 @@ public class Route {
 
 
 
-    public Route(UUID id, Station startStation, Station finishStation, List<Station> stations, int distance, Duration duration) {
-        this.id = id;
+    public Route(Station startStation, Station finishStation, List<Station> stations, int distance, Duration duration) {
+        this.id = UUID.randomUUID();
         this.startStation = startStation;
         this.finishStation = finishStation;
         this.stations = stations;
