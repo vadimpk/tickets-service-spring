@@ -3,6 +3,7 @@ package com.naukma.ticketsservice.train;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class TrainServiceImpl implements TrainService{
@@ -15,36 +16,39 @@ public class TrainServiceImpl implements TrainService{
 
     @Override
     public void createTrain(Train train) {
-        repository.add(train);
+        repository.save(train);
     }
 
     @Override
     public Train findTrain(UUID id) {
-        return repository.read(id);
+        Optional<Train> train = repository.findById(id);
+        if (train.isEmpty()) throw new RuntimeException("not such train with id " + id);
+        return train.get();
     }
 
     @Override
     public List<Train> getTrains() {
-        return repository.readAll();
+        return repository.findAll();
     }
 
     @Override
     public Train update(UUID id, Train train) {
-        return repository.update(id, train);
+        repository.setTrainById(id, train.getWagons(), train.getSpeed(), train.getRuns());
+        return train;
     }
 
     @Override
     public void delete(UUID id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
     @Override
     public void addWagon(UUID id, UUID wagonID) {
-        repository.addWagon(id, wagonID);
+        repository.saveWagonToTrain(id, wagonID);
     }
 
     @Override
     public void deleteWagon(UUID id, UUID wagonID) {
-        repository.deleteWagon(id, wagonID);
+        repository.deleteWagonFromTrain(id, wagonID);
     }
 }

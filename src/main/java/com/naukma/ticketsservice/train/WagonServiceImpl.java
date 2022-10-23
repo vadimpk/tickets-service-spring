@@ -3,6 +3,7 @@ package com.naukma.ticketsservice.train;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class WagonServiceImpl implements WagonService{
@@ -16,26 +17,29 @@ public class WagonServiceImpl implements WagonService{
 
     @Override
     public void createWagon(Wagon wagon) {
-        repository.add(wagon);
+        repository.saveAndFlush(wagon);
     }
 
     @Override
     public Wagon findWagon(UUID id) {
-        return repository.read(id);
+        Optional<Wagon> wagon = repository.findById(id);
+        if (wagon.isEmpty()) throw new RuntimeException("not such wagon with id " + id);
+        return wagon.get();
     }
 
     @Override
     public List<Wagon> getWagons() {
-        return repository.readAll();
+        return repository.findAll();
     }
 
     @Override
     public Wagon update(UUID id, Wagon wagon) {
-        return repository.update(id, wagon);
+        repository.setWagonById(id, wagon.getNumberOfSits());
+        return wagon;
     }
 
     @Override
     public void delete(UUID id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 }

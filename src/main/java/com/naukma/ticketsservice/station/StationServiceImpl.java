@@ -3,6 +3,7 @@ package com.naukma.ticketsservice.station;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class StationServiceImpl implements StationService{
@@ -15,27 +16,30 @@ public class StationServiceImpl implements StationService{
 
     @Override
     public void createStation(Station station) {
-        repository.add(station);
+        repository.saveAndFlush(station);
     }
 
     @Override
     public Station findStation(UUID id) {
-        return repository.read(id);
+        Optional<Station> station = repository.findById(id);
+        if (station.isEmpty()) throw new RuntimeException("not such station with id " + id);
+        return station.get();
     }
 
     @Override
     public List<Station> getStations() {
-        return repository.readAll();
+        return repository.findAll();
     }
 
     @Override
     public Station update(UUID id, Station station) {
-        return repository.update(id, station);
+        repository.setStationById(id, station.getAdjacentStations(), station.getDuration());
+        return station;
     }
 
     @Override
     public void delete(UUID id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
     @Override

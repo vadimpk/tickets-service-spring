@@ -11,25 +11,18 @@ import java.util.UUID;
 @Service
 public class RouteServiceImpl implements RouteService {
 
-    // DI via field (not recommended)
-//    @Autowired
-//    private RouteRepository repository;
-
     private final RouteRepository repository;
 
     public RouteServiceImpl(@Autowired RouteRepository repository) {
         this.repository = repository;
     }
 
-    // DI via setter
-//    public void setRepository(@Autowired RouteRepository repository) {
-//        this.repository = repository;
-//    }
 
     @Override
     public Route createRoute(Station startStation, Station finishStation, List<Station> transitionalStations) {
         // run algorithm that finds all stations of the route
         // then run repository method
+
         return null;
     }
 
@@ -58,12 +51,11 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public List<Route> getRoutes() {
-        // run repository method
-        return null;
+        return repository.findAll();
     }
 
     @Override
     public void delete(UUID id) {
-        // run repository method
+        repository.deleteById(id);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -37,16 +38,19 @@ public class TicketServiceImpl implements TicketService {
     public void createTicket(Run run) {
         int price = priceManager.setPrice(run.getRoute().getDistance());
         log.info("Price: " + price);
-        repository.add(new Ticket(UUID.randomUUID(), run, price));
+        repository.saveAndFlush(new Ticket(UUID.randomUUID(), run, price));
     }
 
     @Override
     public List<Ticket> getRunTickets(Run run) {
-        return repository.readByRun(run.getId());
+        return repository.findByRun(run);
     }
 
     @Override
     public Ticket delete(UUID id) {
-        return repository.delete(id);
+        Optional<Ticket> ticket = repository.findById(id);
+        if(ticket.isEmpty()) throw new RuntimeException("not such ticket with id " + id);
+        repository.delete(ticket.get());
+        return ticket.get();
     }
 }
