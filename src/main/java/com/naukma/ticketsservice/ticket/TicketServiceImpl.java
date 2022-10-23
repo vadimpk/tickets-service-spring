@@ -1,9 +1,9 @@
 package com.naukma.ticketsservice.ticket;
 
+import com.naukma.pricemanager.PriceManager;
 import com.naukma.ticketsservice.TicketsServiceApplication;
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.runs.Run;
-import com.naukma.ticketsservice.ticket.pricemanager.PriceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void createTicket(Run run) {
-        int price = priceManager.setPrice(run);
-        log.info(String.valueOf(price));
+        int price = priceManager.setPrice(run.getRoute().getDistance());
+        log.info("Price: " + price);
         repository.add(new Ticket(UUID.randomUUID(), run, price));
     }
 

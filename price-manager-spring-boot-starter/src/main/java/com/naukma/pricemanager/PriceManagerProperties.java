@@ -1,4 +1,4 @@
-package com.naukma.ticketsservice.ticket.pricemanager;
+package com.naukma.pricemanager;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
