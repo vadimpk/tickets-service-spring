@@ -1,19 +1,30 @@
 package com.naukma.ticketsservice.station;
 
+import javax.persistence.*;
 import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
 
+@Entity
 public class Station {
 
-    private final UUID id;
+    @Id
+    private UUID id;
 
+    @ElementCollection
+    @CollectionTable(name = "adjacent_stations")
+    @MapKeyColumn(name = "adjacent_station")
+    @Column(name = "distance")
     private Map<Station, Integer> adjacentStations;
+
     private Duration duration;
 
     public Station(UUID id) {
-
         this.id = id;
+    }
+
+    public Station() {
+
     }
 
     public void addAdjacentStation(Station station, int distance) {
@@ -34,5 +45,33 @@ public class Station {
 
     public void setDuration(Duration duration) {
         this.duration = duration;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Station station = (Station) o;
+
+        if (!id.equals(station.id)) return false;
+        if (!adjacentStations.equals(station.adjacentStations)) return false;
+        return duration.equals(station.duration);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + adjacentStations.hashCode();
+        result = 31 * result + duration.hashCode();
+        return result;
     }
 }

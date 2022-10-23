@@ -2,12 +2,20 @@ package com.naukma.ticketsservice.ticket;
 
 import com.naukma.ticketsservice.runs.Run;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.UUID;
 
+@Entity
 public class Ticket {
 
-    private final UUID id;
+    @Id
+    private UUID id;
+
+    @ManyToOne
     private Run run;
+
     private int price;
 
     // private User user;
@@ -17,6 +25,10 @@ public class Ticket {
         this.id = id;
         this.run = run;
         this.price = price;
+    }
+
+    public Ticket() {
+
     }
 
     public UUID getId() {
