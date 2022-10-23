@@ -1,6 +1,8 @@
 package com.naukma.ticketsservice.train;
 
-import com.naukma.ticketsservice.CRUDOperations;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface WagonRepository extends CRUDOperations<Wagon> {
+import java.util.UUID;
+
+public interface WagonRepository extends JpaRepository<Wagon, UUID> {
 }

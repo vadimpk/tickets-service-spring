@@ -1,9 +1,9 @@
 package com.naukma.ticketsservice.runs;
 
-import com.naukma.ticketsservice.CRUDOperations;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface RunRepository extends CRUDOperations<Run> {
+public interface RunRepository extends JpaRepository<Run, UUID> {
 
 }

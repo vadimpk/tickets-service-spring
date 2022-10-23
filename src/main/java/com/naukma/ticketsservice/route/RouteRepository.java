@@ -1,7 +1,9 @@
 package com.naukma.ticketsservice.route;
 
-import com.naukma.ticketsservice.CRUDOperations;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RouteRepository extends CRUDOperations<Route> {
+import java.util.UUID;
+
+public interface RouteRepository extends JpaRepository<Route, UUID> {
 
 }

@@ -1,10 +1,10 @@
 package com.naukma.ticketsservice.ticket;
 
-import com.naukma.ticketsservice.CRUDOperations;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.UUID;
 
-public interface TicketRepository extends CRUDOperations<Ticket> {
-    List<Ticket> readByRun(UUID RunID);
+public interface TicketRepository extends JpaRepository<Ticket, UUID> {
+    // TODO: 23.10.2022  
+//    List<Ticket> readByRun(Run run);
 }
