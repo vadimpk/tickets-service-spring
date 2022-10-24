@@ -10,9 +10,9 @@ import java.util.UUID;
 
 public interface StationRepository extends JpaRepository<Station, UUID> {
 
-    //todo
-    @Query("")
-    void addAdjacentStation(UUID id, UUID adjacentID, int distance);
+//    //todo
+//    @Query("")
+//    void addAdjacentStation(UUID id, UUID adjacentID, int distance);
 
     @Modifying
     @Query("update Station s set s.adjacentStations = ?2, s.duration = ?3 where s.id = ?1")

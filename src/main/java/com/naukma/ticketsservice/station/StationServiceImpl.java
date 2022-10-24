@@ -44,6 +44,6 @@ public class StationServiceImpl implements StationService{
 
     @Override
     public void addAdjacentStation(UUID id, UUID adjacentID, int distance) {
-        repository.addAdjacentStation(id, adjacentID, distance);
+//        repository.addAdjacentStation(id, adjacentID, distance);
     }
 }

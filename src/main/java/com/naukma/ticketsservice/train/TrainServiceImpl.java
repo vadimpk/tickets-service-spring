@@ -44,11 +44,11 @@ public class TrainServiceImpl implements TrainService{
 
     @Override
     public void addWagon(UUID id, UUID wagonID) {
-        repository.saveWagonToTrain(id, wagonID);
+//        repository.saveWagonToTrain(id, wagonID);
     }
 
     @Override
     public void deleteWagon(UUID id, UUID wagonID) {
-        repository.deleteWagonFromTrain(id, wagonID);
+//        repository.deleteWagonFromTrain(id, wagonID);
     }
 }

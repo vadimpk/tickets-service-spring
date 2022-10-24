@@ -18,27 +18,30 @@ public class RunServiceImpl implements RunService{
 
     @Override
     public void createRun(Run run) {
-        repository.add(run);
+        //repository.add(run);
     }
 
     @Override
     public Run findRun(UUID id) {
-        return repository.read(id);
+        //return repository.read(id);
+        return null;
     }
 
     @Override
     public List<Run> getRuns() {
-        return repository.readAll();
+        //return repository.readAll();
+        return null;
     }
 
     @Override
     public Run update(UUID id, Run run) {
-        return repository.update(id, run);
+        //return repository.update(id, run);
+        return null;
     }
 
     @Override
     public void delete(UUID id) {
-        repository.delete(id);
+        //repository.delete(id);
     }
 
     @Override
