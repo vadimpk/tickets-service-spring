@@ -25,20 +25,17 @@ public class TicketServiceImpl implements TicketService {
 
     public TicketServiceImpl(@Autowired TicketRepository repository, @Autowired PriceManager priceManager) {
 
-//        Route route = new Route(null, null, null, 100, Duration.ZERO);
-//        Run run = new Run(route);
-
         this.repository = repository;
         this.priceManager = priceManager;
 
-//        createTicket(run);
+        createTicket(null);
     }
 
     @Override
     public void createTicket(Run run) {
         //int price = priceManager.setPrice(run.getRoute().getDistance());
         int price = 100;
-        log.info("Price: " + price);
+        log.info("Price: " + priceManager.setPrice(110));
         repository.saveAndFlush(new Ticket(UUID.randomUUID(), run, price));
     }
 

@@ -1,5 +1,7 @@
 package com.naukma.ticketsservice.train;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,24 +13,25 @@ public class Wagon {
     @Id
     private UUID id;
 
-    @Column(name = "number_of_sits")
-    private int numberOfSits;
+    @Column(name = "number_of_seats")
+    private int numberOfSeats;
 
-    public Wagon(UUID id, int numberOfSits){
+    public Wagon(@JsonProperty("id") UUID id,
+                 @JsonProperty("number_of_seats") int numberOfSits){
         this.id = id;
-        this.numberOfSits=numberOfSits;
+        this.numberOfSeats =numberOfSits;
     }
 
     public Wagon() {
 
     }
 
-    public int getNumberOfSits() {
-        return numberOfSits;
+    public int getNumberOfSeats() {
+        return numberOfSeats;
     }
 
-    public void setNumberOfSits(int numberOfSits) {
-        this.numberOfSits = numberOfSits;
+    public void setNumberOfSeats(int numberOfSits) {
+        this.numberOfSeats = numberOfSits;
     }
 
     public UUID getId() {
@@ -46,14 +49,14 @@ public class Wagon {
 
         Wagon wagon = (Wagon) o;
 
-        if (numberOfSits != wagon.numberOfSits) return false;
+        if (numberOfSeats != wagon.numberOfSeats) return false;
         return id.equals(wagon.id);
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + numberOfSits;
+        result = 31 * result + numberOfSeats;
         return result;
     }
 }

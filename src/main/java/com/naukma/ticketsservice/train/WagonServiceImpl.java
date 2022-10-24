@@ -1,11 +1,13 @@
 package com.naukma.ticketsservice.train;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class WagonServiceImpl implements WagonService{
 
     private final WagonRepository repository;
@@ -14,9 +16,9 @@ public class WagonServiceImpl implements WagonService{
         this.repository = repository;
     }
 
-
     @Override
     public void createWagon(Wagon wagon) {
+        wagon.setId(UUID.randomUUID());
         repository.saveAndFlush(wagon);
     }
 
@@ -34,7 +36,7 @@ public class WagonServiceImpl implements WagonService{
 
     @Override
     public Wagon update(UUID id, Wagon wagon) {
-        repository.setWagonById(id, wagon.getNumberOfSits());
+        repository.setWagonById(id, wagon.getNumberOfSeats());
         return wagon;
     }
 
