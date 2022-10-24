@@ -16,9 +16,8 @@ public class Wagon {
     @Column(name = "number_of_seats")
     private int numberOfSeats;
 
-    public Wagon(@JsonProperty("id") UUID id,
-                 @JsonProperty("number_of_seats") int numberOfSits){
-        this.id = id;
+    public Wagon(@JsonProperty("number_of_seats") int numberOfSits){
+        this.id = UUID.randomUUID();
         this.numberOfSeats =numberOfSits;
     }
 
