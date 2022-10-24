@@ -49,14 +49,11 @@ public class Wagon {
 
         Wagon wagon = (Wagon) o;
 
-        if (numberOfSeats != wagon.numberOfSeats) return false;
         return id.equals(wagon.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + numberOfSeats;
-        return result;
+        return id.hashCode();
     }
 }

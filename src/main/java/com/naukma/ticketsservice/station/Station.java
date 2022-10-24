@@ -62,16 +62,11 @@ public class Station {
 
         Station station = (Station) o;
 
-        if (!id.equals(station.id)) return false;
-        if (!adjacentStations.equals(station.adjacentStations)) return false;
-        return duration.equals(station.duration);
+        return id.equals(station.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + adjacentStations.hashCode();
-        result = 31 * result + duration.hashCode();
-        return result;
+        return id.hashCode();
     }
 }

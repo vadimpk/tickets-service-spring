@@ -92,22 +92,11 @@ public class Route {
 
         Route route = (Route) o;
 
-        if (distance != route.distance) return false;
-        if (!id.equals(route.id)) return false;
-        if (!startStation.equals(route.startStation)) return false;
-        if (!finishStation.equals(route.finishStation)) return false;
-        if (!stations.equals(route.stations)) return false;
-        return duration.equals(route.duration);
+        return id.equals(route.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + startStation.hashCode();
-        result = 31 * result + finishStation.hashCode();
-        result = 31 * result + stations.hashCode();
-        result = 31 * result + distance;
-        result = 31 * result + duration.hashCode();
-        return result;
+        return id.hashCode();
     }
 }

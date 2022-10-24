@@ -81,20 +81,11 @@ public class Run {
 
         Run run = (Run) o;
 
-        if (!id.equals(run.id)) return false;
-        if (!route.equals(run.route)) return false;
-        if (!train.equals(run.train)) return false;
-        if (!departureTime.equals(run.departureTime)) return false;
-        return arrivalTime.equals(run.arrivalTime);
+        return id.equals(run.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + route.hashCode();
-        result = 31 * result + train.hashCode();
-        result = 31 * result + departureTime.hashCode();
-        result = 31 * result + arrivalTime.hashCode();
-        return result;
+        return id.hashCode();
     }
 }

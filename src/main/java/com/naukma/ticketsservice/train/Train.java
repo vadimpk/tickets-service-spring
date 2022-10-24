@@ -1,6 +1,7 @@
 package com.naukma.ticketsservice.train;
 
 import com.naukma.ticketsservice.runs.Run;
+import com.naukma.ticketsservice.station.Station;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -71,18 +72,11 @@ public class Train {
 
         Train train = (Train) o;
 
-        if (speed != train.speed) return false;
-        if (!id.equals(train.id)) return false;
-        if (!wagons.equals(train.wagons)) return false;
-        return runs.equals(train.runs);
+        return id.equals(train.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + wagons.hashCode();
-        result = 31 * result + speed;
-        result = 31 * result + runs.hashCode();
-        return result;
+        return id.hashCode();
     }
 }
