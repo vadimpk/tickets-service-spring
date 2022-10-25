@@ -1,5 +1,8 @@
 package com.naukma.ticketsservice.train;
 
+import com.naukma.ticketsservice.TicketsServiceApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +16,9 @@ import java.util.UUID;
 public class WagonServiceImpl implements WagonService{
 
     private final WagonRepository repository;
+
+    static final Logger log =
+            LoggerFactory.getLogger(TicketsServiceApplication.class);
 
     public WagonServiceImpl(@Autowired WagonRepository repository) {
         this.repository = repository;
@@ -34,15 +40,15 @@ public class WagonServiceImpl implements WagonService{
     }
 
     @Override
-    public Wagon update(UUID id, Wagon wagon) {
-        wagon.setId(id);
-        return repository.save(wagon);
-        //repository.updateWagonById(id, wagon.getName(), wagon.getNumberOfSeats());
-        //return wagon;
+    public Wagon update(Wagon w, Wagon newWagon) {
+        w.setName(newWagon.getName());
+        if (newWagon.getNumberOfSeats() != 0)
+            w.setNumberOfSeats(newWagon.getNumberOfSeats());
+        return repository.save(w);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(long id) {
         repository.deleteById(id);
     }
 }

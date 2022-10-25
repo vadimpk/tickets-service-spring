@@ -12,8 +12,8 @@ public interface WagonService {
 
     List<Wagon> getWagons();
 
-    Wagon update(UUID id, Wagon wagon);
+    Wagon update(Wagon w, Wagon newWagon);
 
-    void delete(UUID id);
+    void delete(long id);
 
 }

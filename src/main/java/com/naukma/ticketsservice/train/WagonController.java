@@ -19,10 +19,6 @@ public class WagonController {
 
     private final WagonService service;
 
-    static final Logger log =
-            LoggerFactory.getLogger(TicketsServiceApplication.class);
-
-
     @Autowired
     public WagonController(WagonService service) {
         this.service = service;
@@ -50,10 +46,9 @@ public class WagonController {
 
     @PutMapping("/wagon/{name}")
     public ResponseEntity<Wagon> update(@PathVariable String name, @RequestBody Wagon wagon) {
-        log.info(wagon.getName(), wagon.getNumberOfSeats());
         Optional<Wagon> w = service.findWagon(name);
         if (w.isPresent()) {
-            return new ResponseEntity<>(service.update(w.get().getId(), wagon), HttpStatus.OK);
+            return new ResponseEntity<>(service.update(w.get(), wagon), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
