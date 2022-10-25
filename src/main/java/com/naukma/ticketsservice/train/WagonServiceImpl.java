@@ -19,15 +19,13 @@ public class WagonServiceImpl implements WagonService{
     }
 
     @Override
-    public void createWagon(Wagon wagon) {
-        repository.saveAndFlush(wagon);
+    public Wagon createWagon(Wagon wagon) {
+        return repository.saveAndFlush(wagon);
     }
 
     @Override
-    public Wagon findWagon(String name) {
-        Optional<Wagon> wagon = repository.findByName(name);
-        if (wagon.isEmpty()) throw new RuntimeException("not such wagon with name " + name);
-        return wagon.get();
+    public Optional<Wagon> findWagon(String name) {
+        return repository.findByName(name);
     }
 
     @Override
@@ -37,12 +35,14 @@ public class WagonServiceImpl implements WagonService{
 
     @Override
     public Wagon update(UUID id, Wagon wagon) {
-        repository.setWagonById(id, wagon.getName(), wagon.getNumberOfSeats());
-        return wagon;
+        wagon.setId(id);
+        return repository.save(wagon);
+        //repository.updateWagonById(id, wagon.getName(), wagon.getNumberOfSeats());
+        //return wagon;
     }
 
     @Override
-    public int delete(String name) {
-        return repository.deleteByName(name);
+    public void delete(UUID id) {
+        repository.deleteById(id);
     }
 }

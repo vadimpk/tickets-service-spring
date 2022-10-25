@@ -13,16 +13,16 @@ public class Wagon {
     @Id
     private UUID id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(name = "number_of_seats")
+    @Column(name = "number_of_seats", nullable = false)
     private int numberOfSeats;
 
-    public Wagon(@JsonProperty("name") String name, @JsonProperty("number_of_seats") int numberOfSits){
+    public Wagon(@JsonProperty(value = "name", required = true) String name, @JsonProperty("number_of_seats") int numberOfSeats){
         this.id = UUID.randomUUID();
         this.name = name;
-        this.numberOfSeats =numberOfSits;
+        this.numberOfSeats =numberOfSeats;
     }
 
     public Wagon() {

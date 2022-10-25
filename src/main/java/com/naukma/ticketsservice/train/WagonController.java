@@ -4,52 +4,68 @@ import com.naukma.ticketsservice.TicketsServiceApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequestMapping("api/v1")
 @RestController
 public class WagonController {
 
+    private final WagonService service;
+
     static final Logger log =
             LoggerFactory.getLogger(TicketsServiceApplication.class);
 
-    private final WagonService service;
 
     @Autowired
     public WagonController(WagonService service) {
         this.service = service;
     }
 
-    @GetMapping("/wagon")
-    public List<Wagon> wagon(){
-        return service.getWagons();
+    @GetMapping("/wagons")
+    public ResponseEntity<List<Wagon>> wagon(){
+        return new ResponseEntity<>(service.getWagons(), HttpStatus.OK);
     }
 
     @GetMapping("/wagon/{name}")
-    public Wagon show(@PathVariable String name){
-        log.info(name);
-
-        return service.findWagon(name);
+    public ResponseEntity<Wagon> show(@PathVariable String name){
+        Optional<Wagon> w = service.findWagon(name);
+        if (w.isPresent()) {
+            return new ResponseEntity<>(w.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/wagon")
-    public void addWagon(@RequestBody Wagon wagon){
-        service.createWagon(wagon);
+    public ResponseEntity<Wagon> addWagon(@RequestBody Wagon wagon){
+        Wagon w = service.createWagon(wagon);
+        return new ResponseEntity<>(w, HttpStatus.OK);
     }
 
     @PutMapping("/wagon/{name}")
-    public Wagon update(@PathVariable String name, @RequestBody Map<String, String> body){
-        Wagon wagon = new Wagon(body.get("name"), Integer.parseInt(body.get("number_of_seats")));
-        return service.update(wagon.getId(), wagon);
+    public ResponseEntity<Wagon> update(@PathVariable String name, @RequestBody Wagon wagon) {
+        log.info(wagon.getName(), wagon.getNumberOfSeats());
+        Optional<Wagon> w = service.findWagon(name);
+        if (w.isPresent()) {
+            return new ResponseEntity<>(service.update(w.get().getId(), wagon), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("wagon/{name}")
-    public int delete(@PathVariable String name){
-        return service.delete(name);
+    public ResponseEntity<HttpStatus> delete(@PathVariable String name){
+        Optional<Wagon> w = service.findWagon(name);
+        if (w.isPresent()) {
+            service.delete(w.get().getId());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
