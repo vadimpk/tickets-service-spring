@@ -13,11 +13,15 @@ public class Wagon {
     @Id
     private UUID id;
 
+    @Column(unique = true)
+    private String name;
+
     @Column(name = "number_of_seats")
     private int numberOfSeats;
 
-    public Wagon(@JsonProperty("number_of_seats") int numberOfSits){
+    public Wagon(@JsonProperty("name") String name, @JsonProperty("number_of_seats") int numberOfSits){
         this.id = UUID.randomUUID();
+        this.name = name;
         this.numberOfSeats =numberOfSits;
     }
 
@@ -39,6 +43,14 @@ public class Wagon {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

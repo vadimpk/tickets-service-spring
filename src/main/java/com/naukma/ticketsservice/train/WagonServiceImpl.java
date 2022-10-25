@@ -2,12 +2,14 @@ package com.naukma.ticketsservice.train;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class WagonServiceImpl implements WagonService{
 
     private final WagonRepository repository;
@@ -18,14 +20,13 @@ public class WagonServiceImpl implements WagonService{
 
     @Override
     public void createWagon(Wagon wagon) {
-        wagon.setId(UUID.randomUUID());
         repository.saveAndFlush(wagon);
     }
 
     @Override
-    public Wagon findWagon(UUID id) {
-        Optional<Wagon> wagon = repository.findById(id);
-        if (wagon.isEmpty()) throw new RuntimeException("not such wagon with id " + id);
+    public Wagon findWagon(String name) {
+        Optional<Wagon> wagon = repository.findByName(name);
+        if (wagon.isEmpty()) throw new RuntimeException("not such wagon with name " + name);
         return wagon.get();
     }
 
@@ -36,12 +37,12 @@ public class WagonServiceImpl implements WagonService{
 
     @Override
     public Wagon update(UUID id, Wagon wagon) {
-        repository.setWagonById(id, wagon.getNumberOfSeats());
+        repository.setWagonById(id, wagon.getName(), wagon.getNumberOfSeats());
         return wagon;
     }
 
     @Override
-    public void delete(UUID id) {
-        repository.deleteById(id);
+    public int delete(String name) {
+        return repository.deleteByName(name);
     }
 }

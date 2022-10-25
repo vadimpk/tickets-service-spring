@@ -1,7 +1,6 @@
 package com.naukma.ticketsservice.train;
 
 import com.naukma.ticketsservice.runs.Run;
-import com.naukma.ticketsservice.station.Station;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -29,10 +29,11 @@ public class WagonController {
         return service.getWagons();
     }
 
-    @GetMapping("/wagon/{id}")
-    public Wagon show(@PathVariable String id){
-        log.info("Get request for " + id);
-        return service.findWagon(UUID.fromString(id));
+    @GetMapping("/wagon/{name}")
+    public Wagon show(@PathVariable String name){
+        log.info(name);
+
+        return service.findWagon(name);
     }
 
     @PostMapping("/wagon")
@@ -40,17 +41,15 @@ public class WagonController {
         service.createWagon(wagon);
     }
 
-    @PutMapping("/wagon/{id}")
-    public Wagon update(@PathVariable String id, @RequestBody Map<String, String> body){
-        Wagon wagon = new Wagon(Integer.parseInt(body.get("number_of_seats")));
+    @PutMapping("/wagon/{name}")
+    public Wagon update(@PathVariable String name, @RequestBody Map<String, String> body){
+        Wagon wagon = new Wagon(body.get("name"), Integer.parseInt(body.get("number_of_seats")));
         return service.update(wagon.getId(), wagon);
     }
 
-    @DeleteMapping("wagon/{id}")
-    public boolean delete(@PathVariable String id){
-        UUID uuid = UUID.fromString(id);
-        service.delete(uuid);
-        return true;
+    @DeleteMapping("wagon/{name}")
+    public int delete(@PathVariable String name){
+        return service.delete(name);
     }
 
 

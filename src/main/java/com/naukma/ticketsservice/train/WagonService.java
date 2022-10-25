@@ -7,11 +7,12 @@ public interface WagonService {
 
     void createWagon(Wagon wagon);
 
-    Wagon findWagon(UUID id);
+    Wagon findWagon(String name);
 
     List<Wagon> getWagons();
 
     Wagon update(UUID id, Wagon wagon);
 
-    void delete(UUID id);
+    int delete(String name);
+
 }
