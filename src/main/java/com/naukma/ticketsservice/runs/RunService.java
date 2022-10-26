@@ -5,21 +5,21 @@ import com.naukma.ticketsservice.train.Train;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface RunService {
 
-    void createRun(Run run);
+    boolean createRun(Run newRun);
 
-    Run findRun(UUID id);
-
+    Optional<Run> findRun(Long id);
     List<Run> getRuns();
 
-    Run update(UUID id, Run run);
+    int update(Long id, Run newRun);
 
-    void delete(UUID id);
+    boolean delete(Long id);
 
-    void setTrain(UUID id, Train train);
+    int setTrain(Long id, Train train);
 
-    void setRoute(UUID id, Route route);
+    int setRoute(Long id, Route route);
 }

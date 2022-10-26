@@ -2,16 +2,15 @@ package com.naukma.ticketsservice.runs;
 
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
-
 import javax.persistence.*;
-import java.time.Duration;
-import java.util.UUID;
+import java.sql.Time;
 
 @Entity
 public class Run {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @ManyToOne
     private Route route;
@@ -20,58 +19,50 @@ public class Run {
     private Train train;
 
     @Column(name = "departure_time")
-    private Duration departureTime;
+    private Time departureTime;
 
     @Column(name = "arrival_time")
-    private Duration arrivalTime;
+    private Time arrivalTime;
 
-    public Run(Route route) {
-        this.id = UUID.randomUUID();
+    public Run() {}
+    public Run(Route route, Train train, Time departureTime, Time arrivalTime) {
         this.route = route;
+        this.train = train;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
     }
 
-    public Run() {
-
-    }
-
-    public UUID getId() {
+    public Long getId() {
         return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Route getRoute() {
         return route;
     }
-
-    public void setRoute(Route route) {
-        this.route = route;
-    }
+    public void setRoute(Route route) { this.route = route; }
 
     public Train getTrain() {
         return train;
     }
-
     public void setTrain(Train train) {
         this.train = train;
     }
 
-    public Duration getDepartureTime() {
+    public Time getDepartureTime() {
         return departureTime;
     }
-
-    public void setDepartureTime(Duration departureTime) {
+    public void setDepartureTime(Time departureTime) {
         this.departureTime = departureTime;
     }
 
-    public Duration getArrivalTime() {
+    public Time getArrivalTime() {
         return arrivalTime;
     }
-
-    public void setArrivalTime(Duration arrivalTime) {
+    public void setArrivalTime(Time arrivalTime) {
         this.arrivalTime = arrivalTime;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     @Override
@@ -83,7 +74,6 @@ public class Run {
 
         return id.equals(run.id);
     }
-
     @Override
     public int hashCode() {
         return id.hashCode();

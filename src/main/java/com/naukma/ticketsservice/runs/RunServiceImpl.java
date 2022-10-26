@@ -3,11 +3,14 @@ package com.naukma.ticketsservice.runs;
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.time.Duration;
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
+@Service
+@Transactional
 public class RunServiceImpl implements RunService{
 
     private final RunRepository repository;
@@ -17,40 +20,41 @@ public class RunServiceImpl implements RunService{
     }
 
     @Override
-    public void createRun(Run run) {
-        //repository.add(run);
+    public boolean createRun(Run newRun) {
+        repository.saveAndFlush(newRun);
+        return true;
     }
 
     @Override
-    public Run findRun(UUID id) {
-        //return repository.read(id);
-        return null;
+    public Optional<Run> findRun(Long id) { return repository.findById(id); }
+
+    @Override
+    public List<Run> getRuns() { return repository.findAll(); }
+
+    @Override
+    public int update(Long id, Run run) {
+        repository.setRouteById(id,run.getRoute());
+        repository.setTrainById(id,run.getTrain());
+        repository.setDepartureTimeById(id,run.getDepartureTime());
+        repository.setArrivalTimeById(id,run.getArrivalTime());
+        return 1;
     }
 
     @Override
-    public List<Run> getRuns() {
-        //return repository.readAll();
-        return null;
+    public int setTrain(Long id, Train train) {
+        repository.setTrainById(id,train);
+        return 1;
     }
 
     @Override
-    public Run update(UUID id, Run run) {
-        //return repository.update(id, run);
-        return null;
+    public boolean delete(Long id) {
+       repository.deleteById(id);
+        return true;
     }
 
     @Override
-    public void delete(UUID id) {
-        //repository.delete(id);
-    }
-
-    @Override
-    public void setTrain(UUID id, Train train) {
-
-    }
-
-    @Override
-    public void setRoute(UUID id, Route route) {
-
+    public int setRoute(Long id, Route route) {
+        repository.setRouteById(id,route);
+        return 1;
     }
 }
