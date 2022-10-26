@@ -17,13 +17,17 @@ public class RouteServiceImpl implements RouteService {
         this.repository = repository;
     }
 
-
     @Override
-    public Route createRoute(Station startStation, Station finishStation, List<Station> transitionalStations) {
-        // run algorithm that finds all stations of the route
-        // then run repository method
+    public Route createRoute(List<Station> stations) {
 
-        return null;
+        int distance = 0;
+        for (int i = 0; i < stations.size() - 1; i++) {
+            if (stations.get(i).getAdjacentStations().containsKey(stations.get(i+1))) {
+                distance += stations.get(i).getAdjacentStations().get(stations.get(i+1));
+            } else return null;
+        }
+
+        return repository.save(new Route(stations.get(0), stations.get(stations.size()-1), stations, distance));
     }
 
     @Override
@@ -55,7 +59,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 }

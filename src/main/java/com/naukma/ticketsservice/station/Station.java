@@ -1,7 +1,10 @@
 package com.naukma.ticketsservice.station;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -9,22 +12,25 @@ import java.util.UUID;
 public class Station {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    @ElementCollection
+    @Column(unique = true, nullable = false)
+    private String name;
+
+    @JsonIgnore
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "adjacent_stations")
     @MapKeyColumn(name = "adjacent_station")
-    @Column(name = "distance")
     private Map<Station, Integer> adjacentStations;
-
-    private Duration duration;
-
-    public Station(UUID id) {
-        this.id = id;
-    }
 
     public Station() {
 
+    }
+
+    public Station(String name) {
+        this.name = name;
+        this.adjacentStations = new HashMap<>();
     }
 
     public void addAdjacentStation(Station station, int distance) {
@@ -39,20 +45,12 @@ public class Station {
         this.adjacentStations = adjacentStations;
     }
 
-    public Duration getDuration() {
-        return duration;
+    public String getName() {
+        return name;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
-    }
-
-    public UUID getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     @Override

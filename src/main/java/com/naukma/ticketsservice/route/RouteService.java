@@ -7,10 +7,10 @@ import java.util.UUID;
 
 public interface RouteService {
 
-    Route createRoute(Station startStation, Station finishStation, List<Station> transitionalStations);
+    Route createRoute(List<Station> stations);
     List<Route> findRoute(Station startStation, Station finishStation);
 
     List<Route> getRoutes();
 
-    void delete(UUID id);
+    void delete(Long id);
 }

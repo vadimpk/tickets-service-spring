@@ -11,7 +11,8 @@ import java.util.UUID;
 public class Route {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "start_station_fk", nullable = false)
@@ -23,22 +24,20 @@ public class Route {
 
     @ManyToMany
     private List<Station> stations;
+
     private int distance;
-    private Duration duration;
 
     public Route() {
     }
 
-    public Route(Station startStation, Station finishStation, List<Station> stations, int distance, Duration duration) {
-        this.id = UUID.randomUUID();
+    public Route(Station startStation, Station finishStation, List<Station> stations, int distance) {
         this.startStation = startStation;
         this.finishStation = finishStation;
         this.stations = stations;
         this.distance = distance;
-        this.duration = duration;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
@@ -74,16 +73,6 @@ public class Route {
         this.distance = distance;
     }
 
-    public Duration getDuration() {
-        return duration;
-    }
-    public void setDuration(Duration duration) {
-        this.duration = duration;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     @Override
     public boolean equals(Object o) {
