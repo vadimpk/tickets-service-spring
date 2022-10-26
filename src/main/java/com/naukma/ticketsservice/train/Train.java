@@ -52,20 +52,8 @@ public class Train {
         return wagons;
     }
 
-
-    public void addWagon(Wagon wagon) {
-        wagons.add(wagon);
-    }
-    public void deleteWagon(Wagon wagon) {
-        wagons.add(wagon);
-    }
-
     public int getSpeed() {
         return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
     }
 
     public List<Run> getRuns() {

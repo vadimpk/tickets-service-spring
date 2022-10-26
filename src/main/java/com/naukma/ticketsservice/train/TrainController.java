@@ -66,14 +66,17 @@ public class TrainController {
 
     @DeleteMapping("/train/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
-        return service.delete(id) ?
-                new ResponseEntity<>(HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<Train> t = service.findTrain(id);
+        if (t.isPresent()) {
+            service.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/train/{id}/wagon")
-    public ResponseEntity<Set<Wagon>> showWagons(@PathVariable String id) {
-        return service.findTrain(Long.parseLong(id))
+    public ResponseEntity<Set<Wagon>> showWagons(@PathVariable Long id) {
+        return service.findTrain(id)
                 .map(train -> new ResponseEntity<>(train.getWagons(), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

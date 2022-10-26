@@ -40,7 +40,7 @@ public class WagonController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        // look
+        // check if entered train exists otherwise set to null
         Long trainID = (wagon.getTrainID() != null) ? wagon.getTrainID() : 0;
         Optional<Train> t = trainService.findTrain(trainID);
         Train train = null;
@@ -53,13 +53,31 @@ public class WagonController {
     }
 
     @PutMapping("/wagon/{id}")
-    public ResponseEntity<Wagon> update(@PathVariable Long id, @RequestBody Wagon wagon) {
+    public ResponseEntity<Wagon> update(@PathVariable Long id, @RequestBody WagonDto wagon) {
+
+        // check if such wagon exists
+        Optional<Wagon> wagonToChange = service.findWagonById(id);
+        if (wagonToChange.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         // check if new name is not unique
         Optional<Wagon> check = service.findWagonByName(wagon.getName());
-        if (check.isPresent()) {
+        if (check.isPresent() && !check.get().getName().equals(wagonToChange.get().getName())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>((service.update(id, wagon) > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND));
+
+        // check if entered train exists otherwise set to the one that was before
+        if (wagon.getTrainID() != null) {
+            Optional<Train> t = trainService.findTrain(wagon.getTrainID());
+            if (t.isPresent()) {
+                wagonToChange.get().setTrain(t.get());
+            }
+        }
+
+        wagonToChange.get().setName(wagon.getName());
+        wagonToChange.get().setNumberOfSeats(wagon.getNumberOfSeats());
+        return new ResponseEntity<>(service.save(wagonToChange.get()), HttpStatus.OK);
     }
 
     @DeleteMapping("wagon/{id}")
@@ -72,11 +90,11 @@ public class WagonController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/wagon/{id}/train")
-    public ResponseEntity<Train> showTrain(@PathVariable Long id){
-        Optional<Wagon> w = service.findWagonById(id);
-        return w.map(wagon -> new ResponseEntity<>(wagon.getTrain(), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+//    @GetMapping("/wagon/{id}/train")
+//    public ResponseEntity<Train> showTrain(@PathVariable Long id){
+//        Optional<Wagon> w = service.findWagonById(id);
+//        return w.map(wagon -> new ResponseEntity<>(wagon.getTrain(), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//    }
 
 //    @PostMapping("wagon/{id}/add_train/{trainID}")
 //    public ResponseEntity<HttpStatus> addTrain(@PathVariable Long id, @PathVariable Long trainID){

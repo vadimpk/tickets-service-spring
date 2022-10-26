@@ -45,9 +45,8 @@ public class TrainServiceImpl implements TrainService{
     }
 
     @Override
-    public boolean delete(Long id) {
+    public void delete(Long id) {
         repository.deleteById(id);
-        return true;
     }
 
     @Override

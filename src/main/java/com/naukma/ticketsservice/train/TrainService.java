@@ -16,7 +16,7 @@ public interface TrainService {
 
     int update(Long id, Train train);
 
-    boolean delete(Long id);
+    void delete(Long id);
 
     boolean addWagon(Long id, Long wagonID);
 
