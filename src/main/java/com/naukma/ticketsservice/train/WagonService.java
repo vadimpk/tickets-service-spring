@@ -2,7 +2,6 @@ package com.naukma.ticketsservice.train;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface WagonService {
 
@@ -12,7 +11,7 @@ public interface WagonService {
 
     List<Wagon> getWagons();
 
-    Wagon update(Wagon w, Wagon newWagon);
+    int update(String name, Wagon wagon);
 
     void delete(long id);
 

@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -40,11 +39,8 @@ public class WagonServiceImpl implements WagonService{
     }
 
     @Override
-    public Wagon update(Wagon w, Wagon newWagon) {
-        w.setName(newWagon.getName());
-        if (newWagon.getNumberOfSeats() != 0)
-            w.setNumberOfSeats(newWagon.getNumberOfSeats());
-        return repository.save(w);
+    public int update(String name, Wagon wagon) {
+        return repository.setNumberOfSeatsAndNameByName(name, wagon.getName(), wagon.getNumberOfSeats());
     }
 
     @Override

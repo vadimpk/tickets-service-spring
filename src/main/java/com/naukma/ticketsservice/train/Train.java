@@ -3,19 +3,16 @@ package com.naukma.ticketsservice.train;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.naukma.ticketsservice.runs.Run;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 public class Train {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @OneToMany
     private List<Wagon> wagons;
@@ -29,7 +26,6 @@ public class Train {
 //                 @JsonProperty("speed") int speed,
 //                 @JsonProperty("runs") List<Run> runs) {
         public Train(@JsonProperty("speed") int speed) {
-        this.id = UUID.randomUUID();
         this.wagons = new ArrayList<>();
         this.speed =speed;
         this.runs = new ArrayList<>();
@@ -45,6 +41,12 @@ public class Train {
 
     public void setWagons(List<Wagon> wagons) {
         this.wagons = wagons;
+    }
+    public void addWagon(Wagon wagon) {
+        wagons.add(wagon);
+    }
+    public void deleteWagon(Wagon wagon) {
+        wagons.add(wagon);
     }
 
     public int getSpeed() {
@@ -63,11 +65,11 @@ public class Train {
         this.runs = runs;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

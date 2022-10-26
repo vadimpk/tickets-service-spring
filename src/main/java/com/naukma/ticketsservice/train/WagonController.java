@@ -1,17 +1,12 @@
 package com.naukma.ticketsservice.train;
 
-import com.naukma.ticketsservice.TicketsServiceApplication;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @RequestMapping("api/v1")
 @RestController
@@ -24,7 +19,7 @@ public class WagonController {
         this.service = service;
     }
 
-    @GetMapping("/wagons")
+    @GetMapping("/wagon")
     public ResponseEntity<List<Wagon>> wagon(){
         return new ResponseEntity<>(service.getWagons(), HttpStatus.OK);
     }
@@ -32,10 +27,7 @@ public class WagonController {
     @GetMapping("/wagon/{name}")
     public ResponseEntity<Wagon> show(@PathVariable String name){
         Optional<Wagon> w = service.findWagon(name);
-        if (w.isPresent()) {
-            return new ResponseEntity<>(w.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return w.map(wagon -> new ResponseEntity<>(wagon, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/wagon")
@@ -46,11 +38,7 @@ public class WagonController {
 
     @PutMapping("/wagon/{name}")
     public ResponseEntity<Wagon> update(@PathVariable String name, @RequestBody Wagon wagon) {
-        Optional<Wagon> w = service.findWagon(name);
-        if (w.isPresent()) {
-            return new ResponseEntity<>(service.update(w.get(), wagon), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>((service.update(name, wagon) > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("wagon/{name}")

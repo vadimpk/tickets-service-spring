@@ -1,21 +1,25 @@
 package com.naukma.ticketsservice.train;
 
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 public interface TrainService {
 
-    void createTrain(Train train);
+    boolean createTrain(Train train);
 
-    Train findTrain(UUID id);
+    Optional<Train> findTrain(Long id);
 
     List<Train> getTrains();
 
-    Train update(UUID id, Train train);
+    int update(Long id, Train train);
 
-    void delete(UUID id);
+    boolean delete(Long id);
 
-    void addWagon(UUID id, UUID wagonID);
+    boolean addWagon(Long id, String wagonName);
 
-    void deleteWagon(UUID id, UUID wagonID);
+    boolean deleteWagon(Long id, String wagonName);
+
+    Optional<Wagon> findWagonInTrain(Long id, String wagonName);
 }
