@@ -32,12 +32,21 @@ public class WagonController {
 
     @PostMapping("/wagon")
     public ResponseEntity<Wagon> addWagon(@RequestBody Wagon wagon){
-        Wagon w = service.createWagon(wagon);
-        return new ResponseEntity<>(w, HttpStatus.OK);
+        // check if name is unique
+        Optional<Wagon> check = service.findWagon(wagon.getName());
+        if (check.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(service.createWagon(wagon), HttpStatus.OK);
     }
 
     @PutMapping("/wagon/{name}")
     public ResponseEntity<Wagon> update(@PathVariable String name, @RequestBody Wagon wagon) {
+        // check if new name is not unique
+        Optional<Wagon> check = service.findWagon(wagon.getName());
+        if (check.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<>((service.update(name, wagon) > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND));
     }
 

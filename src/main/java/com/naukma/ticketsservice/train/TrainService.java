@@ -7,9 +7,10 @@ import java.util.Optional;
 
 public interface TrainService {
 
-    boolean createTrain(Train train);
+    Train createTrain(Train train);
 
     Optional<Train> findTrain(Long id);
+    Optional<Train> findTrainByName(String name);
 
     List<Train> getTrains();
 

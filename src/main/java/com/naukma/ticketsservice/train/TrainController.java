@@ -35,33 +35,37 @@ public class TrainController {
     }
 
     @GetMapping("/train/{id}")
-    public ResponseEntity<Train> show(@PathVariable String id){
+    public ResponseEntity<Train> show(@PathVariable Long id){
         log.info("Showing train with id = " + id);
-        Optional<Train> train = service.findTrain(Long.parseLong(id));
+        Optional<Train> train = service.findTrain(id);
         return train.map(t -> new ResponseEntity<>(t, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(value = "/train/")
-    public ResponseEntity<HttpStatus> create(@RequestBody Map<String, String> body){
-        log.info("Creating train with speed = " + body.get("speed"));
-        return service.createTrain(new Train(Integer.parseInt(body.get("speed")))) ?
-                new ResponseEntity<>(HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    @PostMapping("/train")
+    public ResponseEntity<Train> create(@RequestBody Map<String, String> body){
+        log.info("Creating train ");
+        // check if name is unique
+        Optional<Train> check = service.findTrainByName(body.get("name"));
+        if (check.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(service.createTrain(new Train(body.get("name"), Integer.parseInt(body.get("speed")))), HttpStatus.OK);
     }
 
 
     @PutMapping("/train/{id}")
-    public ResponseEntity<HttpStatus> update(@PathVariable String id, @RequestBody Map<String, String> body){
-        Train train = new Train(Integer.parseInt(body.get("speed")));
-        train.setId(Long.valueOf(id));
-        return service.update(train.getId(), train) > 0 ?
-                new ResponseEntity<>(HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Train> update(@PathVariable Long id, @RequestBody Map<String, String> body){
+        // check if new name is not unique
+        Optional<Train> check = service.findTrainByName(body.get("name"));
+        if (check.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>((service.update(id, new Train(body.get("name"), Integer.parseInt(body.get("speed")))) > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/train/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable String id){
-        return service.delete(Long.parseLong(id)) ?
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+        return service.delete(id) ?
                 new ResponseEntity<>(HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

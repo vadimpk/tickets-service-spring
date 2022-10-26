@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "wagons")
 public class Wagon {
 
     @Id
@@ -17,6 +18,10 @@ public class Wagon {
     @Column(nullable = false)
     private int numberOfSeats;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "train_id")
+    private Train train;
+
     public Wagon() {
 
     }
@@ -25,7 +30,6 @@ public class Wagon {
         this.name = name;
         this.numberOfSeats =numberOfSeats;
     }
-
 
 
     public int getNumberOfSeats() {

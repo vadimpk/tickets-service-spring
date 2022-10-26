@@ -20,14 +20,18 @@ public class TrainServiceImpl implements TrainService{
     }
 
     @Override
-    public boolean createTrain(Train train) {
-        repository.saveAndFlush(train);
-        return true;
+    public Train createTrain(Train train) {
+        return repository.saveAndFlush(train);
     }
 
     @Override
     public Optional<Train> findTrain(Long id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public Optional<Train> findTrainByName(String name) {
+        return repository.findByName(name);
     }
 
     @Override
@@ -37,7 +41,7 @@ public class TrainServiceImpl implements TrainService{
 
     @Override
     public int update(Long id, Train train) {
-        return repository.setSpeedById(id, train.getSpeed());
+        return repository.updateById(id, train.getName(), train.getSpeed());
     }
 
     @Override
@@ -49,13 +53,11 @@ public class TrainServiceImpl implements TrainService{
     @Override
     public boolean addWagon(Long id, String wagonName) {
         Optional<Wagon> wagon = wagonRepository.findByName(wagonName);
-        if (wagon.isPresent()) {
-            Optional<Train> train = findTrain(id);
-            if (train.isPresent()) {
-                train.get().addWagon(wagon.get());
-                repository.setWagonsById(id, train.get().getWagons());
-                return true;
-            }
+        Optional<Train> train = findTrain(id);
+        if (wagon.isPresent() && train.isPresent()) {
+            train.get().addWagon(wagon.get());
+            repository.setWagonsById(id, train.get().getWagons());
+            return true;
         }
         return false;
     }

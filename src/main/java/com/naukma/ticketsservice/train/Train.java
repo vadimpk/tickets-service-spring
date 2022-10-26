@@ -2,37 +2,55 @@ package com.naukma.ticketsservice.train;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.naukma.ticketsservice.runs.Run;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "trains")
 public class Train {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany
-    private List<Wagon> wagons;
+    @Column(unique = true, nullable = false)
+    private String name;
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Type(type = "wagon-array")
+    private List<Wagon> wagons = new ArrayList<>();
+
+    @Column
     private int speed;
 
     @ManyToMany
     private List<Run> runs;
 
+    public Train() {
+
+    }
+
 //    public Train(@JsonProperty("wagons") List<Wagon> wagons,
 //                 @JsonProperty("speed") int speed,
 //                 @JsonProperty("runs") List<Run> runs) {
-        public Train(@JsonProperty("speed") int speed) {
+    public Train(@JsonProperty(value = "name", required = true) String name, @JsonProperty("speed") int speed) {
         this.wagons = new ArrayList<>();
-        this.speed =speed;
+        this.speed = speed;
+        this.name = name;
         this.runs = new ArrayList<>();
     }
 
-    public Train() {
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Wagon> getWagons() {
@@ -67,10 +85,6 @@ public class Train {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
