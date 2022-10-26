@@ -41,14 +41,20 @@ public class RunServiceImpl implements RunService{
     }
 
     @Override
+    public int setTrain(Long id, Train train) {
+        repository.setTrainById(id,train);
+        return 1;
+    }
+
+    @Override
     public boolean delete(Long id) {
        repository.deleteById(id);
         return true;
     }
 
     @Override
-    public void setTrain(Long id, Train train) { repository.setTrainById(id,train); }
-
-    @Override
-    public void setRoute(Long id, Route route) { repository.setRouteById(id,route); }
+    public int setRoute(Long id, Route route) {
+        repository.setRouteById(id,route);
+        return 1;
+    }
 }

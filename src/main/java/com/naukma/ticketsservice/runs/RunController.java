@@ -63,10 +63,7 @@ public class RunController {
     @PutMapping("/run/{id}")
     public ResponseEntity<HttpStatus> update(@PathVariable String id,
                                              @RequestBody Route route) {
-        Run run = new Run();
-        run.setId(Long.valueOf(id));
-        run.setRoute(route);
-        return service.update(run.getId(), run) > 0 ?
+        return service.setRoute(Long.valueOf(id), route) > 0 ?
                 new ResponseEntity<>(HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -74,10 +71,7 @@ public class RunController {
     @PutMapping("/run/{id}")
     public ResponseEntity<HttpStatus> update(@PathVariable String id,
                                              @RequestBody Train train) {
-        Run run = new Run();
-        run.setId(Long.valueOf(id));
-        run.setTrain(train);
-        return service.update(run.getId(), run) > 0 ?
+        return service.setTrain(Long.valueOf(id), train) > 0 ?
                 new ResponseEntity<>(HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

@@ -19,7 +19,7 @@ public interface RunService {
 
     boolean delete(Long id);
 
-    void setTrain(Long id, Train train);
+    int setTrain(Long id, Train train);
 
-    void setRoute(Long id, Route route);
+    int setRoute(Long id, Route route);
 }
