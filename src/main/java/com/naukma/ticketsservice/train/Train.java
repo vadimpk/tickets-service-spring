@@ -1,15 +1,17 @@
 package com.naukma.ticketsservice.train;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.naukma.ticketsservice.runs.Run;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "trains")
 public class Train {
 
     @Id
@@ -19,9 +21,9 @@ public class Train {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @Type(type = "wagon-array")
-    private List<Wagon> wagons = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "train")
+    private Set<Wagon> wagons;
 
     @Column
     private int speed;
@@ -37,10 +39,8 @@ public class Train {
 //                 @JsonProperty("speed") int speed,
 //                 @JsonProperty("runs") List<Run> runs) {
     public Train(@JsonProperty(value = "name", required = true) String name, @JsonProperty("speed") int speed) {
-        this.wagons = new ArrayList<>();
         this.speed = speed;
         this.name = name;
-        this.runs = new ArrayList<>();
     }
 
 
@@ -53,13 +53,11 @@ public class Train {
         this.name = name;
     }
 
-    public List<Wagon> getWagons() {
+    public Set<Wagon> getWagons() {
         return wagons;
     }
 
-    public void setWagons(List<Wagon> wagons) {
-        this.wagons = wagons;
-    }
+
     public void addWagon(Wagon wagon) {
         wagons.add(wagon);
     }

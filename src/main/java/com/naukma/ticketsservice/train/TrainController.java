@@ -14,6 +14,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @RequestMapping("api/v1")
 @RestController
@@ -71,45 +72,29 @@ public class TrainController {
     }
 
     @GetMapping("/train/{id}/wagon")
-    public ResponseEntity<List<Wagon>> showWagons(@PathVariable String id){
+    public ResponseEntity<Set<Wagon>> showWagons(@PathVariable String id) {
         return service.findTrain(Long.parseLong(id))
                 .map(train -> new ResponseEntity<>(train.getWagons(), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/train/{id}/wagon/{wagonName}")
-    public ResponseEntity<Wagon> showWagon(@PathVariable String id, @PathVariable String wagonName){
-        Optional<Wagon> wagon = service.findWagonInTrain(Long.parseLong(id), wagonName);
-        return wagon.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
 
-    @PostMapping(value = "/train/{id}/wagon/{wagonName}")
-    public ResponseEntity<HttpStatus> addWagon(@PathVariable String id, @PathVariable String wagonName){
-        log.info("Adding wagon " + wagonName + " to train with id" + id);
+    @PostMapping("/train/{id}/wagon/{wagonID}")
+    public ResponseEntity<HttpStatus> addWagon(@PathVariable Long id, @PathVariable Long wagonID) {
+        log.info("Adding wagon " + wagonID + " to train with id" + id);
 
-        return service.addWagon(Long.parseLong(id), wagonName) ?
-                new ResponseEntity<>(HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PutMapping("/train/{id}/wagon/{wagonName}")
-    public ResponseEntity<HttpStatus> updateWagon(@PathVariable String id, @PathVariable String wagonName){
-        Optional<Wagon> wagon = service.findWagonInTrain(Long.parseLong(id), wagonName);
-        if (wagon.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccessControlRequestMethod(HttpMethod.PUT);
-        headers.setLocation(URI.create("http://localhost:8080/api/v1/wagon/" + wagonName));
-        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
-    }
-
-    @DeleteMapping("/train/{id}/wagon/{wagonName}")
-    public ResponseEntity<HttpStatus> deleteWagon(@PathVariable String id, @PathVariable String wagonName){
-        return service.deleteWagon(Long.parseLong(id), wagonName) ?
+        return service.addWagon(id, wagonID) ?
                 new ResponseEntity<>(HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
+    @DeleteMapping("/train/{id}/wagon/{wagonID}")
+    public ResponseEntity<HttpStatus> deleteWagon(@PathVariable Long id, @PathVariable Long wagonID) {
+        log.info("Removing wagon " + wagonID + " from train with id" + id);
+
+        return service.deleteWagon(id, wagonID) ?
+                new ResponseEntity<>(HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

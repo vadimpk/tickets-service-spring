@@ -29,8 +29,17 @@ public class WagonServiceImpl implements WagonService{
     }
 
     @Override
-    public Optional<Wagon> findWagon(String name) {
+    public Wagon save(Wagon wagon) {
+        return repository.save(wagon);
+    }
+
+    @Override
+    public Optional<Wagon> findWagonByName(String name) {
         return repository.findByName(name);
+    }
+
+    public Optional<Wagon> findWagonById(Long id) {
+        return repository.findById(id);
     }
 
     @Override
@@ -39,8 +48,8 @@ public class WagonServiceImpl implements WagonService{
     }
 
     @Override
-    public int update(String name, Wagon wagon) {
-        return repository.setNumberOfSeatsAndNameByName(name, wagon.getName(), wagon.getNumberOfSeats());
+    public int update(Long id, Wagon wagon) {
+        return repository.update(id, wagon.getName(), wagon.getNumberOfSeats());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.naukma.ticketsservice.train;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -18,15 +19,17 @@ public class Wagon {
     @Column(nullable = false)
     private int numberOfSeats;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "train_id")
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "train_id", referencedColumnName = "id")
     private Train train;
 
     public Wagon() {
 
     }
 
-    public Wagon(@JsonProperty(value = "name", required = true) String name, @JsonProperty("number_of_seats") int numberOfSeats){
+    public Wagon(@JsonProperty(value = "name", required = true) String name,
+                 @JsonProperty("number_of_seats") int numberOfSeats){
         this.name = name;
         this.numberOfSeats =numberOfSeats;
     }
@@ -46,6 +49,14 @@ public class Wagon {
 
     public String getName() {
         return name;
+    }
+
+    public Train getTrain() {
+        return train;
+    }
+
+    public void setTrain(Train train) {
+        this.train = train;
     }
 
     public void setName(String name) {

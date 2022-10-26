@@ -13,10 +13,12 @@ import java.util.Optional;
 public class WagonController {
 
     private final WagonService service;
+    // private final TrainService trainService;
 
     @Autowired
-    public WagonController(WagonService service) {
+    public WagonController(WagonService service, TrainService trainService) {
         this.service = service;
+        //this.trainService = trainService;
     }
 
     @GetMapping("/wagon")
@@ -24,41 +26,57 @@ public class WagonController {
         return new ResponseEntity<>(service.getWagons(), HttpStatus.OK);
     }
 
-    @GetMapping("/wagon/{name}")
-    public ResponseEntity<Wagon> show(@PathVariable String name){
-        Optional<Wagon> w = service.findWagon(name);
+    @GetMapping("/wagon/{id}")
+    public ResponseEntity<Wagon> show(@PathVariable Long id){
+        Optional<Wagon> w = service.findWagonById(id);
         return w.map(wagon -> new ResponseEntity<>(wagon, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/wagon")
     public ResponseEntity<Wagon> addWagon(@RequestBody Wagon wagon){
         // check if name is unique
-        Optional<Wagon> check = service.findWagon(wagon.getName());
+        Optional<Wagon> check = service.findWagonByName(wagon.getName());
         if (check.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(service.createWagon(wagon), HttpStatus.OK);
     }
 
-    @PutMapping("/wagon/{name}")
-    public ResponseEntity<Wagon> update(@PathVariable String name, @RequestBody Wagon wagon) {
+    @PutMapping("/wagon/{id}")
+    public ResponseEntity<Wagon> update(@PathVariable Long id, @RequestBody Wagon wagon) {
         // check if new name is not unique
-        Optional<Wagon> check = service.findWagon(wagon.getName());
+        Optional<Wagon> check = service.findWagonByName(wagon.getName());
         if (check.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>((service.update(name, wagon) > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND));
+        return new ResponseEntity<>((service.update(id, wagon) > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("wagon/{name}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable String name){
-        Optional<Wagon> w = service.findWagon(name);
+    @DeleteMapping("wagon/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id){
+        Optional<Wagon> w = service.findWagonById(id);
         if (w.isPresent()) {
-            service.delete(w.get().getId());
+            service.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/wagon/{id}/train")
+    public ResponseEntity<Train> showTrain(@PathVariable Long id){
+        Optional<Wagon> w = service.findWagonById(id);
+        return w.map(wagon -> new ResponseEntity<>(wagon.getTrain(), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 
+//    @PostMapping("wagon/{id}/add_train/{trainID}")
+//    public ResponseEntity<HttpStatus> addTrain(@PathVariable Long id, @PathVariable Long trainID){
+//        Optional<Wagon> w = service.findWagonById(id);
+//        Optional<Train> t = trainService.findTrain(trainID);
+//        if (w.isPresent() && t.isPresent()) {
+//            w.get().setTrain(t.get());
+//            service.save(w.get());
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 }

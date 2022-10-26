@@ -18,9 +18,9 @@ public interface TrainService {
 
     boolean delete(Long id);
 
-    boolean addWagon(Long id, String wagonName);
+    boolean addWagon(Long id, Long wagonID);
 
-    boolean deleteWagon(Long id, String wagonName);
+    boolean deleteWagon(Long id, Long wagonID);
 
     Optional<Wagon> findWagonInTrain(Long id, String wagonName);
 }

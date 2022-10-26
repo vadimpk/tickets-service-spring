@@ -6,12 +6,14 @@ import java.util.Optional;
 public interface WagonService {
 
     Wagon createWagon(Wagon wagon);
+    Wagon save(Wagon wagon);
 
-    Optional<Wagon> findWagon(String name);
+    Optional<Wagon> findWagonByName(String name);
+    Optional<Wagon> findWagonById(Long id);
 
     List<Wagon> getWagons();
 
-    int update(String name, Wagon wagon);
+    int update(Long id, Wagon wagon);
 
     void delete(long id);
 

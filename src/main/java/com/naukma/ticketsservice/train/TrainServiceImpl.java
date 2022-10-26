@@ -51,28 +51,25 @@ public class TrainServiceImpl implements TrainService{
     }
 
     @Override
-    public boolean addWagon(Long id, String wagonName) {
-        Optional<Wagon> wagon = wagonRepository.findByName(wagonName);
+    public boolean addWagon(Long id, Long wagonID) {
+        Optional<Wagon> wagon = wagonRepository.findById(wagonID);
         Optional<Train> train = findTrain(id);
         if (wagon.isPresent() && train.isPresent()) {
-            train.get().addWagon(wagon.get());
-            repository.setWagonsById(id, train.get().getWagons());
+            wagon.get().setTrain(train.get());
+            wagonRepository.save(wagon.get());
             return true;
         }
         return false;
     }
 
     @Override
-    public boolean deleteWagon(Long id, String wagonName) {
-        Optional<Wagon> wagon = wagonRepository.findByName(wagonName);
-        if (wagon.isPresent()) {
-            Optional<Train> train = findTrain(id);
-            if (train.isPresent()) {
-                train.get().deleteWagon(wagon.get());
-                repository.setWagonsById(id, train.get().getWagons());
-                return true;
-            }
-
+    public boolean deleteWagon(Long id, Long wagonID) {
+        Optional<Wagon> wagon = wagonRepository.findById(wagonID);
+        Optional<Train> train = findTrain(id);
+        if (wagon.isPresent() && train.isPresent()) {
+            wagon.get().setTrain(null);
+            wagonRepository.save(wagon.get());
+            return true;
         }
         return false;
     }
