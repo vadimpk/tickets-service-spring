@@ -13,12 +13,12 @@ import java.util.Optional;
 public class WagonController {
 
     private final WagonService service;
-    // private final TrainService trainService;
+    private final TrainService trainService;
 
     @Autowired
     public WagonController(WagonService service, TrainService trainService) {
         this.service = service;
-        //this.trainService = trainService;
+        this.trainService = trainService;
     }
 
     @GetMapping("/wagon")
@@ -33,13 +33,23 @@ public class WagonController {
     }
 
     @PostMapping("/wagon")
-    public ResponseEntity<Wagon> addWagon(@RequestBody Wagon wagon){
+    public ResponseEntity<Wagon> addWagon(@RequestBody WagonDto wagon){
         // check if name is unique
         Optional<Wagon> check = service.findWagonByName(wagon.getName());
         if (check.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(service.createWagon(wagon), HttpStatus.OK);
+
+        // look
+        Long trainID = (wagon.getTrainID() != null) ? wagon.getTrainID() : 0;
+        Optional<Train> t = trainService.findTrain(trainID);
+        Train train = null;
+        if (t.isPresent()) {
+            train = t.get();
+        }
+
+        Wagon w = new Wagon(wagon.getName(), wagon.getNumberOfSeats(), train);
+        return new ResponseEntity<>(service.createWagon(w), HttpStatus.OK);
     }
 
     @PutMapping("/wagon/{id}")

@@ -35,15 +35,10 @@ public class Train {
 
     }
 
-//    public Train(@JsonProperty("wagons") List<Wagon> wagons,
-//                 @JsonProperty("speed") int speed,
-//                 @JsonProperty("runs") List<Run> runs) {
     public Train(@JsonProperty(value = "name", required = true) String name, @JsonProperty("speed") int speed) {
         this.speed = speed;
         this.name = name;
     }
-
-
 
     public String getName() {
         return name;

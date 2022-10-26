@@ -19,7 +19,6 @@ public class Wagon {
     @Column(nullable = false)
     private int numberOfSeats;
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "train_id", referencedColumnName = "id")
     private Train train;
@@ -28,10 +27,10 @@ public class Wagon {
 
     }
 
-    public Wagon(@JsonProperty(value = "name", required = true) String name,
-                 @JsonProperty("number_of_seats") int numberOfSeats){
+    public Wagon(String name, int numberOfSeats, Train train){
         this.name = name;
         this.numberOfSeats =numberOfSeats;
+        this.train = train;
     }
 
 
