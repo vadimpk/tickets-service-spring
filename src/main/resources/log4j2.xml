@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="com.naukma.ticketsservice.logger">
+<!--    <Properties>-->
+<!--        <Property name="LOG_PATTERN">-->
+<!--            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} -&#45;&#45; [%15.15t] %-40.40c{1.} : %m%n%ex-->
+<!--        </Property>-->
+<!--    </Properties>-->
+    <Appenders>
+        <MyAppender name="MyAppender" target="SYSTEM_OUT">
+            <PatternLayout name="MyLayout" pattern="%d %p %C{1.} [%t] %m%n"/>
+        </MyAppender>
+        <MyLayout name="MyLayout">
+<!--            <PatternLayout>-->
+<!--                <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>-->
+<!--            </PatternLayout>-->
+        </MyLayout>
+<!--        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">-->
+<!--            <PatternLayout pattern="${LOG_PATTERN}"/>-->
+<!--        </Console>-->
+<!--        <File name="FileAppender" fileName="logs/app.log">-->
+<!--            <PatternLayout>-->
+<!--                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>-->
+<!--            </PatternLayout>-->
+<!--        </File>-->
+    </Appenders>
+    <Loggers>
+        <Logger name="com.naukma.ticketsservice" level="debug" additivity="false">
+<!--            <AppenderRef ref="ConsoleAppender" />-->
+<!--            <AppenderRef ref="FileAppender" />-->
+            <AppenderRef ref="MyAppender" />
+        </Logger>
+
+        <Root>
+<!--            <AppenderRef ref="ConsoleAppender" />-->
+<!--            <AppenderRef ref="FileAppender" />-->
+            <AppenderRef ref="MyAppender" />
+        </Root>
+    </Loggers>
+</Configuration>
