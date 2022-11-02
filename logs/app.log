@@ -1,0 +1,22 @@
+2022-11-01 22:17:52,403 INFO c.n.t.TicketsServiceApplication [main] Starting TicketsServiceApplication using Java 18.0.1 on DESKTOP-EQM4P8I with PID 14040 (D:\NaUKMA\Spring\tickets-service-spring\target\classes started by Stas in D:\NaUKMA\Spring\tickets-service-spring)
+2022-11-01 22:17:52,431 DEBUG c.n.t.TicketsServiceApplication [main] Running with Spring Boot v2.7.4, Spring v5.3.23
+2022-11-01 22:17:52,434 INFO c.n.t.TicketsServiceApplication [main] The following 1 profile is active: "dev"
+2022-11-01 22:18:01,408 INFO c.n.t.TicketsServiceApplication [main] Price: 10890
+2022-11-01 22:18:02,880 INFO c.n.t.TicketsServiceApplication [main] Started TicketsServiceApplication in 11.168 seconds (JVM running for 14.021)
+2022-11-01 22:18:02,892 DEBUG c.n.t.TicketsServiceApplication [main] Starting TicketsServiceApplication application in debug with 0 args
+2022-11-01 22:18:02,893 DEBUG c.n.t.TicketsServiceApplication [main] This is a confidential message....
+2022-11-01 22:18:02,893 INFO c.n.t.TicketsServiceApplication [main] some info
+2022-11-01 22:18:02,894 WARN c.n.t.TicketsServiceApplication [main] some warn
+2022-11-01 22:18:02,895 ERROR c.n.t.TicketsServiceApplication [main] some error
+2022-11-01 22:18:02,904 DEBUG c.n.t.TicketsServiceApplication [Thread-1] What MDC will give me?
+2022-11-01 22:18:45,041 INFO c.n.t.TicketsServiceApplication [main] Starting TicketsServiceApplication using Java 18.0.1 on DESKTOP-EQM4P8I with PID 11724 (D:\NaUKMA\Spring\tickets-service-spring\target\classes started by Stas in D:\NaUKMA\Spring\tickets-service-spring)
+2022-11-01 22:18:45,065 DEBUG c.n.t.TicketsServiceApplication [main] Running with Spring Boot v2.7.4, Spring v5.3.23
+2022-11-01 22:18:45,068 INFO c.n.t.TicketsServiceApplication [main] The following 1 profile is active: "dev"
+2022-11-01 22:18:52,088 INFO c.n.t.TicketsServiceApplication [main] Price: 10890
+2022-11-01 22:18:52,940 INFO c.n.t.TicketsServiceApplication [main] Started TicketsServiceApplication in 8.719 seconds (JVM running for 13.307)
+2022-11-01 22:18:52,949 DEBUG c.n.t.TicketsServiceApplication [main] Starting TicketsServiceApplication application in debug with 0 args
+2022-11-01 22:18:52,950 DEBUG c.n.t.TicketsServiceApplication [main] This is a confidential message....
+2022-11-01 22:18:52,950 INFO c.n.t.TicketsServiceApplication [main] some info
+2022-11-01 22:18:52,952 WARN c.n.t.TicketsServiceApplication [main] some warn
+2022-11-01 22:18:52,953 ERROR c.n.t.TicketsServiceApplication [main] some error
+2022-11-01 22:18:52,958 DEBUG c.n.t.TicketsServiceApplication [Thread-1] What MDC will give me?

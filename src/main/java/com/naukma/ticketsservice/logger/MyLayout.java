@@ -32,7 +32,7 @@ public class MyLayout extends AbstractStringLayout
         }
         StringBuilder retValue=new StringBuilder();
         retValue.append(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:S").format(event.getTimeMillis())).append(" ")
-                .append(event.getLevel().toString()).append(" ").append(event.getLoggerName()).append(" ").append(event.getMessage().getFormattedMessage()).append(" ").append(throwable).append("</tr></td>\n");
+                .append(event.getLevel().toString()).append(" ").append(event.getLoggerName()).append(" ").append(event.getMessage().getFormattedMessage()).append(" ").append(throwable);
 
         return retValue.toString();
     }
