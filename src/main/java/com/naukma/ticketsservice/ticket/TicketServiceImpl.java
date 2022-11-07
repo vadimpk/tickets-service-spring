@@ -2,14 +2,12 @@ package com.naukma.ticketsservice.ticket;
 
 import com.naukma.pricemanager.PriceManager;
 import com.naukma.ticketsservice.TicketsServiceApplication;
-import com.naukma.ticketsservice.route.Route;
-import com.naukma.ticketsservice.runs.Run;
+import com.naukma.ticketsservice.run.Run;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.naukma.ticketsservice.runs;
+package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
@@ -20,13 +20,18 @@ public class RunServiceImpl implements RunService{
     }
 
     @Override
-    public boolean createRun(Run newRun) {
-        repository.saveAndFlush(newRun);
-        return true;
+    public Run createRun(Run newRun) {
+        return repository.saveAndFlush(newRun);
     }
 
     @Override
+    public Optional<Run> findRunById(Long id) {return repository.findById(id);}
+    @Override
+    public Optional<Run> findRunByName(String name) { return repository.findByName(name);}
+
+    @Override
     public Optional<Run> findRun(Long id) { return repository.findById(id); }
+
 
     @Override
     public List<Run> getRuns() { return repository.findAll(); }

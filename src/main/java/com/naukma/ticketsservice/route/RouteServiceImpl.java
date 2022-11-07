@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 @Service
 public class RouteServiceImpl implements RouteService {
@@ -52,6 +52,11 @@ public class RouteServiceImpl implements RouteService {
         }
         return routes;
     }
+    @Override
+    public Optional<Route> findRouteById(Long routeId) {
+        return Optional.of(repository.getReferenceById(routeId));
+    }
+
 
     @Override
     public List<Route> getRoutes() {

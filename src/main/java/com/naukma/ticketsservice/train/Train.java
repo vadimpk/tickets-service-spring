@@ -2,12 +2,9 @@ package com.naukma.ticketsservice.train;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.naukma.ticketsservice.runs.Run;
-import org.hibernate.annotations.Type;
+import com.naukma.ticketsservice.run.Run;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 

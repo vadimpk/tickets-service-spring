@@ -1,4 +1,4 @@
-package com.naukma.ticketsservice.runs;
+package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
@@ -8,11 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 import java.sql.Time;
-import java.util.Collection;
-import java.util.UUID;
+import java.util.Optional;
 
 public interface RunRepository extends JpaRepository<Run, Long> {
 
+    Optional<Run> findByName(String name);
     @Transactional
     @Modifying
     @Query("update Run r set r.route=?2 where r.id=?1")

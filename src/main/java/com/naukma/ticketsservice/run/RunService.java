@@ -1,18 +1,20 @@
-package com.naukma.ticketsservice.runs;
+package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface RunService {
 
-    boolean createRun(Run newRun);
+    Run createRun(Run newRun);
+
+    Optional<Run> findRunById(Long id);
+    Optional<Run> findRunByName(String name);
 
     Optional<Run> findRun(Long id);
+
     List<Run> getRuns();
 
     int update(Long id, Run newRun);

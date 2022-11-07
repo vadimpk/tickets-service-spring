@@ -1,4 +1,4 @@
-package com.naukma.ticketsservice.runs;
+package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
@@ -11,26 +11,30 @@ public class Run {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true, nullable = false)
+    private String name;
 
     @ManyToOne
     private Route route;
-
     @ManyToOne
     private Train train;
 
     @Column(name = "departure_time")
     private Time departureTime;
-
     @Column(name = "arrival_time")
     private Time arrivalTime;
 
     public Run() {}
-    public Run(Route route, Train train, Time departureTime, Time arrivalTime) {
+    public Run(String name, Route route, Train train, Time departureTime, Time arrivalTime) {
+        this.name = name;
         this.route = route;
         this.train = train;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
     }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
     public Long getId() {
         return id;

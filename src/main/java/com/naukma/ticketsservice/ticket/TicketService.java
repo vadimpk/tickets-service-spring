@@ -1,6 +1,6 @@
 package com.naukma.ticketsservice.ticket;
 
-import com.naukma.ticketsservice.runs.Run;
+import com.naukma.ticketsservice.run.Run;
 
 import java.util.List;
 import java.util.UUID;
