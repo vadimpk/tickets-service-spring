@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -22,31 +21,30 @@ public class TicketServiceImpl implements TicketService {
     private PriceManager priceManager;
 
     public TicketServiceImpl(@Autowired TicketRepository repository, @Autowired PriceManager priceManager) {
-
         this.repository = repository;
         this.priceManager = priceManager;
-
-        createTicket(null);
     }
 
     @Override
-    public void createTicket(Run run) {
-        //int price = priceManager.setPrice(run.getRoute().getDistance());
-        int price = 100;
-        log.info("Price: " + priceManager.setPrice(110));
-        repository.saveAndFlush(new Ticket(UUID.randomUUID(), run, price));
+    public Ticket createTicket(Run run) {
+        int price = priceManager.setPrice(run.getRoute().getDistance());
+        Ticket ticket = new Ticket(run);
+        repository.saveAndFlush(ticket);
+        return ticket;
     }
 
     @Override
-    public List<Ticket> getRunTickets(Run run) {
+    public List<Ticket> findTicketsByRun(Run run) {
         return repository.findByRun(run);
     }
 
     @Override
-    public Ticket delete(UUID id) {
-        Optional<Ticket> ticket = repository.findById(id);
-        if(ticket.isEmpty()) throw new RuntimeException("not such ticket with id " + id);
-        repository.delete(ticket.get());
-        return ticket.get();
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Ticket> findTicketById(Long id) {
+        return repository.findById(id);
     }
 }

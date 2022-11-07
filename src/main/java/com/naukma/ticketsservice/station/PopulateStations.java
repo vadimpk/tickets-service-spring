@@ -40,5 +40,7 @@ public class PopulateStations {
 
         stationRepository.save(station1);
         stationRepository.save(station2);
+
+        log.trace(String.valueOf(stationRepository.findAll()));
     }
 }

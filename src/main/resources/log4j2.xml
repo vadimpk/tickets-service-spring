@@ -2,10 +2,10 @@
 <Configuration packages="com.naukma.ticketsservice.logger">
     <Appenders>
 
-        <ListAppender name="ListAppender">
-            <MyLayout/>
-            <MarkerFilter marker="CONFIDENTIAL" onMatch="DENY" onMismatch="ACCEPT"/>
-        </ListAppender>
+<!--        <ListAppender name="ListAppender">-->
+<!--            <MyLayout/>-->
+<!--            <MarkerFilter marker="CONFIDENTIAL" onMatch="DENY" onMismatch="ACCEPT"/>-->
+<!--        </ListAppender>-->
 
         <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
             <PatternLayout>
@@ -13,28 +13,28 @@
             </PatternLayout>
         </Console>
 
-        <File name="LogToFile" fileName="logs/app.log">
-            <PatternLayout>
-                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
-            </PatternLayout>
-        </File>
+<!--        <File name="LogToFile" fileName="logs/app.log">-->
+<!--            <PatternLayout>-->
+<!--                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>-->
+<!--            </PatternLayout>-->
+<!--        </File>-->
 
     </Appenders>
     <Loggers>
-        <Logger name="com.naukma.ticketsservice" level="all" additivity="false">
-            <AppenderRef ref="LogToFile"/>
-        </Logger>
-        <Logger name="com.naukma.ticketsservice" level="info" additivity="false">
-            <AppenderRef ref="ListAppender"/>
-        </Logger>
+<!--        <Logger name="com.naukma.ticketsservice" level="all" additivity="false">-->
+<!--            <AppenderRef ref="LogToFile"/>-->
+<!--        </Logger>-->
+<!--        <Logger name="com.naukma.ticketsservice" level="info" additivity="false">-->
+<!--            <AppenderRef ref="ListAppender"/>-->
+<!--        </Logger>-->
 
         <Logger name="com.naukma.ticketsservice" level="debug" additivity="true">
             <AppenderRef ref="ConsoleAppender"/>
         </Logger>
 
-        <Root level="error">
-            <AppenderRef ref="LogToFile"/>
-            <AppenderRef ref="ListAppender"/>
+        <Root level="INFO">
+<!--            <AppenderRef ref="LogToFile"/>-->
+<!--            <AppenderRef ref="ListAppender"/>-->
             <AppenderRef ref="ConsoleAppender"/>
         </Root>
     </Loggers>

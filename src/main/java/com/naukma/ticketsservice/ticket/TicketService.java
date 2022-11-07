@@ -3,13 +3,13 @@ package com.naukma.ticketsservice.ticket;
 import com.naukma.ticketsservice.run.Run;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 public interface TicketService {
 
-    void createTicket(Run run);
+    Ticket createTicket(Run run);
     // List<Route> findTicket(); // when user is created
-
-    List<Ticket> getRunTickets(Run run);
-    Ticket delete(UUID id);
+    List<Ticket> findTicketsByRun(Run run);
+    void delete(Long id);
+    Optional<Ticket> findTicketById(Long id);
 }

@@ -1,5 +1,6 @@
 package com.naukma.ticketsservice.train;
 
+import com.naukma.ticketsservice.ticket.NoSuchRunException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class WagonController {
     @GetMapping("/wagon/{id}")
     public ResponseEntity<Wagon> show(@PathVariable Long id){
         Optional<Wagon> w = service.findWagonById(id);
-        return w.map(wagon -> new ResponseEntity<>(wagon, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return w.map(wagon -> new ResponseEntity<>(wagon, HttpStatus.OK)).orElseThrow(NoSuchWagonException::new);
     }
 
     @PostMapping("/wagon")
@@ -87,7 +88,7 @@ public class WagonController {
             service.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        throw new NoSuchWagonException();
     }
 
 //    @GetMapping("/wagon/{id}/train")
@@ -107,4 +108,14 @@ public class WagonController {
 //        }
 //        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //    }
+
+    @ExceptionHandler(value = NoSuchWagonException.class)
+    public ResponseEntity<String> exception(NoSuchWagonException exception) {
+        return new ResponseEntity<>("Not found such wagon", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = NonUniqueWagonNameException.class)
+    public ResponseEntity<String> exception(NonUniqueWagonNameException exception) {
+        return new ResponseEntity<>("Such wagon name is already present", HttpStatus.CONFLICT);
+    }
 }

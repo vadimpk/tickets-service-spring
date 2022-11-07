@@ -4,9 +4,10 @@ import com.naukma.ticketsservice.run.Run;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
-public interface TicketRepository extends JpaRepository<Ticket, UUID> {
-    // TODO: 23.10.2022
+public interface TicketRepository extends JpaRepository<Ticket, Long> {
+
     List<Ticket> findByRun(Run run);
+    Optional<Ticket> findById(Long id);
 }

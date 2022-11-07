@@ -2,36 +2,34 @@ package com.naukma.ticketsservice.ticket;
 
 import com.naukma.ticketsservice.run.Run;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import java.util.UUID;
+import javax.persistence.*;
 
 @Entity
 public class Ticket {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "run_id", referencedColumnName = "id")
     private Run run;
 
+    @Column(nullable = false)
     private int price;
 
     // private User user;
-
-
-    public Ticket(UUID id, Run run, int price) {
-        this.id = id;
-        this.run = run;
-        this.price = price;
-    }
 
     public Ticket() {
 
     }
 
-    public UUID getId() {
+    public Ticket(Run run) {
+        this.run = run;
+        this.price = price;
+    }
+
+    public Long getId() {
         return id;
     }
 
