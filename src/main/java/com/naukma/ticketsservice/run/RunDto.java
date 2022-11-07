@@ -3,18 +3,24 @@ package com.naukma.ticketsservice.run;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 import java.sql.Time;
 import java.util.List;
 
 public class RunDto {
 
+    @NotBlank
     private String name;
     private Long routeId;
     private Long trainId;
+
+    @DateTimeFormat
     private Time departureTime;
+    @DateTimeFormat
     private Time arrivalTime;
 
     public RunDto(@JsonProperty(value = "name", required = true)String name,

@@ -22,8 +22,6 @@ public class Wagon {
     private String name;
 
     @Column(nullable = false)
-    @Min(10)
-    @Max(200)
     private int numberOfSeats;
 
     @ManyToOne(cascade = CascadeType.ALL)

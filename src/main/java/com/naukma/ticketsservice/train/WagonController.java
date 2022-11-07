@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class WagonController {
     }
 
     @PostMapping("/wagon")
-    public ResponseEntity<Wagon> addWagon(@RequestBody WagonDto wagon){
+    public ResponseEntity<Wagon> addWagon(@Valid @RequestBody WagonDto wagon){
         // check if name is unique
         Optional<Wagon> check = service.findWagonByName(wagon.getName());
         if (check.isPresent()) {
@@ -54,7 +55,7 @@ public class WagonController {
     }
 
     @PutMapping("/wagon/{id}")
-    public ResponseEntity<Wagon> update(@PathVariable Long id, @RequestBody WagonDto wagon) {
+    public ResponseEntity<Wagon> update(@PathVariable Long id,@Valid @RequestBody WagonDto wagon) {
 
         // check if such wagon exists
         Optional<Wagon> wagonToChange = service.findWagonById(id);

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.Time;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class RunController {
     }
 
     @PostMapping("/run")
-    public ResponseEntity<Run> create(@RequestBody RunDto run){
+    public ResponseEntity<Run> create(@Valid @RequestBody RunDto run){
         // check if name is unique
         Optional<Run> check = runService.findRunByName(run.getName());
         if (check.isPresent()) {
@@ -68,7 +69,7 @@ public class RunController {
         return run.map(t -> new ResponseEntity<>(t,HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     @PutMapping("/run/{id}")
-    public ResponseEntity<Run> update(@PathVariable Long id, @RequestBody RunDto run) {
+    public ResponseEntity<Run> update(@PathVariable Long id, @Valid @RequestBody RunDto run) {
 
         // check if such run exists
         Optional<Run> runToChange = runService.findRunById(id);
