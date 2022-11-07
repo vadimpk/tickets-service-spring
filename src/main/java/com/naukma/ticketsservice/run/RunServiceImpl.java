@@ -23,6 +23,7 @@ public class RunServiceImpl implements RunService{
     public Run createRun(Run newRun) {
         return repository.saveAndFlush(newRun);
     }
+    public Run save(Run run) { return repository.save(run);}
 
     @Override
     public Optional<Run> findRunById(Long id) {return repository.findById(id);}

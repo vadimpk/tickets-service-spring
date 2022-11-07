@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface RunService {
 
     Run createRun(Run newRun);
+    Run save(Run run);
 
     Optional<Run> findRunById(Long id);
     Optional<Run> findRunByName(String name);
