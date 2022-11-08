@@ -41,10 +41,6 @@ public class Station {
         return adjacentStations;
     }
 
-    public void setAdjacentStations(Map<Station, Integer> adjacentStations) {
-        this.adjacentStations = adjacentStations;
-    }
-
     public String getName() {
         return name;
     }

@@ -22,7 +22,7 @@ public class Route {
     @JoinColumn(name = "finish_station_fk", nullable = false)
     private Station finishStation;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Station> stations;
 
     private int distance;

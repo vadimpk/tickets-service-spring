@@ -3,6 +3,8 @@ package com.naukma.ticketsservice.route;
 import com.naukma.ticketsservice.TicketsServiceApplication;
 import com.naukma.ticketsservice.station.Station;
 import com.naukma.ticketsservice.station.StationService;
+import com.naukma.ticketsservice.train.NoSuchWagonException;
+import com.naukma.ticketsservice.train.Train;
 import com.naukma.ticketsservice.train.Wagon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,33 +23,55 @@ public class RouteController {
     static final Logger log =
             LoggerFactory.getLogger(TicketsServiceApplication.class);
 
-    private RouteService service;
-    private StationService stationService;
+    private final RouteService service;
 
     @Autowired
-    public RouteController(RouteService service, StationService stationService) {
+    public RouteController(RouteService service) {
         this.service = service;
-        this.stationService = stationService;
     }
 
     @PostMapping("/route")
     public ResponseEntity<Route> createRoute(@RequestBody RouteDto routeDto) {
 
-        log.info("Transitional stations' ids: " + routeDto.getTransitionalStationIDs());
-
-        // stations that were not found won't be included in this list
-        List<Station> stations = stationService.findAllById(routeDto.getTransitionalStationIDs());
-
-        for (Station st: stations) {
-            log.info("Transitional station: " + st.getName());
-        }
-
-        if (stations.size() <= 2) {return new ResponseEntity<>(HttpStatus.BAD_REQUEST);}
-
-        Route route = service.createRoute(stations);
+        List<Long> stationsIds = routeDto.getTransitionalStationIDs();
+        Route route = service.createRoute(stationsIds);
         if (route == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(route, HttpStatus.OK);
+    }
+
+    @GetMapping("/route/{id}")
+    public ResponseEntity<Route> show(@PathVariable Long id){
+        Optional<Route> route = service.findRouteById(id);
+        return route.map(t -> new ResponseEntity<>(t, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/route")
+    public ResponseEntity<List<Route>> showAll(){
+        return new ResponseEntity<>(service.getRoutes(), HttpStatus.OK);
+    }
+
+    @PutMapping("/route/{id}")
+    public ResponseEntity<Route> updateRoute(@RequestBody RouteDto routeDto, @PathVariable Long id) {
+
+        Optional<Route> route = service.findRouteById(id);
+        if (route.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        List<Long> stationsIds = routeDto.getTransitionalStationIDs();
+        Route newRoute = service.updateRoute(route.get(), stationsIds);
+        if (newRoute == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(newRoute, HttpStatus.OK);
+    }
+
+    @DeleteMapping("route/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id){
+        Optional<Route> route = service.findRouteById(id);
+        if (route.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        service.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

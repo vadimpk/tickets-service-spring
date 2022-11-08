@@ -1,6 +1,7 @@
 package com.naukma.ticketsservice.route;
 
 import com.naukma.ticketsservice.station.Station;
+import com.naukma.ticketsservice.station.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,22 +13,61 @@ import java.util.Optional;
 public class RouteServiceImpl implements RouteService {
 
     private final RouteRepository repository;
+    private final StationRepository stationRepository;
 
-    public RouteServiceImpl(@Autowired RouteRepository repository) {
+    public RouteServiceImpl(@Autowired RouteRepository repository,
+                            @Autowired StationRepository stationRepository) {
         this.repository = repository;
+        this.stationRepository = stationRepository;
     }
 
     @Override
-    public Route createRoute(List<Station> stations) {
+    public Route createRoute(List<Long> stationsIds) {
 
+        List<Station> stations = validateStations(stationsIds);
+        if (stations.size() < 2) return null;
+
+        int distance = validateRoute(stations);
+        if (distance == -1) return null;
+
+        return repository.save(new Route(stations.get(0), stations.get(stations.size()-1), stations, distance));
+    }
+
+    @Override
+    public Route updateRoute(Route route, List<Long> stationsIds) {
+
+        List<Station> stations = validateStations(stationsIds);
+        if (stations.size() < 2) return null;
+
+        int distance = validateRoute(stations);
+        if (distance == -1) return null;
+
+        route.setDistance(distance);
+        route.setStartStation(stations.get(0));
+        route.setFinishStation(stations.get(stations.size() - 1));
+        route.setStations(stations);
+
+        return repository.save(route);
+    }
+
+    private List<Station> validateStations(List<Long> stationsIds) {
+        List<Station> stations = new ArrayList<>();
+        for (Long id : stationsIds) {
+            Optional<Station> station = stationRepository.findById(id);
+            station.ifPresent(stations::add);
+        }
+        return stations;
+    }
+
+    private int validateRoute(List<Station> stations) {
         int distance = 0;
         for (int i = 0; i < stations.size() - 1; i++) {
             if (stations.get(i).getAdjacentStations().containsKey(stations.get(i+1))) {
                 distance += stations.get(i).getAdjacentStations().get(stations.get(i+1));
-            } else return null;
+            } else return -1;
         }
 
-        return repository.save(new Route(stations.get(0), stations.get(stations.size()-1), stations, distance));
+        return distance;
     }
 
     @Override
@@ -54,9 +94,8 @@ public class RouteServiceImpl implements RouteService {
     }
     @Override
     public Optional<Route> findRouteById(Long routeId) {
-        return Optional.of(repository.getReferenceById(routeId));
+        return repository.findById(routeId);
     }
-
 
     @Override
     public List<Route> getRoutes() {
