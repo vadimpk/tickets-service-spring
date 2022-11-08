@@ -10,4 +10,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findByRun(Run run);
     Optional<Ticket> findById(Long id);
+    void deleteById(Long aLong);
 }

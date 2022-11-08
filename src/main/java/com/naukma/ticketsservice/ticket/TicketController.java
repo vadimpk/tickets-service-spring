@@ -1,6 +1,7 @@
 package com.naukma.ticketsservice.ticket;
 
 import com.naukma.ticketsservice.TicketsServiceApplication;
+import com.naukma.ticketsservice.run.NoSuchRunException;
 import com.naukma.ticketsservice.run.Run;
 import com.naukma.ticketsservice.run.RunService;
 import org.slf4j.Logger;
@@ -40,27 +41,29 @@ public class TicketController {
     }
 
     @PostMapping("/ticket")
-    public ResponseEntity<HttpStatus> add(@RequestBody TicketDto ticketDto){
+    public ResponseEntity<Ticket> add(@RequestBody TicketDto ticketDto){
         // run if such run is present
         Optional<Run> run = runService.findRun(ticketDto.getRunId());
         if (run.isEmpty()) {
             throw new NoSuchRunException();
         }
-
-        service.createTicket(run.get());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(service.createTicket(run.get()), HttpStatus.OK);
     }
 
 
     @DeleteMapping("ticket/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id){
-        Optional<Ticket> w = service.findTicketById(id);
-        if (w.isPresent()) {
+        Optional<Ticket> ticket = service.findTicketById(id);
+        if (ticket.isPresent()) {
             service.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
+        throw new NoSuchTicketException();
+    }
 
-        throw new NoSuchRunException();
+    @ExceptionHandler(value = NoSuchTicketException.class)
+    public ResponseEntity<String> exception(NoSuchTicketException exception) {
+        return new ResponseEntity<>("Not found such ticket", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = NoSuchRunException.class)

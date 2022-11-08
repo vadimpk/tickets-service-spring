@@ -18,9 +18,9 @@ public class RunDto {
     private Long routeId;
     private Long trainId;
 
-    @DateTimeFormat
+//    @DateTimeFormat
     private Time departureTime;
-    @DateTimeFormat
+//    @DateTimeFormat
     private Time arrivalTime;
 
     public RunDto(@JsonProperty(value = "name", required = true)String name,
@@ -28,6 +28,7 @@ public class RunDto {
                   @JsonProperty(value = "train_id", required = true)Long trainId,
                   @JsonProperty(value = "departure_time", required = true)Time departureTime,
                   @JsonProperty(value = "arrival_time", required = true)Time arrivalTime) {
+        this.name = name;
         this.routeId = routeId;
         this.trainId = trainId;
         this.departureTime = departureTime;

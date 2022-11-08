@@ -11,8 +11,8 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "run_id", referencedColumnName = "id")
+    @ManyToOne()
+//    @JoinColumn(name = "run_id", referencedColumnName = "id")
     private Run run;
 
     @Column(nullable = false)

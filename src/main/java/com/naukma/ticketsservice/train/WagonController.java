@@ -1,6 +1,7 @@
 package com.naukma.ticketsservice.train;
 
-import com.naukma.ticketsservice.ticket.NoSuchRunException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class WagonController {
         // check if name is unique
         Optional<Wagon> check = service.findWagonByName(wagon.getName());
         if (check.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            throw new NoSuchWagonException();
         }
 
         // check if entered train exists otherwise set to null
@@ -60,13 +61,13 @@ public class WagonController {
         // check if such wagon exists
         Optional<Wagon> wagonToChange = service.findWagonById(id);
         if (wagonToChange.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new NoSuchWagonException();
         }
 
         // check if new name is not unique
         Optional<Wagon> check = service.findWagonByName(wagon.getName());
         if (check.isPresent() && !check.get().getName().equals(wagonToChange.get().getName())) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            throw new NonUniqueWagonNameException();
         }
 
         // check if entered train exists otherwise set to the one that was before
