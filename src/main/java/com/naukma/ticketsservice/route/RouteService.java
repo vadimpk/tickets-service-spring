@@ -10,7 +10,7 @@ public interface RouteService {
     Route createRoute(List<Long> stations);
     Route updateRoute(Route route, List<Long> stationsIds);
 
-    List<Route> findRoute(Station startStation, Station finishStation);
+    List<Route> findRoutes(Station startStation, Station finishStation);
 
     Optional<Route> findRouteById(Long id);
 

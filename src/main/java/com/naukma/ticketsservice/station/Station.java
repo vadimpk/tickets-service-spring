@@ -35,6 +35,7 @@ public class Station {
 
     public void addAdjacentStation(Station station, int distance) {
         adjacentStations.put(station, distance);
+        station.adjacentStations.put(this, distance);
     }
 
     public Map<Station, Integer> getAdjacentStations() {
