@@ -55,8 +55,8 @@ public class RunController {
             route = r1.get();
         }
 
-        Run r = new Run(run.getName(),route,train,run.getDepartureTime(),run.getArrivalTime());
-        return new ResponseEntity<>(runService.createRun(r),HttpStatus.OK);
+        Run r = new Run(run.getName(), route, train, run.getDepartureTime(), run.getArrivalTime());
+        return new ResponseEntity<>(runService.createRun(r), HttpStatus.OK);
     }
 
     @GetMapping("/run/{id}")
@@ -64,6 +64,7 @@ public class RunController {
         Optional<Run> run = runService.findRunById(Long.valueOf(id));
         return run.map(t -> new ResponseEntity<>(t,HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
     @PutMapping("/run/{id}")
     public ResponseEntity<Run> update(@PathVariable Long id, @Valid @RequestBody RunDto run) {
 

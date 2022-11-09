@@ -71,27 +71,25 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Route> findRoute(Station startStation, Station finishStation) {
+    public List<Route> findRoutes(Station startStation, Station finishStation) {
         // get all routes and manually find all routes that have startStation and finishStation in it
         List<Route> allRoutes = getRoutes();
         List<Route> routes = new ArrayList<>();
         for (Route route : allRoutes) {
             boolean foundStart = false;
-            boolean foundFinish = false;
             for (Station station: route.getStations()) {
                 if (station == startStation) {
                     foundStart = true;
                 }
                 if (foundStart && station == finishStation) {
-                    foundFinish = true;
+                    routes.add(route);
+                    break;
                 }
-            }
-            if (foundStart && foundFinish) {
-                routes.add(route);
             }
         }
         return routes;
     }
+
     @Override
     public Optional<Route> findRouteById(Long routeId) {
         return repository.findById(routeId);

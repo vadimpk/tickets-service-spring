@@ -19,10 +19,12 @@ public class RouteController {
             LoggerFactory.getLogger(TicketsServiceApplication.class);
 
     private final RouteService service;
+    private final StationService stationService;
 
     @Autowired
-    public RouteController(RouteService service) {
+    public RouteController(RouteService service, StationService stationService) {
         this.service = service;
+        this.stationService = stationService;
     }
 
     @PostMapping("/route")
@@ -40,6 +42,19 @@ public class RouteController {
     public ResponseEntity<Route> show(@PathVariable Long id){
         Optional<Route> route = service.findRouteById(id);
         return route.map(t -> new ResponseEntity<>(t, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/route/{start_station_id}/{end_station_id}")
+    public ResponseEntity<List<Route>> show(@PathVariable Long start_station_id, @PathVariable Long end_station_id) {
+        Optional<Station> startStation = stationService.findById(start_station_id);
+        Optional<Station> endStation = stationService.findById(end_station_id);
+
+        if (startStation.isEmpty() || endStation.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        
+        List<Route> routes = service.findRoutes(startStation.get(), endStation.get());
+        return new ResponseEntity<>(routes, HttpStatus.OK);
     }
 
     @GetMapping("/route")
