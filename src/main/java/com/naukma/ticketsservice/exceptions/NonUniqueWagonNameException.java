@@ -1,4 +1,4 @@
-package com.naukma.ticketsservice.train;
+package com.naukma.ticketsservice.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

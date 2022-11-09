@@ -1,6 +1,6 @@
 package com.naukma.ticketsservice.train;
 
-import org.springframework.http.ResponseEntity;
+import com.naukma.ticketsservice.wagon.Wagon;
 
 import java.util.List;
 import java.util.Optional;

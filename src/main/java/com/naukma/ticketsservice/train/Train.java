@@ -3,6 +3,7 @@ package com.naukma.ticketsservice.train;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.naukma.ticketsservice.run.Run;
+import com.naukma.ticketsservice.wagon.Wagon;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

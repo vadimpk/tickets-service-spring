@@ -1,7 +1,9 @@
-package com.naukma.ticketsservice.train;
+package com.naukma.ticketsservice.wagon;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.naukma.ticketsservice.exceptions.NoSuchWagonException;
+import com.naukma.ticketsservice.exceptions.NonUniqueWagonNameException;
+import com.naukma.ticketsservice.train.Train;
+import com.naukma.ticketsservice.train.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

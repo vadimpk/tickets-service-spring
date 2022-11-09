@@ -1,11 +1,6 @@
 package com.naukma.ticketsservice.route;
 
 import com.naukma.ticketsservice.TicketsServiceApplication;
-import com.naukma.ticketsservice.station.Station;
-import com.naukma.ticketsservice.station.StationService;
-import com.naukma.ticketsservice.train.NoSuchWagonException;
-import com.naukma.ticketsservice.train.Train;
-import com.naukma.ticketsservice.train.Wagon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

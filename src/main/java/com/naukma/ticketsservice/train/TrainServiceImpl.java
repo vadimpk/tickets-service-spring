@@ -1,5 +1,7 @@
 package com.naukma.ticketsservice.train;
 
+import com.naukma.ticketsservice.wagon.Wagon;
+import com.naukma.ticketsservice.wagon.WagonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

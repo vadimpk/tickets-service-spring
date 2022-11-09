@@ -1,4 +1,5 @@
-package com.naukma.ticketsservice.train;
+package com.naukma.ticketsservice.wagon;
+import com.naukma.ticketsservice.train.Train;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -13,12 +14,9 @@ public class Wagon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NonNull
     private long id;
 
     @Column(unique = true, nullable = false)
-    @Pattern(regexp = "[a-zA-z0-9]{3,16}", message = "wagon name length must be of 3 to 16 element with no special parameter")
-//    @NotBlank
     private String name;
 
     @Column(nullable = false)

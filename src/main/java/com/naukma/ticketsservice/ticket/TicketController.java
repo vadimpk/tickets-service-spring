@@ -1,19 +1,19 @@
 package com.naukma.ticketsservice.ticket;
 
+import com.naukma.pricemanager.NoSuchCurrencyException;
 import com.naukma.ticketsservice.TicketsServiceApplication;
-import com.naukma.ticketsservice.run.NoSuchRunException;
+import com.naukma.ticketsservice.exceptions.NoSuchTicketException;
+import com.naukma.ticketsservice.exceptions.NoSuchRunException;
 import com.naukma.ticketsservice.run.Run;
 import com.naukma.ticketsservice.run.RunService;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,15 +44,14 @@ public class TicketController {
     }
 
     @PostMapping("/ticket")
-    public ResponseEntity<Ticket> add(@RequestBody TicketDto ticketDto){
+    public ResponseEntity<Ticket> add(@Valid @RequestBody TicketDto ticketDto){
 
-        // run if such run is present
-//        Optional<Run> run = runService.findRun(ticketDto.getRunId());
-//        if (run.isEmpty()) {
-//            throw new NoSuchRunException();
-//        }
-        Run run = new Run();
-        return new ResponseEntity<>(service.createTicket(run), HttpStatus.OK);
+        //run if such run is present
+        Optional<Run> run = runService.findRun(ticketDto.getRunId());
+        if (run.isEmpty()) {
+            throw new NoSuchRunException();
+        }
+        return new ResponseEntity<>(service.createTicket(run.get(), ticketDto), HttpStatus.OK);
     }
 
     @DeleteMapping("ticket/{id}")
@@ -73,5 +72,10 @@ public class TicketController {
     @ExceptionHandler(value = NoSuchRunException.class)
     public ResponseEntity<String> exception(NoSuchRunException exception) {
         return new ResponseEntity<>("Not found such run", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = NoSuchCurrencyException.class)
+    public ResponseEntity<String> exception(NoSuchCurrencyException exception) {
+        return new ResponseEntity<>("Not found such currency", HttpStatus.NOT_FOUND);
     }
 }

@@ -1,4 +1,4 @@
-package com.naukma.ticketsservice.train;
+package com.naukma.ticketsservice.wagon;
 
 import java.util.List;
 import java.util.Optional;

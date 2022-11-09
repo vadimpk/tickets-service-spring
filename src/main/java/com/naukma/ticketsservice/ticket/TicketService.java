@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface TicketService {
 
-    Ticket createTicket(Run run);
+    Ticket createTicket(Run run, TicketDto ticketDto);
     // List<Route> findTicket(); // when user is created
     List<Ticket> findTicketsByRun(Run run);
     void delete(Long id);

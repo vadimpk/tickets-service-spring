@@ -1,16 +1,14 @@
 package com.naukma.ticketsservice.ticket;
 
+import com.naukma.pricemanager.NoSuchCurrencyException;
 import com.naukma.pricemanager.PriceManager;
 import com.naukma.ticketsservice.TicketsServiceApplication;
 import com.naukma.ticketsservice.run.Run;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +27,12 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket createTicket(Run run) {
+    public Ticket createTicket(Run run, TicketDto ticketDto) {
 
-        log.info(String.valueOf(priceManager.covertPriceToUSD(100)));
-        int price = priceManager.setPrice(run.getRoute().getDistance());
-        Ticket ticket = new Ticket(run);
+        double price =  priceManager.setPrice(run.getRoute().getDistance());
+        if (!ticketDto.getCurrency().equals("USD")) price = priceManager.convertPriceTo(ticketDto.getCurrency(), price);
+        log.info("price for run = " + run.getId() + ": " + price + " " + ticketDto.getCurrency());
+        Ticket ticket = new Ticket(run, ticketDto.getCurrency(), price);
         repository.saveAndFlush(ticket);
 
         return ticket;

@@ -1,4 +1,4 @@
-package com.naukma.ticketsservice.train;
+package com.naukma.ticketsservice.wagon;
 
 import com.naukma.ticketsservice.TicketsServiceApplication;
 import org.slf4j.Logger;

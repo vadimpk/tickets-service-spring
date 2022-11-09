@@ -16,7 +16,9 @@ public class Ticket {
     private Run run;
 
     @Column(nullable = false)
-    private int price;
+    private double price;
+
+    private String currency;
 
     // private User user;
 
@@ -24,8 +26,9 @@ public class Ticket {
 
     }
 
-    public Ticket(Run run) {
+    public Ticket(Run run, String currency, double price) {
         this.run = run;
+        this.currency = currency;
         this.price = price;
     }
 
@@ -41,11 +44,11 @@ public class Ticket {
         this.run = run;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

@@ -1,4 +1,4 @@
-package com.naukma.ticketsservice.ticket;
+package com.naukma.ticketsservice.exceptions;
 
 public class NoSuchTicketException extends RuntimeException {
     public NoSuchTicketException() {

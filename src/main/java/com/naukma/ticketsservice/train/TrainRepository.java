@@ -1,6 +1,7 @@
 package com.naukma.ticketsservice.train;
 
 import com.naukma.ticketsservice.run.Run;
+import com.naukma.ticketsservice.wagon.Wagon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

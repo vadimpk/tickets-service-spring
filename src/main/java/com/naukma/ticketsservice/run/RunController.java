@@ -5,17 +5,13 @@ import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.route.RouteService;
 import com.naukma.ticketsservice.train.Train;
 import com.naukma.ticketsservice.train.TrainService;
-import com.naukma.ticketsservice.train.Wagon;
-import com.naukma.ticketsservice.train.WagonDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.Time;
 import java.util.Optional;
 
 @RequestMapping("api/v1")
