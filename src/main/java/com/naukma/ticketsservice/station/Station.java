@@ -3,10 +3,8 @@ package com.naukma.ticketsservice.station;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Entity
 public class Station {
@@ -44,6 +42,9 @@ public class Station {
     public String getName() {
         return name;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -63,4 +64,5 @@ public class Station {
     public int hashCode() {
         return id.hashCode();
     }
+
 }
