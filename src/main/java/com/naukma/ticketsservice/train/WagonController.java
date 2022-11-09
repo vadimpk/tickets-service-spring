@@ -56,7 +56,7 @@ public class WagonController {
     }
 
     @PutMapping("/wagon/{id}")
-    public ResponseEntity<Wagon> update(@PathVariable Long id,@Valid @RequestBody WagonDto wagon) {
+    public ResponseEntity<Wagon> update(@PathVariable Long id, @Valid @RequestBody WagonDto wagon) {
 
         // check if such wagon exists
         Optional<Wagon> wagonToChange = service.findWagonById(id);
