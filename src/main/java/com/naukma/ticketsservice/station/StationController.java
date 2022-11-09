@@ -33,8 +33,8 @@ public class StationController {
         if (check.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        Station st = new Station(station.getName());
-        return new ResponseEntity<>(st,HttpStatus.OK);
+        Station st = stationService.createStation(new Station(station.getName()));
+        return new ResponseEntity<>(st, HttpStatus.OK);
     }
 
     @GetMapping("/station/{id}")

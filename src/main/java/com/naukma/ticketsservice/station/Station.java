@@ -22,13 +22,13 @@ public class Station {
     @MapKeyColumn(name = "adjacent_station")
     private Map<Station, Integer> adjacentStations;
 
-    public Station() {
-
-    }
-
     public Station(String name) {
         this.name = name;
         this.adjacentStations = new HashMap<>();
+    }
+
+    public Station() {
+
     }
 
     public void addAdjacentStation(Station station, int distance) {

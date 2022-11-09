@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface StationService {
 
-    void createStation(Station station);
+    Station createStation(Station station);
 
     Optional<Station> findById(Long id);
     Optional<Station> findByName(String name);

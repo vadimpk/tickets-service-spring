@@ -17,8 +17,8 @@ public class StationServiceImpl implements StationService{
     }
 
     @Override
-    public void createStation(Station station) {
-        repository.saveAndFlush(station);
+    public Station createStation(Station station) {
+        return repository.save(station);
     }
 
     @Override
