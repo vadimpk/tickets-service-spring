@@ -1,6 +1,7 @@
 package com.naukma.ticketsservice.station;
 
 import com.naukma.ticketsservice.TicketsServiceApplication;
+import com.naukma.ticketsservice.route.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("api/v1")
@@ -37,10 +39,30 @@ public class StationController {
         return new ResponseEntity<>(st, HttpStatus.OK);
     }
 
+    @PostMapping("/station/{distance}")
+    public ResponseEntity<Station> addAdjacentStation(@RequestBody Station station, @PathVariable int distance) {
+
+        // check if name is unique
+        Optional<Station> check = stationService.findByName(station.getName());
+        if (check.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        if (distance <= 0) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        stationService.addAdjacentStation(station, distance);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/station/{id}")
     public ResponseEntity<Station> show(@PathVariable String id) {
         Optional<Station> station = stationService.findById(Long.valueOf(id));
         return station.map(t -> new ResponseEntity<>(t,HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/station")
+    public ResponseEntity<List<Station>> showAll(){
+        return new ResponseEntity<>(stationService.getStations(), HttpStatus.OK);
     }
 
     @PutMapping("/station/{id}")
