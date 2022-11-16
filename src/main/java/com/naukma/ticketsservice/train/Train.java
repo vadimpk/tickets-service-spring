@@ -68,6 +68,10 @@ public class Train {
         return id;
     }
 
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

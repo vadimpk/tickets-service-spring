@@ -11,7 +11,7 @@ public interface StationRepository extends JpaRepository<Station, Long> {
 
 //    //todo
 //     @Query("")
-     void addAdjacentStation(Station station, int distance);
+//     void addAdjacentStation(Station station, int distance);
 
     @Modifying
     @Query("update Station s set s.adjacentStations = ?2 where s.id = ?1")

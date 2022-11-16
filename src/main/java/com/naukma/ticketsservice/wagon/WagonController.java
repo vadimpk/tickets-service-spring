@@ -1,7 +1,6 @@
 package com.naukma.ticketsservice.wagon;
 
-import com.naukma.ticketsservice.exceptions.NoSuchWagonException;
-import com.naukma.ticketsservice.exceptions.NonUniqueWagonNameException;
+import com.naukma.ticketsservice.exceptions.*;
 import com.naukma.ticketsservice.train.Train;
 import com.naukma.ticketsservice.train.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,12 +1,8 @@
 package com.naukma.ticketsservice.wagon;
+
 import com.naukma.ticketsservice.train.Train;
-import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "wagons")

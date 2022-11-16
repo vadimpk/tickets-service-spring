@@ -27,6 +27,11 @@ public class TrainServiceImpl implements TrainService{
     }
 
     @Override
+    public Train save(Train train) {
+        return repository.save(train);
+    }
+
+    @Override
     public Optional<Train> findTrain(Long id) {
         return repository.findById(id);
     }

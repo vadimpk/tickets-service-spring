@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface TrainService {
 
     Train createTrain(Train train);
+    Train save(Train train);
 
     Optional<Train> findTrain(Long id);
     Optional<Train> findTrainByName(String name);
