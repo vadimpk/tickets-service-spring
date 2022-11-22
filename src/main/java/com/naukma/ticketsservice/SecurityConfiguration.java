@@ -1,5 +1,6 @@
 package com.naukma.ticketsservice;
 
+import com.naukma.ticketsservice.filter.MyFilter;
 import com.naukma.ticketsservice.user.MyUserDetails;
 import com.naukma.ticketsservice.user.Role;
 import com.naukma.ticketsservice.user.User;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,8 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/login").permitAll()
+        http.addFilterAfter(new MyFilter(), BasicAuthenticationFilter.class)
+                .authorizeRequests().antMatchers("/login").permitAll()
                 .antMatchers("api/v1/**").hasAuthority("ADMIN")
 //                .antMatchers("api/v1/**").permitAll()
                 .anyRequest().authenticated()

@@ -14,7 +14,7 @@ public class MyFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this.context = filterConfig.getServletContext();
-        this.context.log("MyFilter initialized");
+        logger.info("MyFilter initialized");
     }
 
     @Override
