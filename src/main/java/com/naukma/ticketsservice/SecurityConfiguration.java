@@ -1,15 +1,28 @@
 package com.naukma.ticketsservice;
 
+import com.naukma.ticketsservice.user.MyUserDetails;
+import com.naukma.ticketsservice.user.Role;
+import com.naukma.ticketsservice.user.User;
 import com.naukma.ticketsservice.user.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@EnableWebSecurity
+@Configuration
 public class SecurityConfiguration {
 
     @Bean
@@ -23,9 +36,13 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
+    public InMemoryUserDetailsManager configureAuthentication() {
+        List<UserDetails> users = new ArrayList<>();
+        User admin = new User("admin", "123", "admin", "admin");
+        admin.addRole(new Role("ADMIN"));
+
+        users.add(new MyUserDetails(admin));
+        return new InMemoryUserDetailsManager(users);
     }
 
     @Bean
