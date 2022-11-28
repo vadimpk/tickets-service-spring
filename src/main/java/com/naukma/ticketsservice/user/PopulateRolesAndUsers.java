@@ -2,6 +2,7 @@ package com.naukma.ticketsservice.user;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,14 +10,17 @@ public class PopulateRolesAndUsers {
 
     private RoleRepository roleRepository;
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public PopulateRolesAndUsers(RoleRepository roleRepository, UserRepository userRepository) {
+    public PopulateRolesAndUsers(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
 
         createRoles();
         createAdmins();
+        createUser();
     }
 
     private void createRoles() {
@@ -25,8 +29,14 @@ public class PopulateRolesAndUsers {
     }
 
     private void createAdmins() {
-        User admin = new User("admin", "123", "admin", "admin");
+        User admin = new User("admin", passwordEncoder.encode("123"), "admin", "admin");
         admin.addRole(roleRepository.findByName("ADMIN").get());
+        userRepository.save(admin);
+    }
+
+    private void createUser() {
+        User admin = new User("user", passwordEncoder.encode("123"), "user", "user");
+        admin.addRole(roleRepository.findByName("USER").get());
         userRepository.save(admin);
     }
 }

@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.*;
 
-public class MyUserDetails implements UserDetails {
+public class UserPrincipal implements UserDetails {
 
     private User user;
 
-    public MyUserDetails(User user) {
+    public UserPrincipal(User user) {
         this.user = user;
     }
 
@@ -21,7 +21,7 @@ public class MyUserDetails implements UserDetails {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
         }
 
         return authorities;
