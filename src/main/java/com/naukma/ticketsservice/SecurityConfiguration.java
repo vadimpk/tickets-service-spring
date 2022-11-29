@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
@@ -18,7 +20,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserPrincipalDetailsService userDetailsService;
 
-    @Autowired
     public SecurityConfiguration(UserPrincipalDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
@@ -34,11 +35,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/route").authenticated()
                 .antMatchers("/api/v1/wagon").hasRole("ADMIN")
                 .antMatchers("/api/v1/train").hasAnyRole("USER", "ADMIN")
-                .and().formLogin()
-                .and().httpBasic()
-                .and().logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/");
+                .and()
+                .formLogin()
+                .loginPage("/login").permitAll();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/**");
     }
 
     @Bean

@@ -1,11 +1,6 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <title>Ticket Service</title>
-    <meta charset="UTF-8"/>
-    <link th:href="@{~/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{~/fontawesome/css/all.css}" rel="stylesheet">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="fragments.html :: headerfiles">
+    <title>Log in</title>
 </head>
 <body>
 <div class="container">
@@ -54,5 +49,8 @@
         </div>
     </div>
 </div>
+
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
 </body>
 </html>
