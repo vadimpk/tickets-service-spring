@@ -7,10 +7,7 @@ import com.naukma.ticketsservice.wagon.WagonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -38,5 +35,10 @@ public class UserController {
         }
         u.addRole(adminRole.get());
         return new ResponseEntity<>(repository.save(u), HttpStatus.OK);
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 }
