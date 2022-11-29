@@ -1,25 +1,41 @@
 package com.naukma.ticketsservice;
 
-import com.naukma.ticketsservice.user.UserDetailsServiceImpl;
+
+import com.naukma.ticketsservice.user.UserPrincipalDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfiguration {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
+    private final UserPrincipalDetailsService userDetailsService;
+
+    public SecurityConfiguration(UserPrincipalDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/api/v1/route").authenticated()
+                .antMatchers("/api/v1/wagon").hasRole("ADMIN")
+                .antMatchers("/api/v1/train").hasAnyRole("USER", "ADMIN")
+                .and()
+                .httpBasic();
     }
 
     @Bean
@@ -27,43 +43,13 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder());
+        provider.setUserDetailsService(userDetailsService);
 
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        return authProvider;
+        return provider;
     }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/login").permitAll()
-                .antMatchers("api/v1/**").hasAuthority("ADMIN")
-//                .antMatchers("api/v1/**").permitAll()
-                .anyRequest().authenticated()
-                .and().formLogin()
-                .loginPage("/login")
-                .usernameParameter("email")
-                .permitAll()
-                .and()
-                .logout().permitAll();
-
-        http.headers().frameOptions().sameOrigin();
-        http.authenticationProvider(authenticationProvider());
-
-        return http.build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/images/**");
-    }
-
 }
