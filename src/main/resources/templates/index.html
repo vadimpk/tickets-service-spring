@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+    <div sec:authentication="name">ns,mdas</div>
+    <div sec:authentication="principal.authorities"></div>
+
+
+    <div sec:authorize="hasRole('ADMIN')">
+        This content is only shown to administrators.
+    </div>
+
+    <div sec:authorize="hasRole('USER')">
+        This content is only shown to users.
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        This content is only shown to users.
+    </div>
+
+</body>
+</html>

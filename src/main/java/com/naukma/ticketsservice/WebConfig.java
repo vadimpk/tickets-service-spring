@@ -17,9 +17,9 @@ public class WebConfig {
     public SpringResourceTemplateResolver thymeleafTemplateResolver() {
         SpringResourceTemplateResolver templateResolver
                 = new SpringResourceTemplateResolver();
-        templateResolver.setPrefix("WEB-INF/views/");
+        templateResolver.setPrefix("templates/");
         templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML5");
+        templateResolver.setTemplateMode("HTML");
         return templateResolver;
     }
 
