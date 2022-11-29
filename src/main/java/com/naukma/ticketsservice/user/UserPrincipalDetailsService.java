@@ -1,5 +1,6 @@
 package com.naukma.ticketsservice.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +13,7 @@ public class UserPrincipalDetailsService implements UserDetailsService {
 
     private final UserRepository repository;
 
+    @Autowired
     public UserPrincipalDetailsService(UserRepository repository) {
         this.repository = repository;
     }

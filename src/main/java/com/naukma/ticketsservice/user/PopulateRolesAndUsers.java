@@ -29,7 +29,7 @@ public class PopulateRolesAndUsers {
     }
 
     private void createAdmins() {
-        User admin = new User("admin", passwordEncoder.encode("123"), "admin", "admin");
+        User admin = new User("admin123", passwordEncoder.encode("123"), "admin", "admin");
         admin.addRole(roleRepository.findByName("ADMIN").get());
         userRepository.save(admin);
     }

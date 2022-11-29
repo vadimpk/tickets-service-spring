@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
@@ -19,6 +18,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserPrincipalDetailsService userDetailsService;
 
+    @Autowired
     public SecurityConfiguration(UserPrincipalDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
@@ -34,8 +34,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/route").authenticated()
                 .antMatchers("/api/v1/wagon").hasRole("ADMIN")
                 .antMatchers("/api/v1/train").hasAnyRole("USER", "ADMIN")
-                .and()
-                .httpBasic();
+                .and().formLogin()
+                .and().httpBasic()
+                .and().logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/");
     }
 
     @Bean
