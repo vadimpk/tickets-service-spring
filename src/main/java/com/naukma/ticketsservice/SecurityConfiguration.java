@@ -1,9 +1,8 @@
 package com.naukma.ticketsservice;
 
 
-import com.naukma.ticketsservice.filter.MyFilter;
+import com.naukma.ticketsservice.filter.RequestLoggingFilter;
 import com.naukma.ticketsservice.user.UserPrincipalDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
@@ -63,13 +61,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public FilterRegistrationBean<MyFilter> filterRegistrationBean() {
-        FilterRegistrationBean<MyFilter> registrationBean = new FilterRegistrationBean();
-        MyFilter myFilter = new MyFilter();
+    public FilterRegistrationBean<RequestLoggingFilter> filterRegistrationBean() {
+        FilterRegistrationBean<RequestLoggingFilter> registrationBean = new FilterRegistrationBean<>();
+        RequestLoggingFilter filter = new RequestLoggingFilter();
 
-        registrationBean.setFilter(myFilter);
+        registrationBean.setFilter(filter);
         registrationBean.addUrlPatterns("/*");
-        registrationBean.setOrder(2); //set precedence
+        registrationBean.setOrder(2);
         return registrationBean;
     }
 }
