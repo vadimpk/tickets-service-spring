@@ -1,10 +1,8 @@
 package com.naukma.ticketsservice;
 
 
-import com.naukma.ticketsservice.filter.MyFilter;
 import com.naukma.ticketsservice.user.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -60,15 +58,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userDetailsService);
 
         return provider;
-    }
-    @Bean
-    public FilterRegistrationBean<MyFilter> filterRegistrationBean() {
-        FilterRegistrationBean <MyFilter> registrationBean = new FilterRegistrationBean();
-        MyFilter myFilter = new MyFilter();
-
-        registrationBean.setFilter(myFilter);
-        registrationBean.addUrlPatterns("/*");
-        registrationBean.setOrder(2); //set precedence
-        return registrationBean;
     }
 }

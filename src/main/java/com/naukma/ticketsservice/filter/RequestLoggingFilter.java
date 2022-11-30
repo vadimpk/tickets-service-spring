@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-public class    RequestLoggingFilter implements Filter {
+public class RequestLoggingFilter implements Filter {
 
     private ServletContext context;
 
