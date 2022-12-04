@@ -45,15 +45,15 @@ public class UserController {
     @PostMapping("/register")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto,
                                BindingResult result,
-                               Model model){
+                               Model model) {
         Optional<User> existingUser = repository.findByEmail(userDto.getEmail());
 
-        if(existingUser.isPresent()){
+        if (existingUser.isPresent()) {
             result.rejectValue("email", null,
                     "There is already an account registered with the same email");
         }
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             model.addAttribute("user", userDto);
             return "/register";
         }
@@ -62,4 +62,5 @@ public class UserController {
         user.addRole(roleRepository.findByName("USER").get());
         repository.save(user);
         return "redirect:/register?success";
+    }
 }

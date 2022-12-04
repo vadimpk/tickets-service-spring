@@ -2,11 +2,9 @@ package com.naukma.ticketsservice.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+
 
 public class UserDto {
     @NotNull
@@ -63,5 +61,4 @@ public class UserDto {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-}
 }
