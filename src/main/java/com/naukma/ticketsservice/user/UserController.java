@@ -1,17 +1,15 @@
 package com.naukma.ticketsservice.user;
 
-import com.naukma.ticketsservice.exceptions.NoSuchWagonException;
-import com.naukma.ticketsservice.train.Train;
-import com.naukma.ticketsservice.wagon.Wagon;
-import com.naukma.ticketsservice.wagon.WagonDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -64,7 +62,4 @@ public class UserController {
         user.addRole(roleRepository.findByName("USER").get());
         repository.save(user);
         return "redirect:/register?success";
-    }
-
-
 }

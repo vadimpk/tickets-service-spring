@@ -10,7 +10,7 @@
           crossorigin="anonymous" />
 </head>
     <body>
-        <div sec:authorize="isAuthenticated()">ac
+        <div sec:authorize="isAuthenticated()">
             This content is only shown to authenticated users.
         </div>
         <div sec:authorize="hasRole('ROLE_ADMIN')">
