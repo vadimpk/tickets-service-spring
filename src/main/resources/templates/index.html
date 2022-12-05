@@ -1,23 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<head th:insert="base.html :: headerfiles">
     <title>Home page</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous" />
 </head>
-    <body>
-        <div sec:authorize="isAuthenticated()">
-            This content is only shown to authenticated users.
-        </div>
-        <div sec:authorize="hasRole('ROLE_ADMIN')">
-            This content is only shown to administrators.
-        </div>
-        <div sec:authorize="hasRole('ROLE_USER')">
-            This content is only shown to users.
-        </div>
-    </body>
+<body>
+    <header th:insert="base.html :: navbar"> </header>
+</body>
 </html>
