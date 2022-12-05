@@ -23,7 +23,7 @@ public class TrainServiceImpl implements TrainService{
 
     @Override
     public Train createTrain(Train train) {
-        return repository.saveAndFlush(train);
+        return repository.save(train);
     }
 
     @Override
@@ -48,6 +48,9 @@ public class TrainServiceImpl implements TrainService{
 
     @Override
     public int update(Long id, Train train) {
+        // TODO: 05.12.2022  
+//        repository.setRunsById(id, train.getRuns());
+//        repository.setWagonsById(id, train.getWagons());
         return repository.updateById(id, train.getName(), train.getSpeed());
     }
 

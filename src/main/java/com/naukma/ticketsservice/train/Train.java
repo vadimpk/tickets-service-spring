@@ -7,6 +7,8 @@ import com.naukma.ticketsservice.wagon.Wagon;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,9 +37,11 @@ public class Train {
 
     }
 
-    public Train(@JsonProperty(value = "name", required = true) String name, @JsonProperty("speed") int speed) {
+    public Train(String name, int speed) {
         this.speed = speed;
         this.name = name;
+        runs = new ArrayList<>();
+        wagons = new HashSet<>();
     }
 
     public String getName() {
@@ -70,6 +74,14 @@ public class Train {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public void addRun(Run run) {
+        runs.add(run);
+    }
+
+    public void addWagon(Wagon wagon) {
+        wagons.add(wagon);
     }
 
     @Override

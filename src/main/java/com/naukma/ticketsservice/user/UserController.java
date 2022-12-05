@@ -19,7 +19,7 @@ public class UserController {
 
     private final UserRepository repository;
     private final RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
