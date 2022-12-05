@@ -10,4 +10,7 @@ public class MainControllers {
     public String index() {
         return "index";
     }
+
+    @GetMapping("/")
+    public String runIndex() {return "run/index"; }
 }
