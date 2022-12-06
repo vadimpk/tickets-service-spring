@@ -41,7 +41,7 @@ public class WagonController {
         // check if name is unique
         Optional<Wagon> check = service.findWagonByName(wagon.getName());
         if (check.isPresent()) {
-            throw new NoSuchWagonException();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
         // check if entered train exists otherwise set to null
