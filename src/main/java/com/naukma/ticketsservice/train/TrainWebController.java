@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/admin")
 public class TrainWebController {
 
     private final TrainService trainService;
@@ -23,10 +24,6 @@ public class TrainWebController {
     @GetMapping("/train")
     public String index(Model model) {
         List<Train> trains = trainService.getTrains();
-        for (Train train : trains) {
-            System.out.println(train.getRuns());
-            System.out.println(train.getWagons());
-        }
         model.addAttribute("trains", trains);
         return "train/index";
     }
