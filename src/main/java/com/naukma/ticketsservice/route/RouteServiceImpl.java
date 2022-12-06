@@ -62,8 +62,8 @@ public class RouteServiceImpl implements RouteService {
     private int validateRoute(List<Station> stations) {
         int distance = 0;
         for (int i = 0; i < stations.size() - 1; i++) {
-            if (stations.get(i).getAdjacentStations().containsKey(stations.get(i+1))) {
-                distance += stations.get(i).getAdjacentStations().get(stations.get(i+1));
+            if (stations.get(i).getAdjacentStations().containsKey(stations.get(i+1).getId())) {
+                distance += stations.get(i).getAdjacentStations().get(stations.get(i+1).getId());
             } else return -1;
         }
 

@@ -2,6 +2,7 @@ package com.naukma.ticketsservice.station;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ public interface StationService {
     List<Station> findAllById(List<Long> id);
 
     List<Station> getStations();
+
+    Map<Long, Station> getStationsMap();
 
     Station update(Long id, Station station);
 

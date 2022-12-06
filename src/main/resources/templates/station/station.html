@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:insert="base.html :: headerfiles">
+    <title>Home page</title>
+</head>
+<body>
+<header th:insert="base.html :: navbar"> </header>
+<h1 class="h3 my-4 mx-3">Stations</h1>
+
+<div th:if="${param.failedDeletion}">
+    <div class="alert alert-info">Couldn't delete this station</div>
+</div>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Adjacent</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody th:each="station: ${stationsMap}">
+    <tr>
+        <th th:text="${station.value.id}" scope="row"></th>
+        <td th:text="${station.value.name}" ></td>
+        <td><span th:each="adj: ${station.value.adjacentStations}">
+            <span th:text="'(' + ${stationsMap.get(adj.key).name} + ', ' +  ${adj.value} + ')'"></span>
+        </span></td>
+
+        <td class="mx-2" style="float: right">
+            <div class="row">
+                <div class="col-xs-6 px-1 mx-1">
+                    <a th:href="'?updating&updateId=' + ${station.value.id}" class="btn btn-outline-primary btn-sm"><i class="far fa-edit"></i></a>
+                </div>
+
+                <div class="col-xs-6 px-1 mx-1">
+                    <form method="post" th:action="@{/admin/stations/delete/} + ${station.value.id}">
+                        <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<div th:if="${param.failedCreation}">
+    <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
+</div>
+
+<div th:if="${param.updating}">
+    <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('updateId')}"></div>
+<!--    <h1 class="h3 my-4 mx-3" th:text="'Update ' + ${stationsMap.get(${#httpServletRequest.getParameter('updateId')}).name}"></h1>-->
+<!--    <form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/stations/update} + ${#httpServletRequest.getParameter('updateId')}" th:object="${newStation}">-->
+<!--        <label class="sr-only" for="inlineFormInputName2">Name</label>-->
+<!--        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName3" placeholder="Enter new name" th:field="*{name}">-->
+
+<!--        <button type="submit" class="btn btn-primary mb-2">Submit</button>-->
+<!--    </form>-->
+</div>
+
+<h1 class="h3 my-4 mx-3">Create new</h1>
+
+<form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/stations/create}" th:object="${newStation}">
+    <label class="sr-only" for="inlineFormInputName2">Name</label>
+    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Enter name" th:field="*{name}">
+
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+</body>
+</html>

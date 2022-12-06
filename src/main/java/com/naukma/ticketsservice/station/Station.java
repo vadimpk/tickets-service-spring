@@ -1,8 +1,10 @@
 package com.naukma.ticketsservice.station;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,13 +16,11 @@ public class Station {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @NotBlank
     private String name;
 
-    @JsonIgnore
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "adjacent_stations")
-    @MapKeyColumn(name = "adjacent_station")
-    private Map<Station, Integer> adjacentStations;
+    private Map<Long, Integer> adjacentStations;
 
     public Station(String name) {
         this.name = name;
@@ -32,11 +32,11 @@ public class Station {
     }
 
     public void addAdjacentStation(Station station, int distance) {
-        adjacentStations.put(station, distance);
-        station.adjacentStations.put(this, distance);
+        adjacentStations.put(station.id, distance);
+        station.adjacentStations.put(this.id, distance);
     }
 
-    public Map<Station, Integer> getAdjacentStations() {
+    public Map<Long, Integer> getAdjacentStations() {
         return adjacentStations;
     }
 
@@ -50,7 +50,4 @@ public class Station {
     public Long getId() {
         return id;
     }
-
-    
-
 }

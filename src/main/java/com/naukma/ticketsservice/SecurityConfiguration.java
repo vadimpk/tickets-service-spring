@@ -33,9 +33,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/v1/route").authenticated()
-                .antMatchers("/api/v1/wagon").hasRole("ADMIN")
-                .antMatchers("/api/v1/train").hasAnyRole("USER", "ADMIN")
+//                .antMatchers("/api/v1/**").hasRole("ADMIN")
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/v1/**").permitAll()
+                .antMatchers("/admin/**").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -44,6 +45,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout().permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .logoutSuccessUrl("/");
+
+        http.cors().and().csrf().disable();
     }
 
     @Bean

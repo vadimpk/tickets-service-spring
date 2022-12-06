@@ -3,9 +3,7 @@ package com.naukma.ticketsservice.station;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class StationServiceImpl implements StationService{
@@ -49,11 +47,27 @@ public class StationServiceImpl implements StationService{
 
     @Override
     public void delete(Long id) {
+        List<Station> stations = getStations();
+        for (Station station : stations) {
+            station.getAdjacentStations().remove(id);
+        }
         repository.deleteById(id);
     }
 
     @Override
     public void addAdjacentStation(Station station, int distance) {
         //repository.addAdjacentStation(station, distance);
+    }
+
+    @Override
+    public Map<Long, Station> getStationsMap() {
+
+        List<Station> stations = getStations();
+        Map<Long, Station> res = new HashMap<>();
+
+        for (Station station : stations) {
+            res.put(station.getId(), station);
+        }
+        return res;
     }
 }
