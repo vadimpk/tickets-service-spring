@@ -51,15 +51,18 @@
     <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
 </div>
 
-<div th:if="${param.updating}">
-    <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('updateId')}"></div>
-<!--    <h1 class="h3 my-4 mx-3" th:text="'Update ' + ${stationsMap.get(${#httpServletRequest.getParameter('updateId')}).name}"></h1>-->
-<!--    <form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/stations/update} + ${#httpServletRequest.getParameter('updateId')}" th:object="${newStation}">-->
-<!--        <label class="sr-only" for="inlineFormInputName2">Name</label>-->
-<!--        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName3" placeholder="Enter new name" th:field="*{name}">-->
+<div th:if="${param.failedUpdate}">
+    <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
+</div>
 
-<!--        <button type="submit" class="btn btn-primary mb-2">Submit</button>-->
-<!--    </form>-->
+<div th:if="${param.updating}" th:with="updateID=${#httpServletRequest.getParameter('updateId')}">
+    <h1 class="h3 my-4 mx-3" th:text="'Update id ' + ${updateID}"></h1>
+    <form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/stations/update/} + ${#httpServletRequest.getParameter('updateId')}" th:object="${newStation}">
+        <label class="sr-only" for="inlineFormInputName2">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName3" placeholder="Enter new name" th:field="*{name}">
+
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
 </div>
 
 <h1 class="h3 my-4 mx-3">Create new</h1>

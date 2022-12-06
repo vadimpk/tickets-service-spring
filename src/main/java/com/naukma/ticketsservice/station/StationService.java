@@ -19,7 +19,7 @@ public interface StationService {
 
     Map<Long, Station> getStationsMap();
 
-    Station update(Long id, Station station);
+    Station update(Station station);
 
     void delete(Long id);
 

@@ -54,9 +54,7 @@ public class StationWebController {
         }
 
         stationService.createStation(new Station(station.getName()));
-        model.addAttribute("stationsMap", stationService.getStationsMap());
-        model.addAttribute("newStation", new StationDto());
-        return "station/station";
+        return "redirect:/admin/stations";
     }
 
 
@@ -71,17 +69,25 @@ public class StationWebController {
         if (check.isEmpty()) {
             result.rejectValue("name", null,
                     "No such obj");
-            return "redirect:&failedUpdate&error=no_such_object";
+            return "redirect:/admin/stations?failedUpdate&error=no_such_station";
+        }
+
+        // check if name is unique
+        Optional<Station> checkName = stationService.findByName(station.getName());
+        if (checkName.isPresent()) {
+            result.rejectValue("name", null,
+                    "Name is taken");
+            return "redirect:/admin/stations?failedUpdate&error=name_is_taken";
         }
 
         if (result.hasErrors()) {
-            return "redirect:&failedUpdate&error=bad_request";
+            return "redirect:/admin/stations?failedUpdate&error=bad_request";
         }
 
-        stationService.update(id, new Station(station.getName()));
-        model.addAttribute("stationsMap", stationService.getStationsMap());
-        model.addAttribute("newStation", new StationDto());
-        return "station/station";
+        check.get().setName(station.getName());
+
+        stationService.update(check.get());
+        return "redirect:/admin/stations";
     }
 
     @PostMapping("/admin/stations/delete/{id}")
@@ -89,9 +95,7 @@ public class StationWebController {
         Optional<Station> st = stationService.findById(id);
         if (st.isPresent()) {
             stationService.delete(id);
-            model.addAttribute("stationsMap", stationService.getStationsMap());
-            model.addAttribute("newStation", new StationDto());
-            return "station/station";
+            return "redirect:/admin/stations";
         }
         return "redirect:?failedDeletion";
     }

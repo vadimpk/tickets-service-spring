@@ -79,7 +79,7 @@ public class StationController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        Station newStation = stationService.update(id, stationToChange.get());
+        Station newStation = stationService.update(stationToChange.get());
         if (newStation == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

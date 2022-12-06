@@ -40,8 +40,8 @@ public class StationServiceImpl implements StationService{
     }
 
     @Override
-    public Station update(Long id, Station station) {
-        repository.setStationById(id, station.getAdjacentStations());
+    public Station update(Station station) {
+        repository.save(station);
         return station;
     }
 
