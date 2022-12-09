@@ -1,5 +1,6 @@
 package com.naukma.ticketsservice.station;
 
+import com.naukma.ticketsservice.aspects.LogInAndOutArgs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +61,7 @@ public class StationServiceImpl implements StationService{
     }
 
     @Override
+    @LogInAndOutArgs
     public Map<Long, Station> getStationsMap() {
 
         List<Station> stations = getStations();

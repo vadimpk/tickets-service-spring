@@ -1,5 +1,7 @@
 package com.naukma.ticketsservice.station;
 
+import com.naukma.ticketsservice.aspects.LogExecTime;
+import com.naukma.ticketsservice.aspects.LogInAndOutArgs;
 import com.naukma.ticketsservice.user.User;
 import com.naukma.ticketsservice.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class StationWebController {
     }
 
     @GetMapping("/admin/stations")
+    @LogExecTime
+    @LogInAndOutArgs
     public String stationPanel(Model model) {
         model.addAttribute("stationsMap", stationService.getStationsMap());
         model.addAttribute("newStation", new StationDto());
@@ -37,6 +41,8 @@ public class StationWebController {
     }
 
     @PostMapping("/admin/stations/create")
+    @LogExecTime
+    @LogInAndOutArgs
     public String createStationFromAdminPanel(@Valid @ModelAttribute("newStation") StationDto station,
                                BindingResult result,
                                Model model) {
@@ -59,6 +65,8 @@ public class StationWebController {
 
 
     @PostMapping("/admin/stations/update/{id}")
+    @LogExecTime
+    @LogInAndOutArgs
     public String updateStationFromAdminPanel(@Valid @ModelAttribute("newStation") StationDto station,
                                               @PathVariable Long id,
                                               BindingResult result,
@@ -91,6 +99,8 @@ public class StationWebController {
     }
 
     @PostMapping("/admin/stations/delete/{id}")
+    @LogExecTime
+    @LogInAndOutArgs
     public String deleteStationFromAdminPanel(@PathVariable Long id, Model model) {
         Optional<Station> st = stationService.findById(id);
         if (st.isPresent()) {
