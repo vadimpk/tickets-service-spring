@@ -1,5 +1,6 @@
 package com.naukma.ticketsservice.route;
 
+import com.naukma.ticketsservice.aspects.LogInAndOutArgs;
 import com.naukma.ticketsservice.station.Station;
 import com.naukma.ticketsservice.station.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    @LogInAndOutArgs
     public Route createRoute(List<Long> stationsIds) {
 
         List<Station> stations = validateStations(stationsIds);

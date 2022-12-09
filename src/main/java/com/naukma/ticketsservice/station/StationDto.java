@@ -9,7 +9,7 @@ public class StationDto {
     @NotBlank
     private String name;
 
-    public StationDto(@JsonProperty(value = "name", required = true)String name) {
+    public StationDto(@JsonProperty(value = "name", required = true) String name) {
         this.name = name;
     }
 
