@@ -129,10 +129,11 @@ public class StationWebController {
     public String deleteStationFromAdminPanel(@PathVariable Long id, Model model) {
         Optional<Station> st = stationService.findById(id);
         if (st.isPresent()) {
-            stationService.delete(id);
-            return "redirect:/admin/stations";
+            if (stationService.delete(id))
+                return "redirect:/admin/stations";
+            return "redirect:/admin/stations/?failedDeletion&error=delete_routes_with_such_station_first";
         }
-        return "redirect:?failedDeletion";
+        return "redirect:/admin/stations/?failedDeletion&error=no_such_station";
     }
 
 }

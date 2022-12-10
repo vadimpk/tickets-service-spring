@@ -16,5 +16,5 @@ public interface RouteService {
 
     List<Route> getRoutes();
 
-    void delete(Long id);
+    boolean delete(Long id);
 }

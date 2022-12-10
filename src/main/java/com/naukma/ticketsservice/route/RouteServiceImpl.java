@@ -1,6 +1,8 @@
 package com.naukma.ticketsservice.route;
 
 import com.naukma.ticketsservice.aspects.LogInAndOutArgs;
+import com.naukma.ticketsservice.run.Run;
+import com.naukma.ticketsservice.run.RunService;
 import com.naukma.ticketsservice.station.Station;
 import com.naukma.ticketsservice.station.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -15,11 +18,13 @@ public class RouteServiceImpl implements RouteService {
 
     private final RouteRepository repository;
     private final StationRepository stationRepository;
+    private final RunService runService;
 
-    public RouteServiceImpl(@Autowired RouteRepository repository,
-                            @Autowired StationRepository stationRepository) {
+    @Autowired
+    public RouteServiceImpl(RouteRepository repository, StationRepository stationRepository, RunService runService) {
         this.repository = repository;
         this.stationRepository = stationRepository;
+        this.runService = runService;
     }
 
     @Override
@@ -103,7 +108,15 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void delete(Long id) {
+    public boolean delete(Long id) {
+
+        List<Run> runs = runService.getRuns();
+        for (Run run : runs) {
+            if (Objects.equals(run.getRoute().getId(), id)) {
+                return false;
+            }
+        }
         repository.deleteById(id);
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package com.naukma.ticketsservice.train;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,81 +22,79 @@ public class TrainWebController {
         this.trainService = trainService;
     }
 
-    @GetMapping("/train")
+    @GetMapping("/admin/trains")
     public String index(Model model) {
         List<Train> trains = trainService.getTrains();
         model.addAttribute("trains", trains);
-        return "train/index";
+        model.addAttribute("newTrain", new TrainDto());
+        return "train/trains";
     }
 
-    @GetMapping("/train/create")
-    public String create(Model model) {
-        TrainDto train = new TrainDto(-1,"", 10, new HashSet<>(), new HashSet<>());
-        model.addAttribute("train", train);
-        return "train/create";
-    }
+    @PostMapping("/admin/trains/create")
+    public String createTrainFromAdminPanel(@Valid @ModelAttribute("newTrain") TrainDto train,
+                                              BindingResult result,
+                                              Model model) {
 
-    @PostMapping("/train")
-    public String registration(@Valid @ModelAttribute("train") TrainDto trainDto,
-                               BindingResult result,
-                               Model model) {
-        Optional<Train> existingTrain = trainService.find(trainDto.getName());
-
-        if (existingTrain.isPresent()) {
+        // check if name is unique
+        Optional<Train> check = trainService.find(train.getName());
+        if (check.isPresent()) {
             result.rejectValue("name", null,
-                    "Name is not unique");
+                    "Name is taken");
+            return "redirect:?failedCreation&error=name_is_taken";
         }
 
         if (result.hasErrors()) {
-            model.addAttribute("train", trainDto);
-            return "/train/create";
+            return "redirect:?failedCreation&error=bad_request";
         }
 
-        Train train = new Train(trainDto.getName(), trainDto.getSpeed());
-        trainService.save(train);
-        return "redirect:/train/create?success";
+        trainService.create(new Train(train.getName(), train.getSpeed()));
+        return "redirect:/admin/trains";
     }
 
-    @GetMapping("/train/update/{id}")
-    public String update(Model model, @PathVariable long id) {
-        Optional<Train> train = trainService.find(id);
-        if (train.isEmpty()) throw new RuntimeException("not found train with id =" + id);
 
-        model.addAttribute("train", train);
-        return "/train/update";
-    }
+    @PostMapping("/admin/trains/update/{id}")
+    public String updateTrainFromAdminPanel(@Valid @ModelAttribute("newTrain") TrainDto train,
+                                              @PathVariable Long id,
+                                              BindingResult result,
+                                              Model model) {
 
-    @PostMapping("/train/update")
-    public String update(@Valid @ModelAttribute("train") TrainDto trainDto,
-                               BindingResult result,
-                               Model model) {
-        Optional<Train> trainToChange = trainService.find(trainDto.getId());
-        if (trainToChange.isEmpty()) throw new RuntimeException("not found train with id=" + trainDto.getId());
-
-        // check if new name is not unique
-        Optional<Train> check = trainService.find(trainDto.getName());
-        if (check.isPresent() && !check.get().getId().equals(trainDto.getId())) {
+        // check if name is unique
+        Optional<Train> check = trainService.find(id);
+        if (check.isEmpty()) {
             result.rejectValue("name", null,
-                    "Name is not unique");
+                    "No such obj");
+            return "redirect:/admin/trains?failedUpdate&error=no_such_train";
         }
+
+        // check if name is unique
+        Optional<Train> checkName = trainService.find(train.getName());
+        if (checkName.isPresent()) {
+            result.rejectValue("name", null,
+                    "Name is taken");
+            return "redirect:/admin/trains?failedUpdate&error=name_is_taken";
+        }
+
         if (result.hasErrors()) {
-            model.addAttribute("train", trainDto);
-            return "/train/update";
+            return "redirect:/admin/trains?failedUpdate&error=bad_request";
         }
-        trainToChange.get().setName(trainDto.getName());
-        trainToChange.get().setSpeed(trainDto.getSpeed());
-        trainService.update(trainToChange.get().getId(), trainToChange.get());
-        return "redirect:/train";
+
+        check.get().setName(train.getName());
+        check.get().setSpeed(train.getSpeed());
+
+        trainService.update(check.get());
+        return "redirect:/admin/trains";
     }
 
-    @GetMapping("/train/delete/{id}")
-    public String delete(@PathVariable long id, Model model) {
+    @PostMapping("/admin/trains/delete/{id}")
+    public String deleteTrainFromAdminPanel(@PathVariable Long id, Model model) {
         Optional<Train> train = trainService.find(id);
         if (train.isPresent()) {
-            trainService.delete(id);
-            return "redirect:/train";
+            if (trainService.delete(id))
+                return "redirect:/admin/trains";
+            return "redirect:/admin/trains?failedDeletion&error=delete_runs_with_such_train_first";
         }
-        return "redirect:?failedDeletion";
+        return "redirect:/admin/trains?failedDeletion&error=no_such_train";
     }
+
 
 }

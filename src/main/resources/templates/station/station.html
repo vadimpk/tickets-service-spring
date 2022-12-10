@@ -9,7 +9,7 @@
 <h1 class="h3 my-4 mx-3">Stations</h1>
 
 <div th:if="${param.failedDeletion}">
-    <div class="alert alert-info">Couldn't delete this station</div>
+    <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
 </div>
 
 <table class="table">

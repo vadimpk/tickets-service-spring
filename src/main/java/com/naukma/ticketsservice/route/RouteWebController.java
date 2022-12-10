@@ -76,7 +76,7 @@ public class RouteWebController {
         Route newRoute = routeService.updateRoute(check.get(), stationsIds);
 
         if (newRoute == null)
-            return "redirect:?failedCreation&error=bad_request_cant_connect_stations";
+            return "redirect:/admin/routes?failedUpdate&error=bad_request_cant_connect_stations";
 
 
         return "redirect:/admin/routes";
@@ -86,9 +86,10 @@ public class RouteWebController {
     public String deleteStationFromAdminPanel(@PathVariable Long id, Model model) {
         Optional<Route> route = routeService.findRouteById(id);
         if (route.isPresent()) {
-            routeService.delete(id);
-            return "redirect:/admin/routes";
+            if (routeService.delete(id))
+                return "redirect:/admin/routes";
+            return "redirect:/admin/routes?failedDeletion&error=delete_runs_with_this_route_first";
         }
-        return "redirect:?failedDeletion";
+        return "redirect:/admin/routes?failedDeletion&error=no_such_route";
     }
 }

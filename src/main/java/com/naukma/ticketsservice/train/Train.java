@@ -1,11 +1,7 @@
 package com.naukma.ticketsservice.train;
 
-import com.naukma.ticketsservice.run.Run;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Train {
@@ -18,15 +14,8 @@ public class Train {
     @Column(unique = true, nullable = false)
     private String name;
 
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "train")
-//    private Set<Wagon> wagons;
-
     @Column
     private int speed;
-
-    @ManyToMany
-    private List<Run> runs;
 
     public Train() {
 
@@ -35,8 +24,6 @@ public class Train {
     public Train(String name, int speed) {
         this.speed = speed;
         this.name = name;
-        runs = new ArrayList<>();
-        // wagons = new HashSet<>();
     }
 
     public String getName() {
@@ -47,20 +34,8 @@ public class Train {
         this.name = name;
     }
 
-//    public Set<Wagon> getWagons() {
-//        return wagons;
-//    }
-
     public int getSpeed() {
         return speed;
-    }
-
-    public List<Run> getRuns() {
-        return runs;
-    }
-
-    public void setRuns(List<Run> runs) {
-        this.runs = runs;
     }
 
     public Long getId() {
@@ -70,14 +45,6 @@ public class Train {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
-
-    public void addRun(Run run) {
-        runs.add(run);
-    }
-
-//    public void addWagon(Wagon wagon) {
-//        wagons.add(wagon);
-//    }
 
     @Override
     public boolean equals(Object o) {

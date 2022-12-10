@@ -17,7 +17,8 @@ public class Run {
 
     @ManyToOne
     private Route route;
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Train train;
 
     @Column(name = "departure_time")

@@ -34,7 +34,7 @@ public class TrainController {
     @GetMapping("/train/{id}")
     public ResponseEntity<Train> show(@PathVariable Long id){
         log.info("Showing train with id = " + id);
-        Optional<Train> train = service.findTrain(id);
+        Optional<Train> train = service.find(id);
         return train.map(t -> new ResponseEntity<>(t, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -42,11 +42,11 @@ public class TrainController {
     public ResponseEntity<Train> create(@Valid @RequestBody TrainDto train){
         log.info("Creating train ");
         // check if name is unique
-        Optional<Train> check = service.findTrainByName(train.getName());
+        Optional<Train> check = service.find(train.getName());
         if (check.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(service.createTrain(new Train(train.getName(), train.getSpeed())), HttpStatus.OK);
+        return new ResponseEntity<>(service.create(new Train(train.getName(), train.getSpeed())), HttpStatus.OK);
     }
 
 
@@ -54,55 +54,28 @@ public class TrainController {
     public ResponseEntity<Train> update(@PathVariable Long id, @Valid @RequestBody TrainDto train){
 
         // check if such train exists
-        Optional<Train> trainToChange = service.findTrain(id);
+        Optional<Train> trainToChange = service.find(id);
         if (trainToChange.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         // check if new name is not unique
-        Optional<Train> check = service.findTrainByName(train.getName());
+        Optional<Train> check = service.find(train.getName());
         if (check.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         trainToChange.get().setName(train.getName());
         trainToChange.get().setSpeed(train.getSpeed());
-        return new ResponseEntity<>(service.save(trainToChange.get()), HttpStatus.OK);
+        return new ResponseEntity<>(service.create(trainToChange.get()), HttpStatus.OK);
     }
 
     @DeleteMapping("/train/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
-        Optional<Train> t = service.findTrain(id);
+        Optional<Train> t = service.find(id);
         if (t.isPresent()) {
             service.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-//    @GetMapping("/train/{id}/wagon")
-//    public ResponseEntity<Set<Wagon>> showWagons(@PathVariable Long id) {
-//        return service.findTrain(id)
-//                .map(train -> new ResponseEntity<>(train.getWagons(), HttpStatus.OK))
-//                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//    }
-//
-//
-//    @PostMapping("/train/{id}/wagon/{wagonID}")
-//    public ResponseEntity<HttpStatus> addWagon(@PathVariable Long id, @PathVariable Long wagonID) {
-//        log.info("Adding wagon " + wagonID + " to train with id" + id);
-//
-//        return service.addWagon(id, wagonID) ?
-//                new ResponseEntity<>(HttpStatus.OK) :
-//                new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-//
-//
-//    @DeleteMapping("/train/{id}/wagon/{wagonID}")
-//    public ResponseEntity<HttpStatus> deleteWagon(@PathVariable Long id, @PathVariable Long wagonID) {
-//        log.info("Removing wagon " + wagonID + " from train with id" + id);
-//
-//        return service.deleteWagon(id, wagonID) ?
-//                new ResponseEntity<>(HttpStatus.OK) :
-//                new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
 }

@@ -60,7 +60,7 @@ public class RunServiceImpl implements RunService{
     @Override
     public boolean delete(Long id) {
        repository.deleteById(id);
-        return true;
+       return true;
     }
 
     @Override

@@ -9,9 +9,5 @@ import java.util.Optional;
 
 public interface StationRepository extends JpaRepository<Station, Long> {
 
-//    //todo
-//     @Query("")
-//     void addAdjacentStation(Station station, int distance);
-
     Optional<Station> findByName(String name);
 }

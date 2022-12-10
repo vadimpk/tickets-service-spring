@@ -1,11 +1,14 @@
 package com.naukma.ticketsservice.train;
 
 
+import com.naukma.ticketsservice.run.Run;
+import com.naukma.ticketsservice.run.RunService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -13,36 +16,26 @@ import java.util.Optional;
 public class TrainServiceImpl implements TrainService{
 
     private final TrainRepository repository;
-    // private final WagonRepository wagonRepository;
+    private final RunService runService;
 
     @Autowired
-    public TrainServiceImpl(TrainRepository repository) {
+    public TrainServiceImpl(TrainRepository repository, RunService runService) {
         this.repository = repository;
+        this.runService = runService;
     }
 
-
-//    public TrainServiceImpl(@Autowired TrainRepository repository, @Autowired WagonRepository wagonRepository) {
-//        this.repository = repository;
-//        this.wagonRepository = wagonRepository;
-//    }
-
     @Override
-    public Train createTrain(Train train) {
+    public Train create(Train train) {
         return repository.save(train);
     }
 
     @Override
-    public Train save(Train train) {
-        return repository.save(train);
-    }
-
-    @Override
-    public Optional<Train> findTrain(Long id) {
+    public Optional<Train> find(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public Optional<Train> findTrainByName(String name) {
+    public Optional<Train> find(String name) {
         return repository.findByName(name);
     }
 
@@ -52,47 +45,20 @@ public class TrainServiceImpl implements TrainService{
     }
 
     @Override
-    public int update(Long id, Train train) {
-        // TODO: 05.12.2022  
-//        repository.setRunsById(id, train.getRuns());
-//        repository.setWagonsById(id, train.getWagons());
-        return repository.updateById(id, train.getName(), train.getSpeed());
+    public Train update(Train train) {
+        return repository.save(train);
     }
 
     @Override
-    public void delete(Long id) {
+    public boolean delete(Long id) {
+
+        List<Run> runs = runService.getRuns();
+        for (Run run : runs) {
+            if (Objects.equals(run.getTrain().getId(), id))
+                return false;
+        }
         repository.deleteById(id);
+        return true;
     }
 
-//    @Override
-//    public boolean addWagon(Long id, Long wagonID) {
-//        Optional<Wagon> wagon = wagonRepository.findById(wagonID);
-//        Optional<Train> train = findTrain(id);
-//        if (wagon.isPresent() && train.isPresent()) {
-//            wagon.get().setTrain(train.get());
-//            wagonRepository.save(wagon.get());
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    @Override
-//    public boolean deleteWagon(Long id, Long wagonID) {
-//        Optional<Wagon> wagon = wagonRepository.findById(wagonID);
-//        Optional<Train> train = findTrain(id);
-//        if (wagon.isPresent() && train.isPresent()) {
-//            wagon.get().setTrain(null);
-//            wagonRepository.save(wagon.get());
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    @Override
-//    public Optional<Wagon> findWagonInTrain(Long trainId, String wagonName) {
-//        Optional<Wagon> wagon = wagonRepository.findByName(wagonName);
-//        if (wagon.isEmpty()) return Optional.empty();
-//        if (repository.findTrainWithWagon(trainId, wagon.get()).isPresent()) return wagon;
-//        return Optional.empty();
-//    }
 }

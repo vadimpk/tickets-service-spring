@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class TrainDto {
 
-    private Long id;
+
     @Pattern(regexp = "[a-zA-z\\d]+", message = "train name length must be of 3 to 16 element with no special parameter")
     @Size(min = 3,max = 16)
     private String name;
@@ -21,27 +21,13 @@ public class TrainDto {
     @Max(200)
     private int speed;
 
-    private Set<String> wagons;
-    private Set<String> runs;
-    public TrainDto(@JsonProperty(value = "id", required = true) long id,
-                    @JsonProperty(value = "name", required = true) String name,
-                    @JsonProperty("speed") int speed,
-                    @JsonProperty("wagons")  Set<String> wagons,
-                    @JsonProperty("runs") Set<String> runs) {
-        this.id = id;
+    public TrainDto(@JsonProperty(value = "name", required = true) String name,
+                    @JsonProperty("speed") int speed) {
         this.name = name;
         this.speed = speed;
-        this.wagons = wagons;
-        this.runs = runs;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public TrainDto() {}
 
     public void setName(String name) {
         this.name = name;
@@ -57,21 +43,5 @@ public class TrainDto {
 
     public int getSpeed() {
         return speed;
-    }
-
-    public Set<String> getWagons() {
-        return wagons;
-    }
-
-    public void setWagons(Set<String> wagons) {
-        this.wagons = wagons;
-    }
-
-    public Set<String> getRuns() {
-        return runs;
-    }
-
-    public void setRuns(Set<String> runs) {
-        this.runs = runs;
     }
 }

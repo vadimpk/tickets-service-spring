@@ -21,7 +21,7 @@ public interface StationService {
 
     Station update(Station station);
 
-    void delete(Long id);
+    boolean delete(Long id);
 
     void addAdjacentStation(Station station, Station adjStation, int distance);
     void removeAdjacentStation(Station station, Station stationToRemove);

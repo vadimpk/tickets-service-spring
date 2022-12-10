@@ -96,10 +96,10 @@ public class PopulateDB {
         POPULATE TRAINS
          */
 
-        Train train1 = trainService.createTrain(new Train("TH1", 100));
-        Train train2 = trainService.createTrain(new Train("TH2", 120));
-        Train train3 = trainService.createTrain(new Train("TH3", 130));
-        Train train4 = trainService.createTrain(new Train("TH4", 200));
+        Train train1 = trainService.create(new Train("TH1", 100));
+        Train train2 = trainService.create(new Train("TH2", 120));
+        Train train3 = trainService.create(new Train("TH3", 130));
+        Train train4 = trainService.create(new Train("TH4", 200));
 
         /*
         POPULATE RUNS
@@ -110,9 +110,9 @@ public class PopulateDB {
             Run run1 = runService.createRun(new Run("RTZ1", route1, train1, Time.valueOf("12:00:00"), Time.valueOf("14:00:00"), d, d ));
             Run run2 = runService.createRun(new Run("RTZ2", route2, train3, Time.valueOf("13:30:00"), Time.valueOf("16:00:00"), d, d));
             Run run3 = runService.createRun(new Run("RTZ3", route3, train4, Time.valueOf("14:00:00"), Time.valueOf("18:00:00"), d, d));
-            Run run4 = runService.createRun(new Run("RTZ4", route4, train2, Time.valueOf("15:20:00"), Time.valueOf("20:00:00"), d, d));
+            //Run run4 = runService.createRun(new Run("RTZ4", route4, train2, Time.valueOf("15:20:00"), Time.valueOf("20:00:00"), d, d));
             Run run5 = runService.createRun(new Run("RTZ5", route2, train1, Time.valueOf("18:00:00"), Time.valueOf("21:00:00"), d, d));
-            Run run6 = runService.createRun(new Run("RTZ6", route3, train2, Time.valueOf("19:00:00"), Time.valueOf("23:00:00"), d, d));
+            Run run6 = runService.createRun(new Run("RTZ6", route3, train3, Time.valueOf("19:00:00"), Time.valueOf("23:00:00"), d, d));
 
         } catch (ParseException e) {
             System.out.println(e.getMessage());
