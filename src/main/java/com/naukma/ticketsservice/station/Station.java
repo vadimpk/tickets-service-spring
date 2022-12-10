@@ -19,7 +19,7 @@ public class Station {
     @NotBlank
     private String name;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     private Map<Long, Integer> adjacentStations;
 
     public Station(String name) {
@@ -34,6 +34,11 @@ public class Station {
     public void addAdjacentStation(Station station, int distance) {
         adjacentStations.put(station.id, distance);
         station.adjacentStations.put(this.id, distance);
+    }
+
+    public void removeAdjacentStation(Station station) {
+        adjacentStations.remove(station.id);
+        station.adjacentStations.remove(this.id);
     }
 
     public Map<Long, Integer> getAdjacentStations() {

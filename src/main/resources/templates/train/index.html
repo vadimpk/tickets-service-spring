@@ -18,7 +18,7 @@
             <p>Speed: <span th:text="${train.speed}"></span></p>
 <!--            <div sec:authorize="hasRole('ROLE_ADMIN')">-->
                 <p>Runs: <a href="#" th:each="run: ${train.runs}" th:text="${run}"></a></p>
-                <p>Wagons: <a href="#" th:each="wagon: ${train.wagons}" th:text="${wagon}"></a></p>
+
 
                 <a class="btn btn-warning" th:href="@{/train/update/{name}(name=${train.name})}">Update</a>
                 <a class="btn btn-danger" th:href="@{/train/delete/{name}(name=${train.name})}">Delete</a>

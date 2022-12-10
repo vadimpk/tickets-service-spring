@@ -23,5 +23,6 @@ public interface StationService {
 
     void delete(Long id);
 
-    void addAdjacentStation(Station station, int distance);
+    void addAdjacentStation(Station station, Station adjStation, int distance);
+    void removeAdjacentStation(Station station, Station stationToRemove);
 }
