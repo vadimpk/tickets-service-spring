@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -101,13 +104,19 @@ public class PopulateDB {
         /*
         POPULATE RUNS
          */
-        Run run1 = runService.createRun(new Run("RTZ1", route1, train1, Time.valueOf("12:00:00"), Time.valueOf("14:00:00")));
-        Run run2 = runService.createRun(new Run("RTZ2", route2, train3, Time.valueOf("13:30:00"), Time.valueOf("16:00:00")));
-        Run run3 = runService.createRun(new Run("RTZ3", route3, train4, Time.valueOf("14:00:00"), Time.valueOf("18:00:00")));
-        Run run4 = runService.createRun(new Run("RTZ4", route4, train2, Time.valueOf("15:20:00"), Time.valueOf("20:00:00")));
-        Run run5 = runService.createRun(new Run("RTZ5", route2, train1, Time.valueOf("18:00:00"), Time.valueOf("21:00:00")));
-        Run run6 = runService.createRun(new Run("RTZ6", route3, train2, Time.valueOf("19:00:00"), Time.valueOf("23:00:00")));
+        DateFormat df = DateFormat.getDateInstance();
+        try {
+            Date d = df.parse("Dec 14, 2022");
+            Run run1 = runService.createRun(new Run("RTZ1", route1, train1, Time.valueOf("12:00:00"), Time.valueOf("14:00:00"), d, d ));
+            Run run2 = runService.createRun(new Run("RTZ2", route2, train3, Time.valueOf("13:30:00"), Time.valueOf("16:00:00"), d, d));
+            Run run3 = runService.createRun(new Run("RTZ3", route3, train4, Time.valueOf("14:00:00"), Time.valueOf("18:00:00"), d, d));
+            Run run4 = runService.createRun(new Run("RTZ4", route4, train2, Time.valueOf("15:20:00"), Time.valueOf("20:00:00"), d, d));
+            Run run5 = runService.createRun(new Run("RTZ5", route2, train1, Time.valueOf("18:00:00"), Time.valueOf("21:00:00"), d, d));
+            Run run6 = runService.createRun(new Run("RTZ6", route3, train2, Time.valueOf("19:00:00"), Time.valueOf("23:00:00"), d, d));
+
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+            System.exit(2);
+        }
     }
-
-
 }

@@ -6,5 +6,13 @@
 </head>
 <body>
     <header th:insert="base.html :: navbar"> </header>
+
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <h1 class="display-4 text-center mt-5">You are Admin, login as User to buy Tickets</h1>
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_ANONYMOUS')">
+        <h1 class="display-4 text-center mt-5">Please register or login to buy tickets</h1>
+    </div>
 </body>
 </html>

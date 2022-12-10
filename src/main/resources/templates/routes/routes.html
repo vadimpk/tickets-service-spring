@@ -72,7 +72,7 @@
 <h1 class="h3 my-4 mx-3">Create new</h1>
 <form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/routes/create}" th:object="${newRoute}">
 
-    <select th:field="*{transitionalStationIDs}" multiple="multiple">
+    <select class="form-control" size="5" th:field="*{transitionalStationIDs}" multiple="multiple">
         <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
     </select>
 

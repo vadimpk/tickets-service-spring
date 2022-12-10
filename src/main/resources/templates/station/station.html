@@ -67,12 +67,12 @@
     <h1 class="h3 my-4 mx-3" th:text="'Add adjacent ' + ${updateID}"></h1>
     <form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/stations/addAdjacent/} + ${#httpServletRequest.getParameter('updateId')}" th:object="${newAdjacentStation}">
 
-        <select th:field="*{adjacentStationID}">
+        <select class="form-control" size="5" th:field="*{adjacentStationID}">
             <option th:each="st : ${stationsMap}" th:value="${st.key}" th:text="${st.value.name}"></option>
         </select>
 
         <label class="sr-only" for="inlineFormInputName2">Distance</label>
-        <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Enter distance" th:field="*{distance}">
+        <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter distance" th:field="*{distance}">
 
         <button type="submit" class="btn btn-primary mb-2">Submit</button>
     </form>
