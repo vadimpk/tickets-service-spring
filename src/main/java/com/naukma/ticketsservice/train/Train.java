@@ -1,16 +1,11 @@
 package com.naukma.ticketsservice.train;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.naukma.ticketsservice.run.Run;
-import com.naukma.ticketsservice.wagon.Wagon;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Train {
@@ -23,9 +18,9 @@ public class Train {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "train")
-    private Set<Wagon> wagons;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "train")
+//    private Set<Wagon> wagons;
 
     @Column
     private int speed;
@@ -41,7 +36,7 @@ public class Train {
         this.speed = speed;
         this.name = name;
         runs = new ArrayList<>();
-        wagons = new HashSet<>();
+        // wagons = new HashSet<>();
     }
 
     public String getName() {
@@ -52,9 +47,9 @@ public class Train {
         this.name = name;
     }
 
-    public Set<Wagon> getWagons() {
-        return wagons;
-    }
+//    public Set<Wagon> getWagons() {
+//        return wagons;
+//    }
 
     public int getSpeed() {
         return speed;
@@ -80,9 +75,9 @@ public class Train {
         runs.add(run);
     }
 
-    public void addWagon(Wagon wagon) {
-        wagons.add(wagon);
-    }
+//    public void addWagon(Wagon wagon) {
+//        wagons.add(wagon);
+//    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,7 +1,5 @@
 package com.naukma.ticketsservice.train;
 
-import com.naukma.ticketsservice.wagon.Wagon;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +17,9 @@ public interface TrainService {
 
     void delete(Long id);
 
-    boolean addWagon(Long id, Long wagonID);
+    // boolean addWagon(Long id, Long wagonID);
 
-    boolean deleteWagon(Long id, Long wagonID);
+    // boolean deleteWagon(Long id, Long wagonID);
 
-    Optional<Wagon> findWagonInTrain(Long id, String wagonName);
+    // Optional<Wagon> findWagonInTrain(Long id, String wagonName);
 }

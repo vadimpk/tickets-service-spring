@@ -1,11 +1,11 @@
 package com.naukma.ticketsservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.naukma.ticketsservice.station.Station;
+import com.naukma.ticketsservice.station.StationController;
+import com.naukma.ticketsservice.station.StationDto;
+import com.naukma.ticketsservice.station.StationService;
 import com.naukma.ticketsservice.user.UserPrincipalDetailsService;
-import com.naukma.ticketsservice.wagon.Wagon;
-import com.naukma.ticketsservice.wagon.WagonController;
-import com.naukma.ticketsservice.wagon.WagonDto;
-import com.naukma.ticketsservice.wagon.WagonService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = WagonController.class)
-public class WagonRestControllerTest {
+@WebMvcTest(controllers = StationController.class)
+public class StationRestControllerTest {
+
   @Autowired
   private MockMvc mockMvc;
 
@@ -37,37 +38,22 @@ public class WagonRestControllerTest {
   @MockBean
   private UserPrincipalDetailsService userPrincipalDetailsService;
   @MockBean
-  private WagonController wagonController;
+  private StationController stationController;
   @MockBean
-  private WagonService wagonService;
+  private StationService stationService;
 
   @WithMockUser(username = "admin", password = "123", roles = "ADMIN")
   @Test
   public void whenValidInput_thenReturns200() throws Exception {
     RequestBuilder request = MockMvcRequestBuilders
-            .post("/api/v1/wagon")
+            .post("/api/v1/station")
             .accept(MediaType.APPLICATION_JSON)
-            .content("{\"name\": \"wagon\"," +
-                    "\"number_of_seats\": 45," +
-                    "\"train_id\": 0}")
+            .content("{\"name\": \"new Station Test\"}")
             .contentType(MediaType.APPLICATION_JSON);
 
     MvcResult result = mockMvc.perform(request)
             .andExpect(status().isOk())
             .andReturn();
-  }
-
-
-  @WithMockUser(username = "admin", password = "123", roles = "ADMIN")
-  @Test
-  void whenInvalidInput_thenReturns415() throws Exception {
-    WagonDto wagonDto = new WagonDto("", -50, -1L);
-
-    mockMvc.perform(post("/api/v1/wagon")
-                    .accept(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(wagonDto))
-                    .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().is(415));
   }
 
   @WithMockUser(username = "admin", password = "123", roles = "ADMIN")
@@ -81,27 +67,24 @@ public class WagonRestControllerTest {
   @Test
   @WithMockUser(username = "admin", password = "123", roles = "ADMIN")
   void whenValidInput_thenReturnsValidWagonDto() throws Exception {
-    String  name = "train12";
-    WagonDto wagonDto = new WagonDto(name, 15, 0L);
+    StationDto stationDto = new StationDto("Second test");
     mockMvc.perform(post("/api/v1/wagon")
                     .accept(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(wagonDto))
+                    .content(objectMapper.writeValueAsString(stationDto))
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-    wagonService.createWagon(new Wagon(name, 15, null));
-    Optional<Wagon> wagon = wagonService.findWagonByName(name);
+    stationService.createStation(new Station(stationDto.getName()));
+    Optional<Station> station = stationService.findByName(stationDto.getName());
 
-    if (wagon.isEmpty()) throw new RuntimeException("wagon with name = " + name +" is supposed to be found");
+    if (station.isEmpty()) throw new RuntimeException("station with name = " + stationDto.getName() + " is supposed to be found");
 
-    MvcResult mvcResult = mockMvc.perform(get("/api/v1/wagon/{id}", wagon.get().getId()))
+    MvcResult mvcResult = mockMvc.perform(get("/api/v1/station/{id}", station.get().getId()))
             .andExpect(status().isOk())
             .andReturn();
 
     String actualResponseBody = mvcResult.getResponse().getContentAsString();
     assertThat(actualResponseBody).isEqualToIgnoringWhitespace(
-            objectMapper.writeValueAsString(wagonDto));
+            objectMapper.writeValueAsString(stationDto));
   }
-
-
 }

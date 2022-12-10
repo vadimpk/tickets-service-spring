@@ -1,8 +1,6 @@
 package com.naukma.ticketsservice.train;
 
 import com.naukma.ticketsservice.TicketsServiceApplication;
-import com.naukma.ticketsservice.exceptions.NoSuchWagonException;
-import com.naukma.ticketsservice.wagon.Wagon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 @RequestMapping("api/v1")
 @RestController
@@ -83,30 +79,30 @@ public class TrainController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/train/{id}/wagon")
-    public ResponseEntity<Set<Wagon>> showWagons(@PathVariable Long id) {
-        return service.findTrain(id)
-                .map(train -> new ResponseEntity<>(train.getWagons(), HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-
-    @PostMapping("/train/{id}/wagon/{wagonID}")
-    public ResponseEntity<HttpStatus> addWagon(@PathVariable Long id, @PathVariable Long wagonID) {
-        log.info("Adding wagon " + wagonID + " to train with id" + id);
-
-        return service.addWagon(id, wagonID) ?
-                new ResponseEntity<>(HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-
-    @DeleteMapping("/train/{id}/wagon/{wagonID}")
-    public ResponseEntity<HttpStatus> deleteWagon(@PathVariable Long id, @PathVariable Long wagonID) {
-        log.info("Removing wagon " + wagonID + " from train with id" + id);
-
-        return service.deleteWagon(id, wagonID) ?
-                new ResponseEntity<>(HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+//    @GetMapping("/train/{id}/wagon")
+//    public ResponseEntity<Set<Wagon>> showWagons(@PathVariable Long id) {
+//        return service.findTrain(id)
+//                .map(train -> new ResponseEntity<>(train.getWagons(), HttpStatus.OK))
+//                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//    }
+//
+//
+//    @PostMapping("/train/{id}/wagon/{wagonID}")
+//    public ResponseEntity<HttpStatus> addWagon(@PathVariable Long id, @PathVariable Long wagonID) {
+//        log.info("Adding wagon " + wagonID + " to train with id" + id);
+//
+//        return service.addWagon(id, wagonID) ?
+//                new ResponseEntity<>(HttpStatus.OK) :
+//                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
+//
+//
+//    @DeleteMapping("/train/{id}/wagon/{wagonID}")
+//    public ResponseEntity<HttpStatus> deleteWagon(@PathVariable Long id, @PathVariable Long wagonID) {
+//        log.info("Removing wagon " + wagonID + " from train with id" + id);
+//
+//        return service.deleteWagon(id, wagonID) ?
+//                new ResponseEntity<>(HttpStatus.OK) :
+//                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 }
