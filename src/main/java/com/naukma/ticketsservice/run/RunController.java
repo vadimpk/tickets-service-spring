@@ -41,7 +41,7 @@ public class RunController {
 
         // check if entered train exists otherwise set to null
         Long trainID = (run.getTrainId() != null) ? run.getTrainId() : 0;
-        Optional<Train> t1 = trainService.findTrain(trainID);
+        Optional<Train> t1 = trainService.find(trainID);
         Train train = null;
         if (t1.isPresent()) {
             train = t1.get();
@@ -89,7 +89,7 @@ public class RunController {
         }
         // check if entered train exists otherwise set to the one that was before
         if (run.getTrainId() != null) {
-            Optional<Train> t1 = trainService.findTrain(run.getRouteId());
+            Optional<Train> t1 = trainService.find(run.getRouteId());
             if (t1.isPresent()) {
                 runToChange.get().setTrain(t1.get());
             }

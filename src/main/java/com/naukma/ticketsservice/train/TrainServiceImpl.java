@@ -22,22 +22,17 @@ public class TrainServiceImpl implements TrainService{
     }
 
     @Override
-    public Train createTrain(Train train) {
-        return repository.save(train);
-    }
-
-    @Override
     public Train save(Train train) {
         return repository.save(train);
     }
 
     @Override
-    public Optional<Train> findTrain(Long id) {
+    public Optional<Train> find(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public Optional<Train> findTrainByName(String name) {
+    public Optional<Train> find(String name) {
         return repository.findByName(name);
     }
 
@@ -48,9 +43,8 @@ public class TrainServiceImpl implements TrainService{
 
     @Override
     public int update(Long id, Train train) {
-        // TODO: 05.12.2022  
-//        repository.setRunsById(id, train.getRuns());
-//        repository.setWagonsById(id, train.getWagons());
+        repository.setRunsById(id, train.getRuns());
+        repository.setWagonsById(id, train.getWagons());
         return repository.updateById(id, train.getName(), train.getSpeed());
     }
 
@@ -62,7 +56,7 @@ public class TrainServiceImpl implements TrainService{
     @Override
     public boolean addWagon(Long id, Long wagonID) {
         Optional<Wagon> wagon = wagonRepository.findById(wagonID);
-        Optional<Train> train = findTrain(id);
+        Optional<Train> train = find(id);
         if (wagon.isPresent() && train.isPresent()) {
             wagon.get().setTrain(train.get());
             wagonRepository.save(wagon.get());
@@ -74,7 +68,7 @@ public class TrainServiceImpl implements TrainService{
     @Override
     public boolean deleteWagon(Long id, Long wagonID) {
         Optional<Wagon> wagon = wagonRepository.findById(wagonID);
-        Optional<Train> train = findTrain(id);
+        Optional<Train> train = find(id);
         if (wagon.isPresent() && train.isPresent()) {
             wagon.get().setTrain(null);
             wagonRepository.save(wagon.get());

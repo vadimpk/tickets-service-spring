@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TrainService {
-
-    Train createTrain(Train train);
     Train save(Train train);
 
-    Optional<Train> findTrain(Long id);
-    Optional<Train> findTrainByName(String name);
+    Optional<Train> find(Long id);
+
+    Optional<Train> find(String name);
 
     List<Train> getTrains();
 

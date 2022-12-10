@@ -46,7 +46,7 @@ public class WagonController {
 
         // check if entered train exists otherwise set to null
         Long trainID = (wagon.getTrainID() != null) ? wagon.getTrainID() : 0;
-        Optional<Train> t = trainService.findTrain(trainID);
+        Optional<Train> t = trainService.find(trainID);
         Train train = null;
         if (t.isPresent()) {
             train = t.get();
@@ -73,7 +73,7 @@ public class WagonController {
 
         // check if entered train exists otherwise set to the one that was before
         if (wagon.getTrainID() != null) {
-            Optional<Train> t = trainService.findTrain(wagon.getTrainID());
+            Optional<Train> t = trainService.find(wagon.getTrainID());
             if (t.isPresent()) {
                 wagonToChange.get().setTrain(t.get());
             }

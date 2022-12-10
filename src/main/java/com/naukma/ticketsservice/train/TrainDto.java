@@ -25,10 +25,14 @@ public class TrainDto {
     private Set<String> runs;
     public TrainDto(@JsonProperty(value = "id", required = true) long id,
                     @JsonProperty(value = "name", required = true) String name,
-                    @JsonProperty("speed") int speed) {
+                    @JsonProperty("speed") int speed,
+                    @JsonProperty("wagons")  Set<String> wagons,
+                    @JsonProperty("runs") Set<String> runs) {
         this.id = id;
         this.name = name;
         this.speed = speed;
+        this.wagons = wagons;
+        this.runs = runs;
     }
 
     public Long getId() {

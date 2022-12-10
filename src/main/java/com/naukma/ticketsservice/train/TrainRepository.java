@@ -24,7 +24,7 @@ public interface TrainRepository extends JpaRepository<Train, Long> {
     @Transactional
     @Modifying
     @Query("update Train t set t.runs=?2 where t.id=?1")
-    void setRunsById(long id, List<Run> runs);
+    void setRunsById(long id, Collection<Run> runs);
 
     @Transactional
     @Modifying
