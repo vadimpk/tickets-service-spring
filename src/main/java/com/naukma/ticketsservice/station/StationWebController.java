@@ -26,6 +26,7 @@ public class StationWebController {
     public String stationPanel(Model model) {
         model.addAttribute("stationsMap", stationService.getStationsMap());
         model.addAttribute("newStation", new StationDto());
+        model.addAttribute("newAdjacentStation", new AdjacentStationDto());
         return "station/station";
     }
 
@@ -84,6 +85,41 @@ public class StationWebController {
         check.get().setName(station.getName());
 
         stationService.update(check.get());
+        return "redirect:/admin/stations";
+    }
+
+
+    @PostMapping("/admin/stations/addAdjacent/{id}")
+    @LogExecTime
+    @LogInAndOutArgs
+    public String addAdjacentStationFromAdminPanel(@Valid @ModelAttribute("newAdjacentStation") AdjacentStationDto adjacentStation,
+                                              @PathVariable Long id,
+                                              BindingResult result,
+                                              Model model) {
+
+        // check if exists
+        Optional<Station> check = stationService.findById(id);
+        if (check.isEmpty()) {
+            result.rejectValue("name", null,
+                    "No such obj");
+            return "redirect:/admin/stations?failedUpdate&error=no_such_station";
+        }
+
+        if (result.hasErrors()) {
+            return "redirect:/admin/stations?failedUpdate&error=bad_request";
+        }
+
+        // check if adjacent exists
+        Optional<Station> checkAdj = stationService.findById(adjacentStation.getAdjacentStationID());
+        if (checkAdj.isEmpty()) {
+            result.rejectValue("name", null,
+                    "No such obj");
+            return "redirect:/admin/stations?failedUpdate&error=no_such_station";
+        }
+
+
+        stationService.addAdjacentStation(check.get(), checkAdj.get(), adjacentStation.getDistance());
+
         return "redirect:/admin/stations";
     }
 

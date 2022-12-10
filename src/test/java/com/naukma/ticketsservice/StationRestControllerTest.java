@@ -67,7 +67,7 @@ public class StationRestControllerTest {
   @Test
   @WithMockUser(username = "admin", password = "123", roles = "ADMIN")
   void whenValidInput_thenReturnsValidWagonDto() throws Exception {
-    StationDto stationDto = new StationDto("Second test");
+    StationDto stationDto = new StationDto("Second test", null);
     mockMvc.perform(post("/api/v1/wagon")
                     .accept(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(stationDto))
