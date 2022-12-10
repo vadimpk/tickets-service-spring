@@ -3,6 +3,7 @@ package com.naukma.ticketsservice.run;
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ public interface RunService {
     Optional<Run> findRunByName(String name);
 
     Optional<Run> findRun(Long id);
+    List<Run> getByDepartureDate(Date departureDate);
 
     List<Run> getRuns();
 

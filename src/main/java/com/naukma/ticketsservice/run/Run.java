@@ -4,6 +4,7 @@ import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 @Entity
 public class Run {
@@ -23,14 +24,21 @@ public class Run {
     private Time departureTime;
     @Column(name = "arrival_time")
     private Time arrivalTime;
+    @Column(name = "departure_date")
+    private Date departureDate;
+    @Column(name = "arrival_date")
+    private Date arrivalDate;
 
     public Run() {}
-    public Run(String name, Route route, Train train, Time departureTime, Time arrivalTime) {
+
+    public Run(String name, Route route, Train train, Time departureTime, Time arrivalTime, Date departureDate, Date arrivalDate) {
         this.name = name;
         this.route = route;
         this.train = train;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
+        this.departureDate = departureDate;
+        this.arrivalDate = arrivalDate;
     }
 
     public String getName() { return name; }
@@ -67,6 +75,22 @@ public class Run {
     }
     public void setArrivalTime(Time arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public Date getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(Date departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public Date getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(Date arrivalDate) {
+        this.arrivalDate = arrivalDate;
     }
 
     @Override

@@ -55,7 +55,7 @@ public class RunController {
             route = r1.get();
         }
 
-        Run r = new Run(run.getName(), route, train, run.getDepartureTime(), run.getArrivalTime());
+        Run r = new Run(run.getName(), route, train, run.getDepartureTime(), run.getArrivalTime(), run.getDepartureDate(), run.getArrivalDate());
         return new ResponseEntity<>(runService.createRun(r), HttpStatus.OK);
     }
 

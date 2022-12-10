@@ -39,21 +39,6 @@ public class StationController {
         return new ResponseEntity<>(st, HttpStatus.OK);
     }
 
-    @PostMapping("/station/{distance}")
-    public ResponseEntity<Station> addAdjacentStation(@RequestBody Station station, @PathVariable int distance) {
-
-        // check if name is unique
-        Optional<Station> check = stationService.findByName(station.getName());
-        if (check.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        if (distance <= 0) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        stationService.addAdjacentStation(station, distance);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @GetMapping("/station/{id}")
     public ResponseEntity<Station> show(@PathVariable String id) {
         Optional<Station> station = stationService.findById(Long.valueOf(id));

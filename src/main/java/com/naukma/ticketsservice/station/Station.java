@@ -6,6 +6,7 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -19,7 +20,7 @@ public class Station {
     @NotBlank
     private String name;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     private Map<Long, Integer> adjacentStations;
 
     public Station(String name) {
@@ -36,6 +37,11 @@ public class Station {
         station.adjacentStations.put(this.id, distance);
     }
 
+    public void removeAdjacentStation(Station station) {
+        adjacentStations.remove(station.id);
+        station.adjacentStations.remove(this.id);
+    }
+
     public Map<Long, Integer> getAdjacentStations() {
         return adjacentStations;
     }
@@ -49,5 +55,10 @@ public class Station {
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Station{name='" + name + "'}";
     }
 }

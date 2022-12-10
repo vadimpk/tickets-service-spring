@@ -6,5 +6,50 @@
 </head>
 <body>
     <header th:insert="base.html :: navbar"> </header>
+
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <h1 class="display-4 text-center mt-5">You are Admin, login as User to buy Tickets</h1>
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_ANONYMOUS')">
+        <h1 class="display-4 text-center mt-5">Please register or login to buy tickets</h1>
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_USER')">
+        <form th:action="@{/searchRuns}" method="get" th:object="${searchArgs}">
+            <div>
+                <label for="departure-date">Departure date:</label>
+                <input type="date" th:field="*{departureDate}" id="departure-date"/>
+            </div>
+            <div>
+                <button type="submit" class="button">Submit</button>
+            </div>
+        </form>
+
+        <div th:if="${runs != null}">
+
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Departs</th>
+                    <th scope="col">Arrives</th>
+                    <th scope="col">Train</th>
+                    <th scope="col">Full Route</th>
+                </tr>
+                </thead>
+                <tbody th:each="run: ${runs}">
+                <tr>
+                    <td th:text="${run.departureDate} + ' ' + ${run.departureTime}"></td>
+                    <td th:text="${run.arrivalDate} + ' ' + ${run.arrivalTime}"></td>
+                    <td th:text="${run.train.name}"></td>
+                    <td>
+                        <span th:each="st: ${run.route.stations}" th:text="${st.name} + ' -> '"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </body>
 </html>

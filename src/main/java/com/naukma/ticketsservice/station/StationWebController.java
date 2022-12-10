@@ -1,22 +1,13 @@
 package com.naukma.ticketsservice.station;
 
-import com.naukma.ticketsservice.user.User;
-import com.naukma.ticketsservice.user.UserDto;
+import com.naukma.ticketsservice.aspects.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -30,13 +21,18 @@ public class StationWebController {
     }
 
     @GetMapping("/admin/stations")
+    @LogExecTime
+    @LogInAndOutArgs
     public String stationPanel(Model model) {
         model.addAttribute("stationsMap", stationService.getStationsMap());
         model.addAttribute("newStation", new StationDto());
+        model.addAttribute("newAdjacentStation", new AdjacentStationDto());
         return "station/station";
     }
 
     @PostMapping("/admin/stations/create")
+    @LogExecTime
+    @LogInAndOutArgs
     public String createStationFromAdminPanel(@Valid @ModelAttribute("newStation") StationDto station,
                                BindingResult result,
                                Model model) {
@@ -59,6 +55,8 @@ public class StationWebController {
 
 
     @PostMapping("/admin/stations/update/{id}")
+    @LogExecTime
+    @LogInAndOutArgs
     public String updateStationFromAdminPanel(@Valid @ModelAttribute("newStation") StationDto station,
                                               @PathVariable Long id,
                                               BindingResult result,
@@ -90,7 +88,44 @@ public class StationWebController {
         return "redirect:/admin/stations";
     }
 
+
+    @PostMapping("/admin/stations/addAdjacent/{id}")
+    @LogExecTime
+    @LogInAndOutArgs
+    public String addAdjacentStationFromAdminPanel(@Valid @ModelAttribute("newAdjacentStation") AdjacentStationDto adjacentStation,
+                                              @PathVariable Long id,
+                                              BindingResult result,
+                                              Model model) {
+
+        // check if exists
+        Optional<Station> check = stationService.findById(id);
+        if (check.isEmpty()) {
+            result.rejectValue("name", null,
+                    "No such obj");
+            return "redirect:/admin/stations?failedUpdate&error=no_such_station";
+        }
+
+        if (result.hasErrors()) {
+            return "redirect:/admin/stations?failedUpdate&error=bad_request";
+        }
+
+        // check if adjacent exists
+        Optional<Station> checkAdj = stationService.findById(adjacentStation.getAdjacentStationID());
+        if (checkAdj.isEmpty()) {
+            result.rejectValue("name", null,
+                    "No such obj");
+            return "redirect:/admin/stations?failedUpdate&error=no_such_station";
+        }
+
+
+        stationService.addAdjacentStation(check.get(), checkAdj.get(), adjacentStation.getDistance());
+
+        return "redirect:/admin/stations";
+    }
+
     @PostMapping("/admin/stations/delete/{id}")
+    @LogExecTime
+    @LogInAndOutArgs
     public String deleteStationFromAdminPanel(@PathVariable Long id, Model model) {
         Optional<Station> st = stationService.findById(id);
         if (st.isPresent()) {
