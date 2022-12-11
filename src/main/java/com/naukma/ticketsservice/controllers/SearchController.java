@@ -1,5 +1,6 @@
 package com.naukma.ticketsservice.controllers;
 
+import com.naukma.ticketsservice.aspects.LogInAndOutArgs;
 import com.naukma.ticketsservice.run.RunService;
 import com.naukma.ticketsservice.run.SearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 
@@ -23,6 +23,7 @@ public class SearchController {
     }
 
     @GetMapping("/searchRuns")
+    @LogInAndOutArgs
     public String searchForRuns(@Valid @ModelAttribute("searchArgs")SearchDto searchDto,
                                 BindingResult result, Model model) {
 

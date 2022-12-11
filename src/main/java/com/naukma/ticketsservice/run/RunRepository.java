@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 import java.sql.Time;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
