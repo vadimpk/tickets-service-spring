@@ -34,14 +34,16 @@
                     <th scope="col">Departs</th>
                     <th scope="col">Arrives</th>
                     <th scope="col">Train</th>
+                    <th scope="col">Seats left</th>
                     <th scope="col">Full Route</th>
                 </tr>
                 </thead>
                 <tbody th:each="run: ${runs}">
                 <tr>
-                    <td th:text="${run.departureDate} + ' ' + ${run.departureTime}"></td>
-                    <td th:text="${run.arrivalDate} + ' ' + ${run.arrivalTime}"></td>
+                    <td th:text="${run.getDepartureDateToString()}"></td>
+                    <td th:text="${run.getArrivalDateToString()}"></td>
                     <td th:text="${run.train.name}"></td>
+                    <td th:text="${run.getFreeSeats()}"></td>
                     <td>
                         <span th:each="st: ${run.route.stations}" th:text="${st.name} + ' -> '"></span>
                     </td>

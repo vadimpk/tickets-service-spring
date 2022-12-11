@@ -61,9 +61,10 @@ public class TrainServiceImpl implements TrainService{
         if (train == null) return null;
 
         //update capacity
-        update(train, dto.getCapacity());
+        train = update(train, dto.getCapacity());
         if (train == null) return null;
 
+        // update speed
         train.setSpeed(dto.getSpeed());
 
         return repository.save(train);
@@ -79,7 +80,13 @@ public class TrainServiceImpl implements TrainService{
 
     private Train update(Train train, int capacity) {
 
-        // TODO: check if no conflict in runs
+        List<Run> runs = runService.getRuns();
+        for (Run run : runs) {
+            if (Objects.equals(run.getTrain().getId(), train.getId()))
+                if (run.getTakenSeats() > capacity) {
+                    return null;
+                }
+        }
 
         train.setCapacity(capacity);
         return train;

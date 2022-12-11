@@ -2,8 +2,13 @@ package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -20,6 +25,9 @@ public class Run {
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     private Train train;
+
+    @Column
+    private int takenSeats;
 
     @Column(name = "departure_time")
     private Time departureTime;
@@ -40,6 +48,7 @@ public class Run {
         this.arrivalTime = arrivalTime;
         this.departureDate = departureDate;
         this.arrivalDate = arrivalDate;
+        takenSeats = 0;
     }
 
     public String getName() { return name; }
@@ -47,9 +56,6 @@ public class Run {
 
     public Long getId() {
         return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Route getRoute() {
@@ -81,7 +87,6 @@ public class Run {
     public Date getDepartureDate() {
         return departureDate;
     }
-
     public void setDepartureDate(Date departureDate) {
         this.departureDate = departureDate;
     }
@@ -89,9 +94,32 @@ public class Run {
     public Date getArrivalDate() {
         return arrivalDate;
     }
-
     public void setArrivalDate(Date arrivalDate) {
         this.arrivalDate = arrivalDate;
+    }
+
+    public void incrementTakenSeats() {takenSeats++;}
+    public void decrementTakenSeats() {takenSeats--;}
+
+    public int getTakenSeats() {
+        return takenSeats;
+    }
+    public void setTakenSeats(int takenSeats) {
+        this.takenSeats = takenSeats;
+    }
+
+    public String getDepartureDateToString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM 'at' HH:mm");
+        return sdf.format(new Date(departureTime.getTime() + departureDate.getTime() + 3*3600*1000));
+    }
+
+    public String getArrivalDateToString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM 'at' HH:mm");
+        return sdf.format(new Date(arrivalTime.getTime() + arrivalDate.getTime() + 3*3600*1000));
+    }
+
+    public int getFreeSeats() {
+        return train.getCapacity() - takenSeats;
     }
 
     @Override
