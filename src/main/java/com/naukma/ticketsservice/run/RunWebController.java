@@ -1,5 +1,9 @@
 package com.naukma.ticketsservice.run;
 
+import com.naukma.ticketsservice.aspects.LogInAndOutArgs;
+import com.naukma.ticketsservice.route.Route;
+import com.naukma.ticketsservice.route.RouteService;
+import com.naukma.ticketsservice.train.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +21,14 @@ import java.util.Optional;
 public class RunWebController {
 
     private final RunService runService;
+    private final RouteService routeService;
+    private final TrainService trainService;
 
     @Autowired
-    public RunWebController(RunService runService) {
+    public RunWebController(RunService runService, RouteService routeService, TrainService trainService) {
         this.runService = runService;
+        this.routeService = routeService;
+        this.trainService = trainService;
     }
 
     @GetMapping("/admin/runs")
@@ -28,56 +36,27 @@ public class RunWebController {
         List<Run> runs = runService.getRuns();
         model.addAttribute("runs", runs);
         model.addAttribute("newRun",new RunDto());
+        model.addAttribute("routes", routeService.getRoutes());
+        model.addAttribute("trains", trainService.getTrains());
         return "run/runs";
     }
 
-    @GetMapping("/admin/runs/create")
+    @PostMapping("/admin/runs/create")
+    @LogInAndOutArgs
     public String create(@Valid @ModelAttribute("newRun") RunDto run, BindingResult result,
             Model model) {
+
         if(result.hasErrors()){
-            return "redirect:/?failedCreation&error=bad_request";
+            return "redirect:?failedCreation&error=bad_request";
         }
-        Run created = runService.create(new Run(run.getName(),
-                runService.findRouteById(run.getRouteId()).get(),
-                runService.findTrainById(run.getTrainId()).get(),
-                run.getDepartureTime(), run.getArrivalTime(),
-                run.getDepartureDate(), run.getArrivalDate()));
+
+        Run created = runService.create(run);
         if(created == null) {
-            result.rejectValue("name", null,"Name is taken");
-            return "redirect:?failedCreation&error=name_is_taken";
+            result.rejectValue("name", null,"bad request");
+            return "redirect:?failedCreation&error=bad_request";
         }
         return "redirect:/admin/runs";
     }
-
-//    @PostMapping("/run")
-//    public String registration(@Valid @ModelAttribute("run") RunDto runDto,
-//                               BindingResult result,
-//                               Model model) {
-//        Optional<Run> existingRun = runService.findRunByName(runDto.getName());
-//
-//        if (existingRun.isPresent()) {
-//            result.rejectValue("name", null,
-//                    "Name is not unique");
-//        }
-//
-//        if (result.hasErrors()) {
-//            model.addAttribute("run", runDto);
-//            return "/run/create";
-//        }
-//
-//        Run run = new Run(runDto.getName(), runService.findRouteById(runDto.getRouteId()).get(), runService.findTrainById(runDto.getTrainId()).get(), runDto.getDepartureTime(), runDto.getArrivalTime(),runDto.getDepartureDate(),runDto.getArrivalDate());
-//        runService.createRun(run);
-//        return "redirect:/run/create?success";
-//    }
-
-//    @GetMapping("/run/update/{name}")
-//    public String update(Model model, @PathVariable String name) {
-//        Optional<Run> run = runService.findRunByName(name);
-//        if (run.isEmpty()) throw new RuntimeException("not found run with name=" + name);
-//
-//        model.addAttribute("run", run);
-//        return "/run/update";
-//    }
 
     @PostMapping("/admin/runs/update/{id}")
     public String update(@Valid @ModelAttribute("newRun") RunDto run,
@@ -97,16 +76,15 @@ public class RunWebController {
         return "redirect:/admin/runs";
     }
 
-    @GetMapping("/admin/run/delete/{name}")
+    @PostMapping("/admin/runs/delete/{id}")
     public String delete(@PathVariable Long id, Model model) {
         Optional<Run> run = runService.find(id);
         if (run.isPresent()) {
             if(runService.delete(id)) {
-                return "redirect:/admin/run";
+                return "redirect:/admin/runs";
             }
-            return "redirect:/admin/run?failedDeletion&error=delete_run";
+            return "redirect:/admin/runs?failedDeletion&error=failed_to_delete";
         }
-        return "redirect:/admin/run?failedDeletion&error=no_such_run";
+        return "redirect:/admin/runs?failedDeletion&error=no_such_run";
     }
-
 }

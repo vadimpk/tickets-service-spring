@@ -23,16 +23,16 @@ public class Run {
     @ManyToOne
     private Route route;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private Train train;
 
     @Column
     private int takenSeats;
 
     @Column(name = "departure_time")
-    private Time departureTime;
+    private Date departureTime;
     @Column(name = "arrival_time")
-    private Time arrivalTime;
+    private Date arrivalTime;
     @Column(name = "departure_date")
     private Date departureDate;
     @Column(name = "arrival_date")
@@ -40,7 +40,7 @@ public class Run {
 
     public Run() {}
 
-    public Run(String name, Route route, Train train, Time departureTime, Time arrivalTime, Date departureDate, Date arrivalDate) {
+    public Run(String name, Route route, Train train, Date departureTime, Date arrivalTime, Date departureDate, Date arrivalDate) {
         this.name = name;
         this.route = route;
         this.train = train;
@@ -70,17 +70,17 @@ public class Run {
         this.train = train;
     }
 
-    public Time getDepartureTime() {
+    public Date getDepartureTime() {
         return departureTime;
     }
-    public void setDepartureTime(Time departureTime) {
+    public void setDepartureTime(Date departureTime) {
         this.departureTime = departureTime;
     }
 
-    public Time getArrivalTime() {
+    public Date getArrivalTime() {
         return arrivalTime;
     }
-    public void setArrivalTime(Time arrivalTime) {
+    public void setArrivalTime(Date arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 

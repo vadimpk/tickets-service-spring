@@ -20,10 +20,8 @@
         <th scope="col">Name</th>
         <th scope="col">Route</th>
         <th scope="col">Train</th>
-        <th scope="col">Departure date</th>
-        <th scope="col">Departure time</th>
-        <th scope="col">Arrival date</th>
-        <th scope="col">Arrival time</th>
+        <th scope="col">Departs</th>
+        <th scope="col">Arrives</th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -33,10 +31,8 @@
         <td th:text="${run.name}" ></td>
         <td th:text="${run.route.getName()}"></td>
         <td th:text="${run.train.getName()}"></td>
-        <td th:text="${run.departureDate}"></td>
-        <td th:text="${run.departureTime}"></td>
-        <td th:text="${run.arrivalDate}"></td>
-        <td th:text="${run.arrivalTime}"></td>
+        <td th:text="${run.getDepartureDateToString()}"></td>
+        <td th:text="${run.getArrivalDateToString()}"></td>
 
         <td class="mx-2" style="float: right">
             <div class="row">
@@ -65,64 +61,68 @@
 
 <div th:if="${param.updating}" th:with="updateID=${#httpServletRequest.getParameter('updateId')}">
     <h1 class="h3 my-4 mx-3" th:text="'Update id ' + ${updateID}"></h1>
-    <form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/runs/update/} + ${updateID}" th:object="${newRun}">
-        <label class="sr-only">Name</label>
-        <input type="text" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new name" th:field="*{name}">
-        <br>
+    <form class="mx-3" method="post" role="form" th:action="@{/admin/runs/update/} + ${updateID}" th:object="${newRun}">
+        <div class="form-inline">
+            <label class="lead" for="nameUpd">Name</label>
+            <input type="text" class="form-control mb-2 mr-sm-2 ml-2" id="nameUpd" placeholder="Enter name" th:field="*{name}">
 
-        <label class="sr-only">Route</label>
-        <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select route" th:field="*{routeId}">
-        <br>
 
-        <label class="sr-only">Train</label>
-        <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select train" th:field="*{trainId}">
-        <br>
+            <label class="lead" for="routeUpd">Route</label>
+            <select id="routeUpd" class="form-control mb-2 mr-sm-2 ml-2" size="3" th:field="*{routeId}">
+                <option th:each="route : ${routes}" th:value="${route.id}" th:text="${route.getName()}"></option>
+            </select>
 
-        <label class="sr-only">Departure date</label>
-        <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure date" th:field="*{departureDate}">
-        <label class="sr-only">Departure time</label>
-        <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure time" th:field="*{departureTime}">
-        <br>
+            <label class="lead" for="trainUpd">Train</label>
+            <select id="trainUpd" class="form-control mb-2 mr-sm-2 ml-2" size="3" th:field="*{trainId}">
+                <option th:each="train : ${trains}" th:value="${train.id}" th:text="${train.getName()}"></option>
+            </select>
+        </div>
 
-        <label class="sr-only">Arrival date</label>
-        <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival date" th:field="*{arrivalDate}">
-        <label class="sr-only">Arrival time</label>
-        <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival time" th:field="*{arrivalTime}">
-        <br>
+        <div class="form-inline">
+            <label class="lead" for="d-dateUpd">Departure date</label>
+            <input type="date" id="d-dateUpd" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure date" th:field="*{departureDate}">
+            <label class="lead" for="d-timeUpd">Departure time</label>
+            <input type="time" id="d-timeUpd" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure time" th:field="*{departureTime}">
+            <label class="lead" for="a-dateUpd">Arrival date</label>
+            <input type="date" id="a-dateUpd" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival date" th:field="*{arrivalDate}">
+            <label class="lead" for="a-timeUpd">Arrival time</label>
+            <input type="time" id="a-timeUpd" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival time" th:field="*{arrivalTime}">
+        </div>
 
-        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
 <h1 class="h3 my-4 mx-3">Create new</h1>
-<form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/runs/create}" th:object="${newRun}">
+<form class="mx-3" method="post" role="form" th:action="@{/admin/runs/create}" th:object="${newRun}">
+    <div class="form-inline">
+        <label class="lead" for="name">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2 ml-2" id="name" placeholder="Enter name" th:field="*{name}">
 
-    <label class="sr-only">Name</label>
-    <input type="text" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter name" th:field="*{name}">
-    <br>
 
-    <label class="sr-only">Route</label>
-    <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select route" th:field="*{routeId}">
-    <br>
+        <label class="lead" for="route">Route</label>
+        <select id="route" class="form-control mb-2 mr-sm-2 ml-2" size="3" th:field="*{routeId}">
+            <option th:each="route : ${routes}" th:value="${route.id}" th:text="${route.getName()}"></option>
+        </select>
 
-    <label class="sr-only">Train</label>
-    <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select train" th:field="*{trainId}">
-    <br>
+        <label class="lead" for="train">Train</label>
+        <select id="train" class="form-control mb-2 mr-sm-2 ml-2" size="3" th:field="*{trainId}">
+            <option th:each="train : ${trains}" th:value="${train.id}" th:text="${train.getName()}"></option>
+        </select>
+    </div>
 
-    <label class="sr-only">Departure date</label>
-    <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure date" th:field="*{departureDate}">
-    <label class="sr-only">Departure time</label>
-    <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure time" th:field="*{departureTime}">
-    <br>
+    <div class="form-inline">
+        <label class="lead" for="d-date">Departure date</label>
+        <input type="date" id="d-date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure date" th:field="*{departureDate}">
+        <label class="lead" for="d-time">Departure time</label>
+        <input type="time" id="d-time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure time" th:field="*{departureTime}">
+        <label class="lead" for="a-date">Arrival date</label>
+        <input type="date" id="a-date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival date" th:field="*{arrivalDate}">
+        <label class="lead" for="a-time">Arrival time</label>
+        <input type="time" id="a-time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival time" th:field="*{arrivalTime}">
+    </div>
 
-    <label class="sr-only">Arrival date</label>
-    <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival date" th:field="*{arrivalDate}">
-    <label class="sr-only">Arrival time</label>
-    <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival time" th:field="*{arrivalTime}">
-    <br>
-
-    <button type="submit" class="btn btn-primary mb-2">Submit</button>
-
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 </body>

@@ -1,9 +1,10 @@
 package com.naukma.ticketsservice.run;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotBlank;
-import java.sql.Time;
-import java.sql.Date;
+import java.util.Date;
 
 public class RunDto {
 
@@ -12,20 +13,20 @@ public class RunDto {
     private Long routeId;
     private Long trainId;
 
-//    @DateTimeFormat
-    private Time departureTime;
-//    @DateTimeFormat
-    private Time arrivalTime;
-
+    @DateTimeFormat(pattern = "HH:mm")
+    private Date departureTime;
+    @DateTimeFormat(pattern = "HH:mm")
+    private Date arrivalTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date departureDate;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date arrivalDate;
 
     public RunDto(@JsonProperty(value = "name", required = true)String name,
                   @JsonProperty(value = "route_id", required = true)Long routeId,
                   @JsonProperty(value = "train_id", required = true)Long trainId,
-                  @JsonProperty(value = "departure_time", required = true)Time departureTime,
-                  @JsonProperty(value = "arrival_time", required = true)Time arrivalTime,
+                  @JsonProperty(value = "departure_time", required = true)Date departureTime,
+                  @JsonProperty(value = "arrival_time", required = true)Date arrivalTime,
                   @JsonProperty(value = "departure_date", required = true) Date departureDate,
                   @JsonProperty(value = "arrival_date", required = true) Date arrivalDate) {
         this.name = name;
@@ -49,11 +50,11 @@ public class RunDto {
         return trainId;
     }
 
-    public Time getDepartureTime() {
+    public Date getDepartureTime() {
         return departureTime;
     }
 
-    public Time getArrivalTime() {
+    public Date getArrivalTime() {
         return arrivalTime;
     }
 
@@ -73,11 +74,11 @@ public class RunDto {
         this.trainId = trainId;
     }
 
-    public void setDepartureTime(Time departureTime) {
+    public void setDepartureTime(Date departureTime) {
         this.departureTime = departureTime;
     }
 
-    public void setArrivalTime(Time arrivalTime) {
+    public void setArrivalTime(Date arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 

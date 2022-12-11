@@ -25,25 +25,5 @@ public interface RunRepository extends JpaRepository<Run, Long> {
     @Query("update Run r set r.train=?2 where r.id=?1")
     void setTrainById(long id, Train train);
 
-    @Transactional
-    @Modifying
-    @Query("update Run r set r.departureTime=?2 where r.id=?1")
-    void setDepartureTimeById(long id, Time departureTime);
-
-    @Transactional
-    @Modifying
-    @Query("update Run r set r.arrivalTime=?2 where r.id=?1")
-    void setArrivalTimeById(long id, Time arrivalTime);
-
-    @Transactional
-    @Modifying
-    @Query("update Run r set r.departureDate=?2 where r.id=?1")
-    void setDepartureDateById(long id, Date departureDate);
-
-    @Transactional
-    @Modifying
-    @Query("update Run r set r.arrivalDate=?2 where r.id=?1")
-    void setArrivalDateById(long id, Date arrivalDate);
-
     List<Run> findAllByDepartureDate(Date departureDate);
 }

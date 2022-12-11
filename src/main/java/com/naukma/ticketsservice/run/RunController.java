@@ -34,30 +34,11 @@ public class RunController {
 
     @PostMapping("/run")
     public ResponseEntity<Run> create(@Valid @RequestBody RunDto run){
-        // check if name is unique
-        Optional<Run> check = runService.find(run.getName());
-        if (check.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
 
-        // check if entered train exists otherwise set to null
-        Long trainID = (run.getTrainId() != null) ? run.getTrainId() : 0;
-        Optional<Train> t1 = trainService.find(trainID);
-        Train train = null;
-        if (t1.isPresent()) {
-            train = t1.get();
-        }
+        Run created = runService.create(run);
+        if (created == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        // check if entered route exists otherwise set to null
-        Long routeId = (run.getRouteId() != null) ? run.getRouteId() : 0;
-        Optional<Route> r1 = routeService.find(routeId);
-        Route route = null;
-        if (r1.isPresent()) {
-            route = r1.get();
-        }
-
-        Run r = new Run(run.getName(), route, train, run.getDepartureTime(), run.getArrivalTime(), run.getDepartureDate(), run.getArrivalDate());
-        return new ResponseEntity<>(runService.create(r), HttpStatus.OK);
+        return new ResponseEntity<>(created, HttpStatus.OK);
     }
 
     @GetMapping("/run/{id}")

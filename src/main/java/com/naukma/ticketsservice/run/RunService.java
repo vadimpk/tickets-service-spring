@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface RunService {
 
+    Run create(RunDto newRun);
     Run create(Run newRun);
     Run save(Run run);
 

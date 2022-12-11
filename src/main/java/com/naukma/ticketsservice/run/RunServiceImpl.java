@@ -31,7 +31,34 @@ public class RunServiceImpl implements RunService{
 
     @Override
     public Run create(Run newRun) {
-        return runRepository.saveAndFlush(newRun);
+        return runRepository.save(newRun);
+    }
+
+    @Override
+    public Run create(RunDto newRun) {
+        Optional<Run> checkName = find(newRun.getName());
+        if (checkName.isPresent()) return null;
+
+        Run run = new Run();
+        run.setName(newRun.getName());
+
+        Optional<Train> train = trainRepository.findById(newRun.getTrainId());
+        if (train.isEmpty()) return null;
+        run.setTrain(train.get());
+
+        Optional<Route> route = routeRepository.findById(newRun.getRouteId());
+        if (route.isEmpty()) return null;
+        run.setRoute(route.get());
+
+        if (newRun.getDepartureTime() == null || newRun.getArrivalTime() == null || newRun.getDepartureDate() == null || newRun.getArrivalDate() == null)
+            return null;
+
+        run.setArrivalTime(newRun.getArrivalTime());
+        run.setDepartureTime(newRun.getDepartureTime());
+        run.setDepartureDate(newRun.getDepartureDate());
+        run.setArrivalDate(newRun.getArrivalDate());
+
+        return runRepository.save(run);
     }
     public Run save(Run run) { return runRepository.save(run);}
 
@@ -55,46 +82,30 @@ public class RunServiceImpl implements RunService{
         if (check.isEmpty())
             return null;
 
-        // update name
-        Run run = update(check.get(), runDto.getName());
-        if (run == null) return null;
+        Run run = check.get();
+        Optional<Run> checkName = find(runDto.getName());
+        if (checkName.isPresent()) return null;
 
-        //update Route
-        update(run, findRouteById(runDto.getRouteId()).get());
-        if (run == null) return null;
+        if (runDto.getDepartureTime() == null || runDto.getArrivalTime() == null || runDto.getDepartureDate() == null || runDto.getArrivalDate() == null)
+            return null;
 
-        //update Train
-        update(run,findTrainById(runDto.getTrainId()).get());
-        if(run == null) return null;
+        Optional<Train> train = trainRepository.findById(runDto.getTrainId());
+        if (train.isEmpty()) return null;
 
-        //update Time
-        run.setDepartureTime(runDto.getDepartureTime());
+        Optional<Route> route = routeRepository.findById(runDto.getRouteId());
+        if (route.isEmpty()) return null;
+
+        run.setName(runDto.getName());
+        run.setTrain(train.get());
+        run.setRoute(route.get());
         run.setArrivalTime(runDto.getArrivalTime());
-
-        //update Date
+        run.setDepartureTime(runDto.getDepartureTime());
         run.setDepartureDate(runDto.getDepartureDate());
         run.setArrivalDate(runDto.getArrivalDate());
 
         return runRepository.save(run);
     }
-    private Run update(Run run, String name) {
-        Optional<Run> checkName = find(name);
-        if (checkName.isPresent()) return null;
 
-        run.setName(name);
-        return run;
-    }
-    private void update(Run run, Route route) {
-        Optional<Route> checkRoute = routeRepository.findById(route.getId());
-        if (checkRoute.isPresent()) return;
-        run.setRoute(route);
-    }
-    private void update(Run run, Train train) {
-        Optional<Train> checkTrain = trainRepository.findByName(train.getName());
-        if (checkTrain.isPresent()) return;
-
-        run.setTrain(train);
-    }
 
     @Override
     public int setTrain(Long id, Train train) {
