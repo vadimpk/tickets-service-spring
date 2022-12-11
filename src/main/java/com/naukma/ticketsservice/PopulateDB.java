@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -104,9 +105,9 @@ public class PopulateDB {
         /*
         POPULATE RUNS
          */
-        DateFormat df = DateFormat.getDateInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy");
         try {
-            Date d = df.parse( "Dec 14, 2022");
+            Date d = sdf.parse("14-12-2022");
             Run run1 = runService.create(new Run("RTZ1", route1, train1, Time.valueOf("12:00:00"), Time.valueOf("14:00:00"), d, d ));
             Run run2 = runService.create(new Run("RTZ2", route2, train3, Time.valueOf("13:30:00"), Time.valueOf("16:00:00"), d, d));
             Run run3 = runService.create(new Run("RTZ3", route3, train4, Time.valueOf("14:00:00"), Time.valueOf("18:00:00"), d, d));
