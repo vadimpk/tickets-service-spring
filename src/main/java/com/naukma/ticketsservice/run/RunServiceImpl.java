@@ -21,16 +21,12 @@ public class RunServiceImpl implements RunService{
     private final RunRepository runRepository;
     private final RouteRepository routeRepository;
     private final TrainRepository trainRepository;
-    private final RouteService routeService;
-    private final TrainService trainService;
 
     @Autowired
-    public RunServiceImpl( RunRepository runRepository, RouteRepository routeRepository, TrainRepository trainRepository, RouteService routeService, TrainService trainService) {
+    public RunServiceImpl( RunRepository runRepository, RouteRepository routeRepository, TrainRepository trainRepository) {
         this.runRepository = runRepository;
         this.routeRepository = routeRepository;
         this.trainRepository = trainRepository;
-        this.routeService = routeService;
-        this.trainService = trainService;
     }
 
     @Override
@@ -64,11 +60,11 @@ public class RunServiceImpl implements RunService{
         if (run == null) return null;
 
         //update Route
-        update(run, routeService.find(runDto.getRouteId()).get());
+        update(run, findRouteById(runDto.getRouteId()).get());
         if (run == null) return null;
 
         //update Train
-        update(run,trainService.find(runDto.getTrainId()).get());
+        update(run,findTrainById(runDto.getTrainId()).get());
         if(run == null) return null;
 
         //update Time
@@ -116,5 +112,20 @@ public class RunServiceImpl implements RunService{
     public int setRoute(Long id, Route route) {
         runRepository.setRouteById(id,route);
         return 1;
+    }
+
+    public Optional<Route> findRouteById(Long RouteId) {
+        Optional<Route> route = routeRepository.findById(RouteId);
+        if(route.isPresent())
+            return null;
+        return route;
+    }
+
+    @Override
+    public Optional<Train> findTrainById(Long TrainId) {
+        Optional<Train> train = trainRepository.findById(TrainId);
+        if(train.isPresent())
+            return null;
+        return train;
     }
 }

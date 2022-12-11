@@ -68,22 +68,27 @@
     <form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/runs/update/} + ${updateID}" th:object="${newRun}">
         <label class="sr-only">Name</label>
         <input type="text" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new name" th:field="*{name}">
+        <br>
 
         <label class="sr-only">Route</label>
         <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select route" th:field="*{routeId}">
+        <br>
 
         <label class="sr-only">Train</label>
         <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select train" th:field="*{trainId}">
+        <br>
 
         <label class="sr-only">Departure date</label>
         <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure date" th:field="*{departureDate}">
         <label class="sr-only">Departure time</label>
         <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure time" th:field="*{departureTime}">
+        <br>
 
         <label class="sr-only">Arrival date</label>
         <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival date" th:field="*{arrivalDate}">
         <label class="sr-only">Arrival time</label>
         <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival time" th:field="*{arrivalTime}">
+        <br>
 
         <button type="submit" class="btn btn-primary mb-2">Submit</button>
     </form>
@@ -94,23 +99,30 @@
 
     <label class="sr-only">Name</label>
     <input type="text" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter name" th:field="*{name}">
+    <br>
 
     <label class="sr-only">Route</label>
     <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select route" th:field="*{routeId}">
+    <br>
 
     <label class="sr-only">Train</label>
     <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select train" th:field="*{trainId}">
+    <br>
 
     <label class="sr-only">Departure date</label>
     <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure date" th:field="*{departureDate}">
     <label class="sr-only">Departure time</label>
     <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure time" th:field="*{departureTime}">
+    <br>
 
     <label class="sr-only">Arrival date</label>
     <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival date" th:field="*{arrivalDate}">
     <label class="sr-only">Arrival time</label>
     <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival time" th:field="*{arrivalTime}">
+    <br>
+
     <button type="submit" class="btn btn-primary mb-2">Submit</button>
+
 </form>
 
 </body>

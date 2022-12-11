@@ -26,4 +26,7 @@ public interface RunService {
     int setTrain(Long id, Train train);
 
     int setRoute(Long id, Route route);
+
+    Optional<Route> findRouteById(Long RouteId);
+    Optional<Train> findTrainById(Long TrainId);
 }
