@@ -33,7 +33,7 @@ public class RouteController {
     public ResponseEntity<Route> createRoute(@RequestBody RouteDto routeDto) {
 
         List<Long> stationsIds = routeDto.getTransitionalStationIDs();
-        Route route = service.createRoute(stationsIds);
+        Route route = service.create(stationsIds);
         if (route == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -42,7 +42,7 @@ public class RouteController {
 
     @GetMapping("/route/{id}")
     public ResponseEntity<Route> show(@PathVariable Long id){
-        Optional<Route> route = service.findRouteById(id);
+        Optional<Route> route = service.find(id);
         return route.map(t -> new ResponseEntity<>(t, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -67,11 +67,11 @@ public class RouteController {
     @PutMapping("/route/{id}")
     public ResponseEntity<Route> updateRoute(@RequestBody RouteDto routeDto, @PathVariable Long id) {
 
-        Optional<Route> route = service.findRouteById(id);
+        Optional<Route> route = service.find(id);
         if (route.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         List<Long> stationsIds = routeDto.getTransitionalStationIDs();
-        Route newRoute = service.updateRoute(route.get(), stationsIds);
+        Route newRoute = service.update(route.get(), stationsIds);
         if (newRoute == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -80,7 +80,7 @@ public class RouteController {
 
     @DeleteMapping("route/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id){
-        Optional<Route> route = service.findRouteById(id);
+        Optional<Route> route = service.find(id);
         if (route.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         service.delete(id);

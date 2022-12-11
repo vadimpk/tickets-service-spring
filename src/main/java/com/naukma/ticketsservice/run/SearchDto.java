@@ -2,7 +2,7 @@ package com.naukma.ticketsservice.run;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class SearchDto {
 

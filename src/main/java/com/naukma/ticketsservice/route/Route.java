@@ -41,6 +41,8 @@ public class Route {
         return id;
     }
 
+    public String getName() { return getStartStation().getName()+" - "+getFinishStation().getName();}
+
     public Station getStartStation() {
         return startStation;
     }

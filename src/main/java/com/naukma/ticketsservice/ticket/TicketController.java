@@ -37,7 +37,7 @@ public class TicketController {
     public ResponseEntity<List<Ticket>> index(@PathVariable String runId){
         log.info("Showing tickets by run id = " + runId);
 
-        Optional<Run> run = runService.findRun(Long.valueOf(runId));
+        Optional<Run> run = runService.find(Long.valueOf(runId));
         if (run.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(service.findTicketsByRun(run.get()), HttpStatus.OK);
@@ -47,7 +47,7 @@ public class TicketController {
     public ResponseEntity<Ticket> add(@Valid @RequestBody TicketDto ticketDto){
 
         //run if such run is present
-        Optional<Run> run = runService.findRun(ticketDto.getRunId());
+        Optional<Run> run = runService.find(ticketDto.getRunId());
         if (run.isEmpty()) {
             throw new NoSuchRunException();
         }

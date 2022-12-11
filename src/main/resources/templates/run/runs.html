@@ -1,10 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:insert="base.html :: headerfiles">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Runs</title>
 </head>
 <body>
+<header th:insert="base.html :: navbar"> </header>
+
+<div th:if="${param.failedDeletion}">
+    <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
+</div>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Route</th>
+        <th scope="col">Train</th>
+        <th scope="col">Departure date</th>
+        <th scope="col">Departure time</th>
+        <th scope="col">Arrival date</th>
+        <th scope="col">Arrival time</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody th:each="run: ${runs}">
+    <tr>
+        <th th:text="${run.id}" scope="row"></th>
+        <td th:text="${run.name}" ></td>
+        <td th:text="${run.route.getName()}"></td>
+        <td th:text="${run.train.getName()}"></td>
+        <td th:text="${run.departureDate}"></td>
+        <td th:text="${run.departureTime}"></td>
+        <td th:text="${run.arrivalDate}"></td>
+        <td th:text="${run.arrivalTime}"></td>
+
+        <td class="mx-2" style="float: right">
+            <div class="row">
+                <div class="col-xs-6 px-1 mx-1">
+                    <a th:href="'?updating&updateId=' + ${run.id}" class="btn btn-outline-primary btn-sm"><i class="far fa-edit"></i></a>
+                </div>
+
+                <div class="col-xs-6 px-1 mx-1">
+                    <form method="post" th:action="@{/admin/runs/delete/} + ${run.id}">
+                        <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${param.failedCreation}">
+    <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
+</div>
+
+<div th:if="${param.failedUpdate}">
+    <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
+</div>
+
+<div th:if="${param.updating}" th:with="updateID=${#httpServletRequest.getParameter('updateId')}">
+    <h1 class="h3 my-4 mx-3" th:text="'Update id ' + ${updateID}"></h1>
+    <form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/runs/update/} + ${updateID}" th:object="${newRun}">
+        <label class="sr-only">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new name" th:field="*{name}">
+
+        <label class="sr-only">Route</label>
+        <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select route" th:field="*{routeId}">
+
+        <label class="sr-only">Train</label>
+        <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select train" th:field="*{trainId}">
+
+        <label class="sr-only">Departure date</label>
+        <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure date" th:field="*{departureDate}">
+        <label class="sr-only">Departure time</label>
+        <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure time" th:field="*{departureTime}">
+
+        <label class="sr-only">Arrival date</label>
+        <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival date" th:field="*{arrivalDate}">
+        <label class="sr-only">Arrival time</label>
+        <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival time" th:field="*{arrivalTime}">
+
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
+</div>
+
+<h1 class="h3 my-4 mx-3">Create new</h1>
+<form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/runs/create}" th:object="${newRun}">
+
+    <label class="sr-only">Name</label>
+    <input type="text" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter name" th:field="*{name}">
+
+    <label class="sr-only">Route</label>
+    <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select route" th:field="*{routeId}">
+
+    <label class="sr-only">Train</label>
+    <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select train" th:field="*{trainId}">
+
+    <label class="sr-only">Departure date</label>
+    <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure date" th:field="*{departureDate}">
+    <label class="sr-only">Departure time</label>
+    <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure time" th:field="*{departureTime}">
+
+    <label class="sr-only">Arrival date</label>
+    <input type="date" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival date" th:field="*{arrivalDate}">
+    <label class="sr-only">Arrival time</label>
+    <input type="time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select arrival time" th:field="*{arrivalTime}">
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
 
 </body>
 </html>

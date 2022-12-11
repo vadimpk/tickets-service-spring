@@ -47,7 +47,7 @@ public class RouteWebController {
         }
 
         List<Long> stationsIds = route.getTransitionalStationIDs();
-        Route newRoute = routeService.createRoute(stationsIds);
+        Route newRoute = routeService.create(stationsIds);
 
         if (newRoute == null)
             return "redirect:?failedCreation&error=bad_request_cant_connect_stations";
@@ -61,7 +61,7 @@ public class RouteWebController {
                                               BindingResult result,
                                               Model model) {
 
-        Optional<Route> check = routeService.findRouteById(id);
+        Optional<Route> check = routeService.find(id);
         if (check.isEmpty()) {
             result.rejectValue("name", null,
                     "No such obj");
@@ -73,7 +73,7 @@ public class RouteWebController {
         }
 
         List<Long> stationsIds = route.getTransitionalStationIDs();
-        Route newRoute = routeService.updateRoute(check.get(), stationsIds);
+        Route newRoute = routeService.update(check.get(), stationsIds);
 
         if (newRoute == null)
             return "redirect:/admin/routes?failedUpdate&error=bad_request_cant_connect_stations";
@@ -84,7 +84,7 @@ public class RouteWebController {
 
     @PostMapping("/admin/routes/delete/{id}")
     public String deleteStationFromAdminPanel(@PathVariable Long id, Model model) {
-        Optional<Route> route = routeService.findRouteById(id);
+        Optional<Route> route = routeService.find(id);
         if (route.isPresent()) {
             if (routeService.delete(id))
                 return "redirect:/admin/routes";

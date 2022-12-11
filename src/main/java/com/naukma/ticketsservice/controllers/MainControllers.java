@@ -18,5 +18,5 @@ public class MainControllers {
     }
 
     @GetMapping("/run")
-    public String runIndex() {return "run/index"; }
+    public String runIndex() {return "run/runs"; }
 }
