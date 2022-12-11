@@ -14,11 +14,11 @@
         <h2>Runs</h2>
         <!--/*@thymesVar id="runs" type="Run"*/-->
         <div th:each="run: ${runs}">
-            <h3 th:text="${run.name}"></h3>
-            <p>route: <span th:text="${run.route.name}"></span></p>
-            <p>train: <span th:text="${run.train.name}"></span></p>
-            <p>dep-time: <span th:time="${run.departure_time}"></span></p>
-            <p>arr-time: <span th:time="${run.arrival_time}"></span></p>
+            <h3 th:text="${run.getName()}"></h3>
+            <p>route: <span th:text="${run.getRoute()}"></span></p>
+            <p>train: <span th:text="${run.getTrain()}"></span></p>
+            <p>departure-time: <span th:time="${run.getDepartureTime()}"></span></p>
+            <p>arrival-time: <span th:time="${run.getArrivalTime()}"></span></p>
             <div sec:authorize="hasRole('ROLE_ADMIN')">
                 <a class="btn btn-primary" href="create.html">Create</a>
                 <a class="btn btn-primary" href="#">Update</a>

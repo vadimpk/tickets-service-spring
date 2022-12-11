@@ -29,7 +29,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     @LogInAndOutArgs
-    public Route createRoute(List<Long> stationsIds) {
+    public Route create(List<Long> stationsIds) {
 
         List<Station> stations = validateStations(stationsIds);
         if (stations.size() < 2) return null;
@@ -41,7 +41,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public Route updateRoute(Route route, List<Long> stationsIds) {
+    public Route update(Route route, List<Long> stationsIds) {
 
         List<Station> stations = validateStations(stationsIds);
         if (stations.size() < 2) return null;
@@ -98,7 +98,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public Optional<Route> findRouteById(Long routeId) {
+    public Optional<Route> find(Long routeId) {
         return repository.findById(routeId);
     }
 

@@ -3,24 +3,23 @@ package com.naukma.ticketsservice.run;
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.train.Train;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
 public interface RunService {
 
-    Run createRun(Run newRun);
+    Run create(Run newRun);
     Run save(Run run);
 
-    Optional<Run> findRunById(Long id);
-    Optional<Run> findRunByName(String name);
+    Optional<Run> find(Long id);
+    Optional<Run> find(String name);
 
-    Optional<Run> findRun(Long id);
     List<Run> getByDepartureDate(Date departureDate);
 
     List<Run> getRuns();
 
-    int update(Long id, Run newRun);
+    Run update(Long id, RunDto newRun);
 
     boolean delete(Long id);
 

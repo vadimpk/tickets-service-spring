@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Time;
 import java.util.Optional;
 
 @RequestMapping("api/v1")
@@ -34,7 +35,7 @@ public class RunController {
     @PostMapping("/run")
     public ResponseEntity<Run> create(@Valid @RequestBody RunDto run){
         // check if name is unique
-        Optional<Run> check = runService.findRunByName(run.getName());
+        Optional<Run> check = runService.find(run.getName());
         if (check.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -49,19 +50,19 @@ public class RunController {
 
         // check if entered route exists otherwise set to null
         Long routeId = (run.getRouteId() != null) ? run.getRouteId() : 0;
-        Optional<Route> r1 = routeService.findRouteById(routeId);
+        Optional<Route> r1 = routeService.find(routeId);
         Route route = null;
         if (r1.isPresent()) {
             route = r1.get();
         }
 
         Run r = new Run(run.getName(), route, train, run.getDepartureTime(), run.getArrivalTime(), run.getDepartureDate(), run.getArrivalDate());
-        return new ResponseEntity<>(runService.createRun(r), HttpStatus.OK);
+        return new ResponseEntity<>(runService.create(r), HttpStatus.OK);
     }
 
     @GetMapping("/run/{id}")
     public ResponseEntity<Run> show(@PathVariable String id) {
-        Optional<Run> run = runService.findRunById(Long.valueOf(id));
+        Optional<Run> run = runService.find(Long.valueOf(id));
         return run.map(t -> new ResponseEntity<>(t,HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -69,20 +70,21 @@ public class RunController {
     public ResponseEntity<Run> update(@PathVariable Long id, @Valid @RequestBody RunDto run) {
 
         // check if such run exists
-        Optional<Run> runToChange = runService.findRunById(id);
+        Optional<Run> runToChange = runService.find(id);
         if (runToChange.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         // check if new name is not unique
-        Optional<Run> check = runService.findRunByName(run.getName());
+        Optional<Run> check = runService.find(run.getName());
         if (check.isPresent() && !check.get().getName().equals(runToChange.get().getName())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        runToChange.get().setName(runToChange.get().getName());
 
         // check if entered route exists otherwise set to the one that was before
         if (run.getRouteId() != null) {
-            Optional<Route> r1 = routeService.findRouteById(run.getRouteId());
+            Optional<Route> r1 = routeService.find(run.getRouteId());
             if (r1.isPresent()) {
                 runToChange.get().setRoute(r1.get());
             }
@@ -94,18 +96,16 @@ public class RunController {
                 runToChange.get().setTrain(t1.get());
             }
         }
+        runToChange.get().setDepartureTime(run.getDepartureTime());
+        runToChange.get().setArrivalTime(run.getArrivalTime());
+        runToChange.get().setDepartureDate(run.getDepartureDate());
+        runToChange.get().setDepartureDate(run.getDepartureDate());
 
-        /**
-         * Need to do smth with time
-         * */
-
-        runToChange.get().setName(runToChange.get().getName());
         return new ResponseEntity<>(runService.save(runToChange.get()), HttpStatus.OK);
-
     }
     @DeleteMapping("run/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id){
-        Optional<Run> r = runService.findRunById(id);
+        Optional<Run> r = runService.find(id);
         if (r.isPresent()) {
             runService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);

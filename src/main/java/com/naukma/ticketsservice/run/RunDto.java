@@ -1,11 +1,9 @@
 package com.naukma.ticketsservice.run;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 
 public class RunDto {
 
@@ -37,6 +35,10 @@ public class RunDto {
         this.arrivalTime = arrivalTime;
         this.departureDate = departureDate;
         this.arrivalDate = arrivalDate;
+    }
+
+    public RunDto() {
+
     }
 
     public Long getRouteId() {
@@ -87,8 +89,7 @@ public class RunDto {
         this.departureDate = departureDate;
     }
 
-    public Date getArrivalDate() {
-        return arrivalDate;
+    public Date getArrivalDate() { return arrivalDate;
     }
 
     public void setArrivalDate(Date arrivalDate) {

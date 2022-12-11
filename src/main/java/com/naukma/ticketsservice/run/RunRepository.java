@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +34,16 @@ public interface RunRepository extends JpaRepository<Run, Long> {
     @Modifying
     @Query("update Run r set r.arrivalTime=?2 where r.id=?1")
     void setArrivalTimeById(long id, Time arrivalTime);
+
+    @Transactional
+    @Modifying
+    @Query("update Run r set r.departureDate=?2 where r.id=?1")
+    void setDepartureDateById(long id, Date departureDate);
+
+    @Transactional
+    @Modifying
+    @Query("update Run r set r.arrivalDate=?2 where r.id=?1")
+    void setArrivalDateById(long id, Date arrivalDate);
 
     List<Run> findAllByDepartureDate(Date departureDate);
 }

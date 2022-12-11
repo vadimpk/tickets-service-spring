@@ -1,28 +1,27 @@
 package com.naukma.ticketsservice;
 
 import com.naukma.ticketsservice.train.Train;
+import com.naukma.ticketsservice.train.TrainController;
 import com.naukma.ticketsservice.train.TrainDto;
 import com.naukma.ticketsservice.train.TrainService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.context.WebApplicationContext;
 
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ExtendWith(SpringExtension.class)
+@WebFluxTest(TrainController.class)
 public class WebFluxControllerTest {
 
-    @Autowired
-    private WebApplicationContext context;
     private static Long ID = 0L;
 
-    @MockBean
+    @Autowired
     private WebTestClient webClient;
 
     @MockBean
@@ -30,7 +29,7 @@ public class WebFluxControllerTest {
 
     @Test
     @WithMockUser(username = "admin", password = "123", roles = "ADMIN")
-    public void shouldGetTrain() {
+    public void shouldGetUser() {
         trainService.create(new Train("train", 56, 100));
         ID = trainService.find("train").get().getId();
 
@@ -44,7 +43,10 @@ public class WebFluxControllerTest {
 
     @Test
     @WithMockUser(username = "admin", password = "123", roles = "ADMIN")
-    public void shouldGetTrainFail() {
+    public void shouldGetUserFail() {
+
+        when(trainService.find(ID + 1L)).thenThrow(new RuntimeException("user with id =" + (ID + 1)+  " is supposed not ti be found"));
+
         webClient
                 .get().uri("/api/v1/train/{id}", ID)
                 .exchange()

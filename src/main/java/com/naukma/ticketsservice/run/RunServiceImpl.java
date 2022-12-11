@@ -1,12 +1,16 @@
 package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.route.Route;
+import com.naukma.ticketsservice.route.RouteRepository;
+import com.naukma.ticketsservice.route.RouteService;
 import com.naukma.ticketsservice.train.Train;
+import com.naukma.ticketsservice.train.TrainRepository;
+import com.naukma.ticketsservice.train.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,58 +18,103 @@ import java.util.Optional;
 @Transactional
 public class RunServiceImpl implements RunService{
 
-    private final RunRepository repository;
+    private final RunRepository runRepository;
+    private final RouteRepository routeRepository;
+    private final TrainRepository trainRepository;
+    private final RouteService routeService;
+    private final TrainService trainService;
 
-    public RunServiceImpl(@Autowired RunRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public RunServiceImpl( RunRepository runRepository, RouteRepository routeRepository, TrainRepository trainRepository, RouteService routeService, TrainService trainService) {
+        this.runRepository = runRepository;
+        this.routeRepository = routeRepository;
+        this.trainRepository = trainRepository;
+        this.routeService = routeService;
+        this.trainService = trainService;
     }
 
     @Override
-    public Run createRun(Run newRun) {
-        return repository.saveAndFlush(newRun);
+    public Run create(Run newRun) {
+        return runRepository.saveAndFlush(newRun);
     }
-    public Run save(Run run) { return repository.save(run);}
+    public Run save(Run run) { return runRepository.save(run);}
 
     @Override
-    public Optional<Run> findRunById(Long id) {return repository.findById(id);}
+    public Optional<Run> find(Long id) {return runRepository.findById(id);}
     @Override
-    public Optional<Run> findRunByName(String name) { return repository.findByName(name);}
-
-    @Override
-    public Optional<Run> findRun(Long id) { return repository.findById(id); }
+    public Optional<Run> find(String name) { return runRepository.findByName(name);}
 
     @Override
     public List<Run> getByDepartureDate(Date departureDate) {
-        return repository.findAllByDepartureDate(departureDate);
+        return runRepository.findAllByDepartureDate(departureDate);
     }
 
     @Override
-    public List<Run> getRuns() { return repository.findAll(); }
+    public List<Run> getRuns() { return runRepository.findAll(); }
 
     @Override
-    public int update(Long id, Run run) {
-        repository.setRouteById(id,run.getRoute());
-        repository.setTrainById(id,run.getTrain());
-        repository.setDepartureTimeById(id,run.getDepartureTime());
-        repository.setArrivalTimeById(id,run.getArrivalTime());
-        return 1;
+    public Run update(Long id, RunDto runDto) {
+        // check if exists
+        Optional<Run> check = find(id);
+        if (check.isEmpty())
+            return null;
+
+        // update name
+        Run run = update(check.get(), runDto.getName());
+        if (run == null) return null;
+
+        //update Route
+        update(run, routeService.find(runDto.getRouteId()).get());
+        if (run == null) return null;
+
+        //update Train
+        update(run,trainService.find(runDto.getTrainId()).get());
+        if(run == null) return null;
+
+        //update Time
+        run.setDepartureTime(runDto.getDepartureTime());
+        run.setArrivalTime(runDto.getArrivalTime());
+
+        //update Date
+        run.setDepartureDate(runDto.getDepartureDate());
+        run.setArrivalDate(runDto.getArrivalDate());
+
+        return runRepository.save(run);
+    }
+    private Run update(Run run, String name) {
+        Optional<Run> checkName = find(name);
+        if (checkName.isPresent()) return null;
+
+        run.setName(name);
+        return run;
+    }
+    private void update(Run run, Route route) {
+        Optional<Route> checkRoute = routeRepository.findById(route.getId());
+        if (checkRoute.isPresent()) return;
+        run.setRoute(route);
+    }
+    private void update(Run run, Train train) {
+        Optional<Train> checkTrain = trainRepository.findByName(train.getName());
+        if (checkTrain.isPresent()) return;
+
+        run.setTrain(train);
     }
 
     @Override
     public int setTrain(Long id, Train train) {
-        repository.setTrainById(id,train);
+        runRepository.setTrainById(id,train);
         return 1;
     }
 
     @Override
     public boolean delete(Long id) {
-       repository.deleteById(id);
+       runRepository.deleteById(id);
        return true;
     }
 
     @Override
     public int setRoute(Long id, Route route) {
-        repository.setRouteById(id,route);
+        runRepository.setRouteById(id,route);
         return 1;
     }
 }
