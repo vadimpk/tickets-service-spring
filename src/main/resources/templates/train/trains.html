@@ -19,6 +19,7 @@
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Speed</th>
+        <th scope="col">Capcity</th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -27,6 +28,7 @@
         <th th:text="${train.id}" scope="row"></th>
         <td th:text="${train.name}" ></td>
         <td th:text="${train.speed}"></td>
+        <td th:text="${train.capacity}"></td>
 
         <td class="mx-2" style="float: right">
             <div class="row">
@@ -62,6 +64,9 @@
         <label class="sr-only">Speed</label>
         <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new speed" th:field="*{speed}">
 
+        <label class="sr-only">Capacity</label>
+        <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new capacity" th:field="*{capacity}">
+
         <button type="submit" class="btn btn-primary mb-2">Submit</button>
     </form>
 </div>
@@ -74,6 +79,9 @@
 
     <label class="sr-only">Speed</label>
     <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter speed" th:field="*{speed}">
+
+    <label class="sr-only">Capacity</label>
+    <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new capacity" th:field="*{capacity}">
 
     <button type="submit" class="btn btn-primary mb-2">Submit</button>
 </form>

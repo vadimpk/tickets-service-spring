@@ -17,13 +17,17 @@ public class Train {
     @Column
     private int speed;
 
+    @Column
+    private int capacity;
+
     public Train() {
 
     }
 
-    public Train(String name, int speed) {
+    public Train(String name, int speed, int capacity) {
         this.speed = speed;
         this.name = name;
+        this.capacity = capacity;
     }
 
     public String getName() {
@@ -44,6 +48,14 @@ public class Train {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     @Override

@@ -26,6 +26,10 @@ public class TrainServiceImpl implements TrainService{
 
     @Override
     public Train create(Train train) {
+
+        Optional<Train> checkName = find(train.getName());
+        if (checkName.isPresent()) return null;
+
         return repository.save(train);
     }
 
@@ -45,8 +49,40 @@ public class TrainServiceImpl implements TrainService{
     }
 
     @Override
-    public Train update(Train train) {
+    public Train update(Long id, TrainDto dto) {
+
+        // check if exists
+        Optional<Train> check = find(id);
+        if (check.isEmpty())
+            return null;
+
+        // update name
+        Train train = update(check.get(), dto.getName());
+        if (train == null) return null;
+
+        //update capacity
+        update(train, dto.getCapacity());
+        if (train == null) return null;
+
+        train.setSpeed(dto.getSpeed());
+
         return repository.save(train);
+    }
+
+    private Train update(Train train, String name) {
+        Optional<Train> checkName = find(name);
+        if (checkName.isPresent()) return null;
+
+        train.setName(name);
+        return train;
+    }
+
+    private Train update(Train train, int capacity) {
+
+        // TODO: check if no conflict in runs
+
+        train.setCapacity(capacity);
+        return train;
     }
 
     @Override

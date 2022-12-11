@@ -31,7 +31,7 @@ public class WebFluxControllerTest {
     @Test
     @WithMockUser(username = "admin", password = "123", roles = "ADMIN")
     public void shouldGetTrain() {
-        trainService.create(new Train("train", 56));
+        trainService.create(new Train("train", 56, 100));
         ID = trainService.find("train").get().getId();
 
         webClient

@@ -21,6 +21,10 @@ public class TrainDto {
     @Max(200)
     private int speed;
 
+    @Min(10)
+    @Max(10000)
+    private int capacity;
+
     public TrainDto(@JsonProperty(value = "name", required = true) String name,
                     @JsonProperty("speed") int speed) {
         this.name = name;
@@ -43,5 +47,13 @@ public class TrainDto {
 
     public int getSpeed() {
         return speed;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 }

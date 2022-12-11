@@ -7,12 +7,11 @@ public interface TrainService {
     Train create(Train train);
 
     Optional<Train> find(Long id);
-
     Optional<Train> find(String name);
 
     List<Train> getTrains();
 
-    Train update(Train train);
+    Train update(Long id, TrainDto dto);
 
     boolean delete(Long id);
 }

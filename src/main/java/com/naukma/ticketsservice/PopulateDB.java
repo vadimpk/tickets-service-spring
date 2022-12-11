@@ -96,10 +96,10 @@ public class PopulateDB {
         POPULATE TRAINS
          */
 
-        Train train1 = trainService.create(new Train("TH1", 100));
-        Train train2 = trainService.create(new Train("TH2", 120));
-        Train train3 = trainService.create(new Train("TH3", 130));
-        Train train4 = trainService.create(new Train("TH4", 200));
+        Train train1 = trainService.create(new Train("TH1", 100, 400));
+        Train train2 = trainService.create(new Train("TH2", 120, 500));
+        Train train3 = trainService.create(new Train("TH3", 130, 400));
+        Train train4 = trainService.create(new Train("TH4", 200, 600));
 
         /*
         POPULATE RUNS

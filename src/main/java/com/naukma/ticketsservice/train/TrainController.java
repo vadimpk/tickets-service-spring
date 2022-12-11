@@ -46,7 +46,7 @@ public class TrainController {
         if (check.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(service.create(new Train(train.getName(), train.getSpeed())), HttpStatus.OK);
+        return new ResponseEntity<>(service.create(new Train(train.getName(), train.getSpeed(), train.getCapacity())), HttpStatus.OK);
     }
 
 
@@ -66,6 +66,7 @@ public class TrainController {
         }
         trainToChange.get().setName(train.getName());
         trainToChange.get().setSpeed(train.getSpeed());
+        trainToChange.get().setCapacity(train.getCapacity());
         return new ResponseEntity<>(service.create(trainToChange.get()), HttpStatus.OK);
     }
 

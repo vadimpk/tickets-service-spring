@@ -35,19 +35,16 @@ public class TrainWebController {
                                               BindingResult result,
                                               Model model) {
 
-        // check if name is unique
-        Optional<Train> check = trainService.find(train.getName());
-        if (check.isPresent()) {
-            result.rejectValue("name", null,
-                    "Name is taken");
-            return "redirect:?failedCreation&error=name_is_taken";
-        }
-
         if (result.hasErrors()) {
             return "redirect:?failedCreation&error=bad_request";
         }
 
-        trainService.create(new Train(train.getName(), train.getSpeed()));
+        Train created = trainService.create(new Train(train.getName(), train.getSpeed(), train.getCapacity()));
+        if (created == null) {
+            result.rejectValue("name", null,
+                    "Name is taken");
+            return "redirect:?failedCreation&error=name_is_taken";
+        }
         return "redirect:/admin/trains";
     }
 
@@ -58,30 +55,15 @@ public class TrainWebController {
                                               BindingResult result,
                                               Model model) {
 
-        // check if name is unique
-        Optional<Train> check = trainService.find(id);
-        if (check.isEmpty()) {
-            result.rejectValue("name", null,
-                    "No such obj");
-            return "redirect:/admin/trains?failedUpdate&error=no_such_train";
-        }
+        if (result.hasErrors())
+            return "redirect:/admin/trains?failedUpdate&error=bad_request";
 
-        // check if name is unique
-        Optional<Train> checkName = trainService.find(train.getName());
-        if (checkName.isPresent()) {
-            result.rejectValue("name", null,
-                    "Name is taken");
-            return "redirect:/admin/trains?failedUpdate&error=name_is_taken";
-        }
 
-        if (result.hasErrors()) {
+        Train updated = trainService.update(id, train);
+        if (updated == null) {
             return "redirect:/admin/trains?failedUpdate&error=bad_request";
         }
 
-        check.get().setName(train.getName());
-        check.get().setSpeed(train.getSpeed());
-
-        trainService.update(check.get());
         return "redirect:/admin/trains";
     }
 
