@@ -71,7 +71,7 @@ public class RouteController {
         if (route.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         List<Long> stationsIds = routeDto.getTransitionalStationIDs();
-        Route newRoute = service.update(route.get(), stationsIds);
+        Route newRoute = service.update(route.get(), routeDto.getStartStationID(), stationsIds, routeDto.getFinishStationID());
         if (newRoute == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

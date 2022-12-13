@@ -73,7 +73,7 @@ public class RouteWebController {
         }
 
         List<Long> stationsIds = route.getTransitionalStationIDs();
-        Route newRoute = routeService.update(check.get(), stationsIds);
+        Route newRoute = routeService.update(check.get(), route.getStartStationID(), stationsIds, route.getFinishStationID());
 
         if (newRoute == null)
             return "redirect:/admin/routes?failedUpdate&error=bad_request_cant_connect_stations";

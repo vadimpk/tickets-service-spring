@@ -9,7 +9,7 @@ public interface RouteService {
 
     Route create(List<Long> stations);
     Route create(Long startStation, List<Long> stations, Long finishStain);
-    Route update(Route route, List<Long> stationsIds);
+    Route update(Route route, Long startStationID, List<Long> stationsIds, Long finishStationID);
 
     List<Route> findRoutes(Station startStation, Station finishStation);
 

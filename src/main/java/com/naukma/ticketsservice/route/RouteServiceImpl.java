@@ -52,9 +52,9 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public Route update(Route route, List<Long> stationsIds) {
+    public Route update(Route route, Long startStationID, List<Long> stationsIds, Long finishStationID) {
 
-        List<Station> stations = validateStations(stationsIds);
+        List<Station> stations = validateStations(startStationID, stationsIds, finishStationID);
         if (stations.size() < 2) return null;
 
         int distance = validateRoute(stations);
