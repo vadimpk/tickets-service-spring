@@ -27,4 +27,9 @@ public interface RunRepository extends JpaRepository<Run, Long> {
     List<Run> findAllByDepartureDate(Date departureDate);
 
     List<Run> findAllByRouteAndDepartureDate(Route route, Date departureDate);
+
+    @Transactional
+    @Modifying
+    @Query("update Run r set r.name=?2, r.route=?3, r.train=?4, r.departureTime=?5, r.arrivalTime=?6, r.departureDate=?7, r.arrivalDate=?8, r.takenSeats=?9 where r.id=?1")
+    void updateById(Long id, String name, Route route, Train train, Date departureTime, Date arrivalTime, Date departureDate, Date arrivalDate, int takenSeats);
 }

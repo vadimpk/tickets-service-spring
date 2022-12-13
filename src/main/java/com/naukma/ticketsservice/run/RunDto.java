@@ -3,6 +3,7 @@ package com.naukma.ticketsservice.run;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
@@ -21,6 +22,8 @@ public class RunDto {
     private Date departureDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date arrivalDate;
+    @Min(0)
+    private int takenSeats;
 
     public RunDto(@JsonProperty(value = "name", required = true)String name,
                   @JsonProperty(value = "route_id", required = true)Long routeId,
@@ -95,5 +98,13 @@ public class RunDto {
 
     public void setArrivalDate(Date arrivalDate) {
         this.arrivalDate = arrivalDate;
+    }
+
+    public int getTakenSeats() {
+        return takenSeats;
+    }
+
+    public void setTakenSeats(int takenSeats) {
+        this.takenSeats = takenSeats;
     }
 }

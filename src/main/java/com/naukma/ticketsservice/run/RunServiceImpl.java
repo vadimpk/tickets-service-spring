@@ -100,8 +100,17 @@ public class RunServiceImpl implements RunService{
         run.setDepartureTime(runDto.getDepartureTime());
         run.setDepartureDate(runDto.getDepartureDate());
         run.setArrivalDate(runDto.getArrivalDate());
+        run.setTakenSeats(runDto.getTakenSeats());
 
         return runRepository.save(run);
+    }
+
+    @Override
+    public Run update(Long id, Run run) {
+        runRepository.updateById(id, run.getName(), run.getRoute(), run.getTrain(),
+                run.getDepartureTime(), run.getArrivalTime(), run.getDepartureDate(),
+                run.getArrivalDate(), run.getTakenSeats());
+        return run;
     }
 
 

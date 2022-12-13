@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:insert="base.html :: headerfiles">
+    <title>Buy ticket</title>
+</head>
+<body>
+<header th:insert="base.html :: navbar"> </header>
+
+<form sec:authorize="hasRole('ROLE_USER')" th:action="@{/buy}" method="post" th:object="${ticketDto}">
+    <div>
+        <h3 th:text="'From ' + ${startStation.name} + ' on ' + ${run.getDepartureDateToString()}"></h3>
+        <h3 th:text="'To ' + ${finishStation.name} + ' on ' + ${run.getArrivalDateToString()}"></h3>
+        <h3 th:text="'Price: ' + ${price}"></h3>
+    </div>
+    <div>
+        <input type="hidden" th:field="*{id}" th:value="${ticketDto.getId()}">
+        <input type="hidden" th:field="*{price}" th:value="${ticketDto.getPrice()}">
+        <input type="hidden" th:field="*{currency}" th:value="${ticketDto.getCurrency()}">
+        <input type="hidden" th:field="*{runId}" th:value="${ticketDto.getRunId()}">
+        <button type="submit" class="btn btn-primary mb-2">Buy</button>
+    </div>
+</form>
+
+</body>
+</html>

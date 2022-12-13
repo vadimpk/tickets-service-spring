@@ -46,6 +46,14 @@ public class SearchController {
     @LogInAndOutArgs
     public String searchForRuns(@Valid @ModelAttribute("searchArgs") SearchDto searchDto,
                                 BindingResult result, Model model) {
+        if (searchDto.getStartStationId() == null)
+            return "redirect:?failedSearch&error=not_specified_start_station";
+        if (searchDto.getFinishStationId() == null)
+            return "redirect:?failedSearch&error=not_specified_finish_station";
+        if (searchDto.getDepartureDate() == null)
+            return "redirect:?failedSearch&error=not_specified_date";
+
+
         Optional<Station> startStation =  stationService.findById(searchDto.getStartStationId());
         Optional<Station> finishStation =  stationService.findById(searchDto.getFinishStationId());
         if (startStation.isEmpty() || finishStation.isEmpty())
@@ -56,18 +64,21 @@ public class SearchController {
         for (Route route : routes) {
             runs.addAll(runService.findByRouteAndDepartureDate(route, searchDto.getDepartureDate()));
         }
+
+        if (runs.size() == 0)
+            return "redirect:?failedSearch&error=not_found_runs";
+
         model.addAttribute("runs", runs);
 
         log.info("result for searching runs: " + searchDto.getStartStationId() +  " -> " + searchDto.getFinishStationId() +
                 " at " + searchDto.getDepartureDate() + ": " + runs );
 
-        if (result.hasErrors()) {
-            return "redirect:?failedSearch&error=bad_request";
-        }
+
 
         model.addAttribute("stations", stationService.getStations());
         model.addAttribute("selectedStartStationId", startStation.get().getId());
         model.addAttribute("selectedFinishStationId", finishStation.get().getId());
+        model.addAttribute("searchArgs", searchDto);
 
         return "index";
     }

@@ -15,6 +15,14 @@
         <h1 class="display-4 text-center mt-5">Please register or login to buy tickets</h1>
     </div>
 
+    <div th:if="${param.failedSearch}">
+        <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
+    </div>
+
+    <div th:if="${param.successful_bought}">
+        <div class="alert alert-success" role="alert" th:text="'Ticket was succesfully bought'"></div>
+    </div>
+
     <form sec:authorize="hasRole('ROLE_USER')" th:action="@{/searchRuns}" method="get" th:object="${searchArgs}">
             <div>
                 <label class="lead" for="start-station">From?</label>
@@ -48,6 +56,7 @@
                     <th scope="col">Train</th>
                     <th scope="col">Seats left</th>
                     <th scope="col">Full Route</th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody th:each="run: ${runs}">
@@ -59,11 +68,17 @@
                     <td>
                         <span th:each="st: ${run.route.stations}" th:text="${st.name} + ' -> '"></span>
                     </td>
+                    <td>
+                        <form th:action="@{/buy/} + ${run.name}" method="get">
+                            <input type="hidden" th:name="selectedStartStationId" th:value="${selectedStartStationId}">
+                            <input type="hidden" th:name="selectedFinishStationId" th:value="${selectedFinishStationId}">
+                            <button type="submit" th:disabled="${run.getFreeSeats() ==  0}"  class="btn btn-primary bt-l">Buy</button>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-    </div>
 
 </body>
 </html>

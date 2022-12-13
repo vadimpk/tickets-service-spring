@@ -6,11 +6,13 @@ import com.naukma.ticketsservice.exceptions.NoSuchTicketException;
 import com.naukma.ticketsservice.exceptions.NoSuchRunException;
 import com.naukma.ticketsservice.run.Run;
 import com.naukma.ticketsservice.run.RunService;
+import com.naukma.ticketsservice.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,14 +46,15 @@ public class TicketController {
     }
 
     @PostMapping("/ticket")
-    public ResponseEntity<Ticket> add(@Valid @RequestBody TicketDto ticketDto){
+    public ResponseEntity<Ticket> add(@Valid @RequestBody TicketDto ticketDto,
+                                      @AuthenticationPrincipal User user){
 
         //run if such run is present
         Optional<Run> run = runService.find(ticketDto.getRunId());
         if (run.isEmpty()) {
             throw new NoSuchRunException();
         }
-        return new ResponseEntity<>(service.createTicket(run.get(), ticketDto), HttpStatus.OK);
+        return new ResponseEntity<>(service.createTicket(run.get(), ticketDto, user), HttpStatus.OK);
     }
 
     @DeleteMapping("ticket/{id}")

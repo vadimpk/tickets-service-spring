@@ -1,6 +1,7 @@
 package com.naukma.ticketsservice.ticket;
 
 import com.naukma.ticketsservice.run.Run;
+import com.naukma.ticketsservice.user.User;
 
 import javax.persistence.*;
 
@@ -20,16 +21,18 @@ public class Ticket {
 
     private String currency;
 
-    // private User user;
+    @ManyToOne()
+     private User user;
 
     public Ticket() {
 
     }
 
-    public Ticket(Run run, String currency, double price) {
+    public Ticket(Run run, double price, String currency, User user) {
         this.run = run;
-        this.currency = currency;
         this.price = price;
+        this.currency = currency;
+        this.user = user;
     }
 
     public Long getId() {
@@ -50,6 +53,14 @@ public class Ticket {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

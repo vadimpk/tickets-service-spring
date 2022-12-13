@@ -21,6 +21,7 @@ public interface RunService {
     List<Run> getRuns();
 
     Run update(Long id, RunDto newRun);
+    Run update(Long id, Run run);
 
     boolean delete(Long id);
 

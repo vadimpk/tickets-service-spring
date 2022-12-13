@@ -12,6 +12,8 @@ public class TicketDto {
     @Pattern(regexp = "[a-zA-z]{3}", message = "currency code must contains only 3 letters (example: 'USD')")
     private String currency;
 
+    public double price;
+
     // private User user;
 
 
@@ -22,7 +24,8 @@ public class TicketDto {
         else this.currency = currency;
     }
 
-
+    public TicketDto() {
+    }
 
     public Long getId() {
         return id;
@@ -42,5 +45,17 @@ public class TicketDto {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
