@@ -30,4 +30,6 @@ public interface RunService {
 
     Optional<Route> findRouteById(Long RouteId);
     Optional<Train> findTrainById(Long TrainId);
+
+    List<Run> findByRouteAndDepartureDate(Route route, Date departureDate);
 }

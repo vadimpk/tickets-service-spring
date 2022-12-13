@@ -2,10 +2,8 @@ package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.route.RouteRepository;
-import com.naukma.ticketsservice.route.RouteService;
 import com.naukma.ticketsservice.train.Train;
 import com.naukma.ticketsservice.train.TrainRepository;
-import com.naukma.ticketsservice.train.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -138,5 +136,10 @@ public class RunServiceImpl implements RunService{
         if(train.isPresent())
             return null;
         return train;
+    }
+
+    @Override
+    public List<Run> findByRouteAndDepartureDate(Route route, Date departureDate) {
+        return runRepository.findAllByRouteAndDepartureDate(route, departureDate);
     }
 }

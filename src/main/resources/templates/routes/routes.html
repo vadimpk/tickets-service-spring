@@ -27,7 +27,7 @@
     <tr>
         <th th:text="${route.id}" scope="row"></th>
         <td th:text="${route.startStation.name}" ></td>
-        <td th:text="${route.finishStation.name}"></td>
+        <td th:text="${route.finishStationId.name}"></td>
         <td th:text="${route.distance}"></td>
         <td><span th:each="adj: ${route.stations}">
             <span th:text="${adj.name} + ' -> '"></span>

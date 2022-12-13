@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,4 +25,6 @@ public interface RunRepository extends JpaRepository<Run, Long> {
     void setTrainById(long id, Train train);
 
     List<Run> findAllByDepartureDate(Date departureDate);
+
+    List<Run> findAllByRouteAndDepartureDate(Route route, Date departureDate);
 }

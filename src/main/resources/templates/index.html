@@ -15,18 +15,30 @@
         <h1 class="display-4 text-center mt-5">Please register or login to buy tickets</h1>
     </div>
 
-    <div sec:authorize="hasRole('ROLE_USER')">
-        <form th:action="@{/searchRuns}" method="get" th:object="${searchArgs}">
+    <form sec:authorize="hasRole('ROLE_USER')" th:action="@{/searchRuns}" method="get" th:object="${searchArgs}">
             <div>
-                <label for="departure-date">Departure date:</label>
-                <input type="date" th:field="*{departureDate}" id="departure-date"/>
+                <label class="lead" for="start-station">From?</label>
+                <select class="form-select" id="start-station" size="5" th:field="*{startStationId}">
+                    <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"
+                            th:selected="${st.id eq selectedStartStationId}"></option>
+                </select>
             </div>
             <div>
-                <button type="submit" class="button">Submit</button>
+                <label class="lead" for="finish-station">To?</label>
+                <select class="form-select" id="finish-station" size="5" th:field="*{finishStationId}">
+                    <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"
+                            th:selected="${st.id eq selectedFinishStationId}"></option>
+                </select>
+            </div>
+            <div>
+                <label class="lead" for="departure-time">When?</label>
+                <input type="date" id="departure-time" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Select departure date" th:field="*{departureDate}">
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary mb-2">Search</button>
             </div>
         </form>
-
-        <div th:if="${runs != null}">
+        <div sec:authorize="hasRole('ROLE_USER')" th:if="${runs != null}">
 
             <table class="table">
                 <thead class="thead-dark">
