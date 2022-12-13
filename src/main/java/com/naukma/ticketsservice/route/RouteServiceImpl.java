@@ -30,8 +30,19 @@ public class RouteServiceImpl implements RouteService {
     @Override
     @LogInAndOutArgs
     public Route create(List<Long> stationsIds) {
-
         List<Station> stations = validateStations(stationsIds);
+        return createRoute(stations);
+    }
+
+    @Override
+    @LogInAndOutArgs
+    public Route create(Long startStationId, List<Long> stationsIds, Long finishStationId) {
+        List<Station> stations = validateStations(startStationId, stationsIds, finishStationId);
+        return createRoute(stations);
+
+    }
+
+    private Route createRoute(List<Station> stations) {
         if (stations.size() < 2) return null;
 
         int distance = validateRoute(stations);
@@ -63,6 +74,20 @@ public class RouteServiceImpl implements RouteService {
             Optional<Station> station = stationRepository.findById(id);
             station.ifPresent(stations::add);
         }
+        return stations;
+    }
+
+    private List<Station> validateStations(Long startStationId, List<Long> stationsIds, Long finishStationId) {
+        List<Station> stations = new ArrayList<>();
+        stationRepository.findById(startStationId).ifPresent(stations::add);
+        for (Long id : stationsIds) {
+            if (id.equals(startStationId) || id.equals(finishStationId))
+                continue;
+            Optional<Station> station = stationRepository.findById(id);
+            station.ifPresent(stations::add);
+        }
+        stationRepository.findById(finishStationId).ifPresent(stations::add);
+
         return stations;
     }
 

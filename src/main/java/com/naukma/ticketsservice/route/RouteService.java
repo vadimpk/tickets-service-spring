@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface RouteService {
 
     Route create(List<Long> stations);
+    Route create(Long startStation, List<Long> stations, Long finishStain);
     Route update(Route route, List<Long> stationsIds);
 
     List<Route> findRoutes(Station startStation, Station finishStation);

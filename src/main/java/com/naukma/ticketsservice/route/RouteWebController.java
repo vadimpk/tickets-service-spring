@@ -47,7 +47,7 @@ public class RouteWebController {
         }
 
         List<Long> stationsIds = route.getTransitionalStationIDs();
-        Route newRoute = routeService.create(stationsIds);
+        Route newRoute = routeService.create(route.getStartStationID(), stationsIds, route.getFinishStationID());
 
         if (newRoute == null)
             return "redirect:?failedCreation&error=bad_request_cant_connect_stations";
