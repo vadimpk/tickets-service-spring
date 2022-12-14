@@ -31,26 +31,28 @@
         <div class="card-body">
             <form th:action="@{/searchRuns}" method="get"
                   th:object="${searchArgs}">
-                <div class="form-group mb-3">
+                <div class="row mb-3">
+                <div class="col">
                     <label class="lead" for="start-station">From?</label>
                     <select class="form-control" id="start-station" th:field="*{startStationId}">
                         <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"
                                 th:selected="${st.id eq selectedStartStationId}"></option>
                     </select>
                 </div>
-                <div class="form-group mb-3">
+                <div class="col">
                     <label class="lead" for="finish-station">To?</label>
                     <select class="form-control" id="finish-station" th:field="*{finishStationId}">
                         <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"
                                 th:selected="${st.id eq selectedFinishStationId}"></option>
                     </select>
                 </div>
+                </div>
                 <div class="form-group mb-3">
                     <label class="lead" for="departure-time">When?</label>
                     <input type="date" id="departure-time" class="form-control mb-2 mr-sm-2 ml-2"
                            placeholder="Select departure date" th:field="*{departureDate}">
                 </div>
-                <div>
+                <div class="text-center">
                     <button type="submit" class="btn btn-primary mb-2">Search</button>
                 </div>
             </form>

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:insert="base.html :: headerfiles">
     <title>Routes Admin</title>
 </head>
 <body>
-<header th:insert="base.html :: navbar"> </header>
-<h1 class="h3 my-4 mx-3">Routes</h1>
+<header th:insert="base.html :: navbar"></header>
+<div class="text-center">
+    <h1 class="h3 my-4 mx-3">Routes</h1>
+</div>
 
 <div th:if="${param.failedDeletion}">
     <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
@@ -26,8 +27,8 @@
     <tbody th:each="route: ${routes}">
     <tr>
         <th th:text="${route.id}" scope="row"></th>
-        <td th:text="${route.startStation.name}" ></td>
-        <td th:text="${route.finishStationId.name}"></td>
+        <td th:text="${route.startStation.name}"></td>
+        <td th:text="${route.finishStation.name}"></td>
         <td th:text="${route.distance}"></td>
         <td><span th:each="adj: ${route.stations}">
             <span th:text="${adj.name} + ' -> '"></span>
@@ -36,12 +37,14 @@
         <td class="mx-2" style="float: right">
             <div class="row">
                 <div class="col-xs-6 px-1 mx-1">
-                    <a th:href="'?updating&updateId=' + ${route.id}" class="btn btn-outline-primary btn-sm"><i class="far fa-edit"></i></a>
+                    <a th:href="'?updating&updateId=' + ${route.id}" class="btn btn-outline-primary btn-sm"><i
+                            class="far fa-edit"></i></a>
                 </div>
 
                 <div class="col-xs-6 px-1 mx-1">
                     <form method="post" th:action="@{/admin/routes/delete/} + ${route.id}">
-                        <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -52,60 +55,100 @@
 
 
 <div th:if="${param.failedCreation}">
-    <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
+    <div class="alert alert-danger" role="alert" th:text="${#httpServletRequest.getParameter('error')}"></div>
 </div>
 
 <div th:if="${param.failedUpdate}">
-    <div class="alert alert-info" th:text="${#httpServletRequest.getParameter('error')}"></div>
+    <div class="alert alert-danger" role="alert" th:text="${#httpServletRequest.getParameter('error')}"></div>
 </div>
 
-<div th:if="${param.updating}" th:with="updateID=${#httpServletRequest.getParameter('updateId')}">
-    <h1 class="h3 my-4 mx-3" th:text="'Update id ' + ${updateID}"></h1>
-    <form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/routes/update/} + ${updateID}" th:object="${newRoute}">
-        <label class="lead">
-            Start station
-            <select class="form-control" size="5" th:field="*{startStationID}">
-                <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
-            </select>
-        </label>
-        <label class="lead">
-            Transient stations
-            <select class="form-control" size="5" th:field="*{transitionalStationIDs}" multiple="multiple">
-                <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
-            </select>
-        </label>
-        <label>
-            Finish station
-            <select class="form-control" size="5" th:field="*{finishStationID}">
-                <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
-            </select>
-        </label>
-        <button type="submit" class="btn btn-primary mb-2">Submit</button>
-    </form>
+<div class="container col-7 mt-3 mb-3" th:if="${param.updating}"
+     th:with="updateID=${#httpServletRequest.getParameter('updateId')}">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="h3 my-4 mx-3" th:text="'Update id ' + ${updateID}"></h2>
+        </div>
+        <div class="card-body">
+            <form method="post" role="form"
+                  th:action="@{/admin/routes/update/} + ${updateID}" th:object="${newRoute}">
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <label class="lead" for="finish-station-u">
+                            Finish station
+                        </label>
+                        <select id="finish-station-u" class="form-control" th:field="*{finishStationID}">
+                            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
+                        </select>
+
+                    </div>
+                    <div class="col text-center">
+                        <label class="lead" for="start-station-u">
+                            Start station
+                        </label>
+                        <select id="start-station-u" class="form-control" th:field="*{startStationID}">
+                            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <label class="lead" for="transient-station-u">
+                        Transient stations
+                    </label>
+                    <select id="transient-station-u" class="form-control" th:field="*{transitionalStationIDs}"
+                            multiple="multiple">
+                        <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
+                    </select>
+
+                </div>
+                <div class="text-center text-center">
+                    <button type="submit" class="btn btn-primary mb-2">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+<div class="container col-7 mt-3 mb-3">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="h3 my-4 mx-3">Create new</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" role="form" th:action="@{/admin/routes/create}" th:object="${newRoute}">
 
-<h1 class="h3 my-4 mx-3">Create new</h1>
-<form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/routes/create}" th:object="${newRoute}">
-    <label class="lead">
-        Start station
-        <select class="form-control" size="5" th:field="*{startStationID}">
-            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
-        </select>
-    </label>
-    <label class="lead">
-        Transient stations
-        <select class="form-control" size="5" th:field="*{transitionalStationIDs}" multiple="multiple">
-            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
-        </select>
-    </label>
-    <label>
-        Finish station
-        <select class="form-control" size="5" th:field="*{finishStationID}">
-            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
-        </select>
-    </label>
+                <div class="row form-group mb-3">
+                    <div class="col text-center">
+                        <label class="lead" for="finish-station-c">
+                            Finish station
+                        </label>
+                        <select id="finish-station-c" class="form-control" th:field="*{finishStationID}">
+                            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
+                        </select>
+                    </div>
+                    <div class="col text-center">
+                        <label class="lead" for="start-station-c">
+                            Start station
+                        </label>
+                        <select id="start-station-c" class="form-control" th:field="*{startStationID}">
+                            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
+                        </select>
 
-    <button type="submit" class="btn btn-primary mb-2">Submit</button>
-</form>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <label class="lead" for="transient-station-c">
+                        Transient stations
+                    </label>
+                    <select id="transient-station-c" class="form-control" th:field="*{transitionalStationIDs}"
+                            multiple="multiple">
+                        <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary mb-2">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
