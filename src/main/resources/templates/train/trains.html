@@ -66,30 +66,29 @@
             <h1 class="h3 my-4 mx-3" th:text="'Update id ' + ${updateID}"></h1>
         </div>
         <div class="card-body">
-<div >
-
-    <form class="mx-3 form-inline" method="post" role="form" th:action="@{/admin/trains/update/} + ${updateID}"
-          th:object="${newTrain}">
-        <div class="form-group">
-            <label class="lead">Name</label>
-            <input type="text" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new name" th:field="*{name}">
+            <form method="post" role="form" th:action="@{/admin/trains/update/} + ${updateID}"
+                  th:object="${newTrain}">
+                <div class="form-group">
+                    <label class="lead">Name</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new name" th:field="*{name}">
+                </div>
+                <div class="form-group">
+                    <label class="lead">Speed</label>
+                    <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new speed"
+                           th:field="*{speed}">
+                </div>
+                <div class="form-group">
+                    <label class="lead">Capacity</label>
+                    <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new capacity"
+                           th:field="*{capacity}">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label class="lead">Speed</label>
-            <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new speed"
-                   th:field="*{speed}">
-        </div>
-        <div class="form-group">
-            <label class="lead">Capacity</label>
-            <input type="number" class="form-control mb-2 mr-sm-2 ml-2" placeholder="Enter new capacity"
-                   th:field="*{capacity}">
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary mb-2">Submit</button>
-        </div>
-    </form>
+    </div>
 </div>
-
 
 <div class="container col-7 mt-3 mb-3">
     <div class="card">

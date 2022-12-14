@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:insert="base.html :: headerfiles">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Tickets</title>
+</head>
+<body>
+<header th:insert="base.html :: navbar"> </header>
+<div class="text-center">
+    <h1 class="h3 my-4 mx-3">Tickets</h1>
+</div>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Run</th>
+        <th scope="col">User</th>
+        <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody th:each="ticket: ${tickets}">
+    <tr>
+        <th th:text="${ticket.id}" scope="row"></th>
+        <td th:text="${ticket.run.name}" ></td>
+        <td th:text="${ticket.user.email}"></td>
+        <td th:text="${ticket.getStatus().toString()}" class="badge"
+            th:classappend="${ticket.getStatus().toString()} eq 'VALID' ? 'badge-success' :
+                (${ticket.getStatus().toString()} eq 'INVALID' ? 'badge-danger' : 'badge-warning')"></td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
