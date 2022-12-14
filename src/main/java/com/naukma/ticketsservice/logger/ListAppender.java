@@ -15,7 +15,7 @@ import java.util.*;
 @Plugin(name="ListAppender", category= Core.CATEGORY_NAME, elementType= Appender.ELEMENT_TYPE)
 public final class ListAppender extends AbstractAppender {
 
-    private Queue<String> loggs;
+    private final Queue<String> loggs;
 
     private ListAppender(String name, Filter filter,
                          Layout<? extends Serializable> layout, final boolean ignoreExceptions) {

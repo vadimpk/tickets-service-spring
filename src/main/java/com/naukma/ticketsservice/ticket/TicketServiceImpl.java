@@ -1,6 +1,5 @@
 package com.naukma.ticketsservice.ticket;
 
-import com.naukma.pricemanager.NoSuchCurrencyException;
 import com.naukma.pricemanager.PriceManager;
 import com.naukma.ticketsservice.TicketsServiceApplication;
 import com.naukma.ticketsservice.run.Run;
@@ -20,8 +19,8 @@ public class TicketServiceImpl implements TicketService {
     static final Logger log =
             LoggerFactory.getLogger(TicketsServiceApplication.class);
 
-    private TicketRepository repository;
-    private PriceManager priceManager;
+    private final TicketRepository repository;
+    private final PriceManager priceManager;
 
     public TicketServiceImpl(@Autowired TicketRepository repository, @Autowired PriceManager priceManager) {
         this.repository = repository;
