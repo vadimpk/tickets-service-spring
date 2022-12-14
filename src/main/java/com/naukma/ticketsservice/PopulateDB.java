@@ -106,7 +106,7 @@ public class PopulateDB {
          */
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         try {
-            Date d = sdf.parse("15-12-2022");
+            Date d = sdf.parse  ("15-12-2022");
             Run run1 = runService.create(new Run("RTZ1", route1, train1, Time.valueOf("12:00:00"), Time.valueOf("14:00:00"), d, d ));
             Run run2 = runService.create(new Run("RTZ2", route2, train3, Time.valueOf("13:30:00"), Time.valueOf("16:00:00"), d, d));
             Run run3 = runService.create(new Run("RTZ3", route3, train4, Time.valueOf("14:00:00"), Time.valueOf("18:00:00"), d, d));
