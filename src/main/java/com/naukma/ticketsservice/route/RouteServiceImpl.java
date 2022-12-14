@@ -144,4 +144,19 @@ public class RouteServiceImpl implements RouteService {
         repository.deleteById(id);
         return true;
     }
+
+    @Override
+    public int countDistance(Station start, Station finish, Run run) {
+        int distance = 0;
+        List<Station> stations = run.getRoute().getStations();
+        int startIndex = stations.indexOf(start);
+        int finishIndex = stations.indexOf(finish);
+        for (int i = startIndex; i < finishIndex; i++)
+            distance += stations.get(i).getAdjacentStations().get(stations.get(i + 1).getId());
+
+        return distance;
+    }
+
+
 }
+

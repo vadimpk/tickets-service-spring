@@ -22,7 +22,11 @@ public class Ticket {
     private String currency;
 
     @ManyToOne()
-     private User user;
+    private User user;
+
+    @Enumerated(EnumType.STRING)
+    private TicketStatus status;
+
 
     public Ticket() {
 
@@ -61,6 +65,22 @@ public class Ticket {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public TicketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TicketStatus status) {
+        this.status = status;
     }
 
     @Override

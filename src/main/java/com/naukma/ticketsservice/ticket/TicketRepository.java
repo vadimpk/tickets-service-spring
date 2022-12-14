@@ -16,8 +16,15 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     Optional<Ticket> findById(Long id);
     void deleteById(Long aLong);
 
+    List<Ticket> findByUser(User user);
+
     @Transactional
     @Modifying
     @Query("update Ticket t set t.user=?2 where t.id=?1")
     void  setUserById(Long id, User user);
+
+    @Transactional
+    @Modifying
+    @Query("update Ticket t set t.run=?2, t.price=?3, t.currency=?4, t.status=?5 where t.id=?1")
+    void  updateById(Long id, Run run, double price, String currency, TicketStatus status);
 }

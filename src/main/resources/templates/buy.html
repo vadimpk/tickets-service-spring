@@ -11,7 +11,7 @@
     <div>
         <h3 th:text="'From ' + ${startStation.name} + ' on ' + ${run.getDepartureDateToString()}"></h3>
         <h3 th:text="'To ' + ${finishStation.name} + ' on ' + ${run.getArrivalDateToString()}"></h3>
-        <h3 th:text="'Price: ' + ${price}"></h3>
+        <h3 th:text="'Price: ' + ${ticketDto.getPrice()}"></h3>
     </div>
     <div>
         <input type="hidden" th:field="*{id}" th:value="${ticketDto.getId()}">

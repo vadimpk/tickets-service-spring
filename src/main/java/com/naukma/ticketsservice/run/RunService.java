@@ -1,6 +1,7 @@
 package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.route.Route;
+import com.naukma.ticketsservice.station.Station;
 import com.naukma.ticketsservice.train.Train;
 
 import java.util.Date;

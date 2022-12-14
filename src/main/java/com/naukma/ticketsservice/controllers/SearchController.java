@@ -70,11 +70,6 @@ public class SearchController {
 
         model.addAttribute("runs", runs);
 
-        log.info("result for searching runs: " + searchDto.getStartStationId() +  " -> " + searchDto.getFinishStationId() +
-                " at " + searchDto.getDepartureDate() + ": " + runs );
-
-
-
         model.addAttribute("stations", stationService.getStations());
         model.addAttribute("selectedStartStationId", startStation.get().getId());
         model.addAttribute("selectedFinishStationId", finishStation.get().getId());

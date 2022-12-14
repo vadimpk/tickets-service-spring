@@ -1,5 +1,6 @@
 package com.naukma.ticketsservice.route;
 
+import com.naukma.ticketsservice.run.Run;
 import com.naukma.ticketsservice.station.Station;
 
 import java.util.List;
@@ -18,4 +19,7 @@ public interface RouteService {
     List<Route> getRoutes();
 
     boolean delete(Long id);
+
+    int countDistance(Station start, Station finish, Run run);
+
 }

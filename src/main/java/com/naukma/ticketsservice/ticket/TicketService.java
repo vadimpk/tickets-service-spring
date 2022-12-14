@@ -17,4 +17,8 @@ public interface TicketService {
     void delete(Long id);
     Optional<Ticket> findTicketById(Long id);
     Ticket update(Ticket ticket);
+
+    List<Ticket> findTicketsByUser(User user);
+
+    void setTicketReturned(Ticket ticket);
 }

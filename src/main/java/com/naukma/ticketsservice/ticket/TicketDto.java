@@ -14,7 +14,7 @@ public class TicketDto {
 
     public double price;
 
-    // private User user;
+     private TicketStatus status;
 
 
     public TicketDto(@JsonProperty(value = "run_id", required = true) Long runId,

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,7 @@ public class TicketServiceImpl implements TicketService {
         if (!ticketDto.getCurrency().equals("USD")) price = priceManager.convertPriceTo(ticketDto.getCurrency(), price);
         log.info("price for run = " + run.getId() + ": " + price + " " + ticketDto.getCurrency());
         Ticket ticket = new Ticket(run, ticketDto.getPrice(), ticketDto.getCurrency(), user);
+        ticket.setStatus(TicketStatus.VALID);
         repository.saveAndFlush(ticket);
 
         return ticket;
@@ -58,5 +60,24 @@ public class TicketServiceImpl implements TicketService {
     public Ticket update(Ticket ticket) {
         repository.setUserById(ticket.getId(), ticket.getUser());
         return null;
+    }
+
+    @Override
+    public List<Ticket> findTicketsByUser(User user) {
+        List<Ticket> tickets = repository.findByUser(user);
+        Date date = new Date();
+        for (Ticket ticket : tickets) {
+            if (date.compareTo(ticket.getRun().getDepartureDate()) > 0 &&
+                    date.compareTo(ticket.getRun().getDepartureTime())  >= 0) {
+                ticket.setStatus(TicketStatus.INVALID);
+            }
+        }
+        return tickets;
+    }
+
+    @Override
+    public void setTicketReturned(Ticket ticket) {
+        ticket.setStatus(TicketStatus.RETURNED);
+        repository.updateById(ticket.getId(), ticket.getRun(), ticket.getPrice(), ticket.getCurrency(), ticket.getStatus());
     }
 }

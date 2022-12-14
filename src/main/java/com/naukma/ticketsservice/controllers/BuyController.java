@@ -1,7 +1,9 @@
 package com.naukma.ticketsservice.controllers;
 
+import com.naukma.pricemanager.PriceManager;
 import com.naukma.ticketsservice.TicketsServiceApplication;
 import com.naukma.ticketsservice.aspects.LogInAndOutArgs;
+import com.naukma.ticketsservice.route.RouteService;
 import com.naukma.ticketsservice.run.Run;
 import com.naukma.ticketsservice.run.RunService;
 import com.naukma.ticketsservice.station.Station;
@@ -33,12 +35,16 @@ public class BuyController {
     private final RunService runService;
     private final StationService stationService;
     private final TicketService ticketService;
+    private final RouteService routeService;
+    private final PriceManager priceManager;
 
     @Autowired
-    public BuyController(RunService runService, StationService stationService, TicketService ticketService) {
+    public BuyController(RunService runService, StationService stationService, TicketService ticketService, RouteService routeService, PriceManager priceManager) {
         this.runService = runService;
         this.stationService = stationService;
         this.ticketService = ticketService;
+        this.routeService = routeService;
+        this.priceManager = priceManager;
     }
 
     @GetMapping("/buy/{runName}")
@@ -57,11 +63,16 @@ public class BuyController {
         if (startStation.isEmpty() || finishStation.isEmpty())
             return "redirect:?failedSearch&error=not_found_station";
 
+        int distance = routeService.countDistance(startStation.get(), finishStation.get(), run.get());
+        log.info("distance: " + distance);
+        double price = priceManager.setPrice(distance);
+        TicketDto ticket = new TicketDto(run.get().getId(), "USD");
+        ticket.setPrice(price);
+
         model.addAttribute("startStation", startStation.get());
         model.addAttribute("finishStation", finishStation.get());
         model.addAttribute("run", run.get());
-        model.addAttribute("price", 100);
-        model.addAttribute("ticketDto", new TicketDto(run.get().getId(), "USD"));
+        model.addAttribute("ticketDto", ticket);
         return "buy";
     }
 

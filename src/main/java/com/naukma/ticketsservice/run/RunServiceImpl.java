@@ -2,6 +2,7 @@ package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.route.RouteRepository;
+import com.naukma.ticketsservice.station.Station;
 import com.naukma.ticketsservice.train.Train;
 import com.naukma.ticketsservice.train.TrainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,7 +135,7 @@ public class RunServiceImpl implements RunService{
 
     public Optional<Route> findRouteById(Long RouteId) {
         Optional<Route> route = routeRepository.findById(RouteId);
-        if(route.isPresent())
+        if(route.isEmpty())
             return null;
         return route;
     }
@@ -142,7 +143,7 @@ public class RunServiceImpl implements RunService{
     @Override
     public Optional<Train> findTrainById(Long TrainId) {
         Optional<Train> train = trainRepository.findById(TrainId);
-        if(train.isPresent())
+        if(train.isEmpty())
             return null;
         return train;
     }
