@@ -50,14 +50,14 @@ public class PopulateDB {
         Station station6 = stationService.createStation(new Station("F"));
         Station station7 = stationService.createStation(new Station("G"));
 
-        stationService.addAdjacentStation(station1, station2, 50);
-        stationService.addAdjacentStation(station1, station3, 40);
-        stationService.addAdjacentStation(station2, station4, 30);
-        stationService.addAdjacentStation(station3, station4, 30);
-        stationService.addAdjacentStation(station3, station5, 30);
-        stationService.addAdjacentStation(station3, station6, 25);
-        stationService.addAdjacentStation(station4, station7, 20);
-        stationService.addAdjacentStation(station6, station7, 25);
+        stationService.addAdjacentStation(station1, station2, 150);
+        stationService.addAdjacentStation(station1, station3, 140);
+        stationService.addAdjacentStation(station2, station4, 130);
+        stationService.addAdjacentStation(station3, station4, 130);
+        stationService.addAdjacentStation(station3, station5, 130);
+        stationService.addAdjacentStation(station3, station6, 125);
+        stationService.addAdjacentStation(station4, station7, 120);
+        stationService.addAdjacentStation(station6, station7, 125);
 
         /*
         POPULATE ROUTES

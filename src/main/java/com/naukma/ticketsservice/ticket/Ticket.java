@@ -12,8 +12,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne()
-//    @JoinColumn(name = "run_id", referencedColumnName = "id")
+    @ManyToOne
     private Run run;
 
     @Column(nullable = false)
