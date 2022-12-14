@@ -1,9 +1,9 @@
 package com.naukma.ticketsservice.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,8 +11,11 @@ import java.util.Optional;
 @Service
 public class UserPrincipalDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
+
+    public UserPrincipalDetailsService(UserRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -23,5 +26,9 @@ public class UserPrincipalDetailsService implements UserDetailsService {
         }
 
         return new UserPrincipal(user.get());
+    }
+
+    public void update(Long id, String email, String password, String firstName, String lastName) {
+        repository.updateById(id, email, password, firstName, lastName);
     }
 }

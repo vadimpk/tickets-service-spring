@@ -1,0 +1,90 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:insert="base.html :: headerfiles">
+<title>Profile</title>
+</head>
+<body>
+<header th:insert="base.html :: navbar"> </header>
+<div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Profile</h2>
+            </div>
+            <div th:if="${param.successful_changed}">
+                <div class="alert alert-success" role="alert" th:text="'Your profile was succesfully changed!'"></div>
+            </div>
+            <div th:if="${param.not_correct_password}">
+                <div class="alert alert-danger" role="alert" th:text="'Old password is not correct'"></div>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/profile/update}" method="post" th:object="${userDto}">
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="firstName">First Name</label>
+                        <input
+                                class="form-control"
+                                id="firstName"
+                                name="firstName"
+                                placeholder="Enter new first name"
+                                th:field="*{firstName}"
+                                type="text"
+                        />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="lastName">Last Name</label>
+                        <input
+                                class="form-control"
+                                id="lastName"
+                                name="lastName"
+                                placeholder="Enter new last name"
+                                th:field="*{lastName}"
+                                type="text"
+                        />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="email">Email</label>
+                        <input
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                placeholder="Enter new email address"
+                                th:field="*{email}"
+                                type="email"
+                        />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="old-password">Old password</label>
+                        <input
+                                class="form-control"
+                                id="old-password"
+                                name="password"
+                                placeholder="Enter old password"
+                                th:name="oldPassword"
+                                type="password"
+                        />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="password">New password</label>
+                        <input
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Enter new password"
+                                th:field="*{password}"
+                                type="password"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
