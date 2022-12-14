@@ -1,7 +1,6 @@
 package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.aspects.LogInAndOutArgs;
-import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.route.RouteService;
 import com.naukma.ticketsservice.train.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,6 @@ package com.naukma.ticketsservice.run;
 
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.route.RouteRepository;
-import com.naukma.ticketsservice.station.Station;
 import com.naukma.ticketsservice.ticket.Ticket;
 import com.naukma.ticketsservice.ticket.TicketService;
 import com.naukma.ticketsservice.train.Train;
@@ -146,7 +145,7 @@ public class RunServiceImpl implements RunService{
     public Optional<Route> findRouteById(Long RouteId) {
         Optional<Route> route = routeRepository.findById(RouteId);
         if(route.isEmpty())
-            return null;
+            return Optional.empty();
         return route;
     }
 
@@ -154,7 +153,7 @@ public class RunServiceImpl implements RunService{
     public Optional<Train> findTrainById(Long TrainId) {
         Optional<Train> train = trainRepository.findById(TrainId);
         if(train.isEmpty())
-            return null;
+            return Optional.empty();
         return train;
     }
 

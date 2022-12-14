@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.Time;
 import java.util.Optional;
 
 @RequestMapping("api/v1")
@@ -66,16 +65,12 @@ public class RunController {
         // check if entered route exists otherwise set to the one that was before
         if (run.getRouteId() != null) {
             Optional<Route> r1 = routeService.find(run.getRouteId());
-            if (r1.isPresent()) {
-                runToChange.get().setRoute(r1.get());
-            }
+            r1.ifPresent(route -> runToChange.get().setRoute(route));
         }
         // check if entered train exists otherwise set to the one that was before
         if (run.getTrainId() != null) {
             Optional<Train> t1 = trainService.find(run.getRouteId());
-            if (t1.isPresent()) {
-                runToChange.get().setTrain(t1.get());
-            }
+            t1.ifPresent(train -> runToChange.get().setTrain(train));
         }
         runToChange.get().setDepartureTime(run.getDepartureTime());
         runToChange.get().setArrivalTime(run.getArrivalTime());

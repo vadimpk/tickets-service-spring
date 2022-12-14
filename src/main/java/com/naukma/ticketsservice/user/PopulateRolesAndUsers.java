@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class PopulateRolesAndUsers {
 
-    private RoleRepository roleRepository;
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public PopulateRolesAndUsers(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {

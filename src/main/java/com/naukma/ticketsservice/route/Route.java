@@ -3,9 +3,7 @@ package com.naukma.ticketsservice.route;
 import com.naukma.ticketsservice.station.Station;
 
 import javax.persistence.*;
-import java.time.Duration;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 public class Route {

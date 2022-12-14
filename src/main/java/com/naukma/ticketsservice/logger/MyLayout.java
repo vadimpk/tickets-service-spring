@@ -30,11 +30,10 @@ public class MyLayout extends AbstractStringLayout
             pw.close();
             throwable.append(sw.toString());
         }
-        StringBuilder retValue=new StringBuilder();
-        retValue.append(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:S").format(event.getTimeMillis())).append(" ")
-                .append(event.getLevel().toString()).append(" ").append(event.getLoggerName()).append(" ").append(event.getMessage().getFormattedMessage()).append(" ").append(throwable);
+        String retValue = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:S").format(event.getTimeMillis()) + " " +
+                event.getLevel().toString() + " " + event.getLoggerName() + " " + event.getMessage().getFormattedMessage() + " " + throwable;
 
-        return retValue.toString();
+        return retValue;
     }
 
     @PluginFactory

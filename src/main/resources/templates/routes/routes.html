@@ -73,19 +73,18 @@
                   th:action="@{/admin/routes/update/} + ${updateID}" th:object="${newRoute}">
                 <div class="row mb-3">
                     <div class="col text-center">
-                        <label class="lead" for="finish-station-u">
-                            Finish station
-                        </label>
-                        <select id="finish-station-u" class="form-control" th:field="*{finishStationID}">
-                            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
-                        </select>
-
-                    </div>
-                    <div class="col text-center">
                         <label class="lead" for="start-station-u">
                             Start station
                         </label>
                         <select id="start-station-u" class="form-control" th:field="*{startStationID}">
+                            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
+                        </select>
+                    </div>
+                    <div class="col text-center">
+                        <label class="lead" for="finish-station-u">
+                            Finish station
+                        </label>
+                        <select id="finish-station-u" class="form-control" th:field="*{finishStationID}">
                             <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
                         </select>
                     </div>
@@ -107,6 +106,7 @@
         </div>
     </div>
 </div>
+
 <div class="container col-7 mt-3 mb-3">
     <div class="card">
         <div class="card-header">
@@ -117,21 +117,20 @@
 
                 <div class="row form-group mb-3">
                     <div class="col text-center">
-                        <label class="lead" for="finish-station-c">
-                            Finish station
-                        </label>
-                        <select id="finish-station-c" class="form-control" th:field="*{finishStationID}">
-                            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
-                        </select>
-                    </div>
-                    <div class="col text-center">
                         <label class="lead" for="start-station-c">
                             Start station
                         </label>
                         <select id="start-station-c" class="form-control" th:field="*{startStationID}">
                             <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
                         </select>
-
+                    </div>
+                    <div class="col text-center">
+                        <label class="lead" for="finish-station-c">
+                            Finish station
+                        </label>
+                        <select id="finish-station-c" class="form-control" th:field="*{finishStationID}">
+                            <option th:each="st : ${stations}" th:value="${st.id}" th:text="${st.name}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="text-center">
