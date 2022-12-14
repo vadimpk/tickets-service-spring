@@ -3,6 +3,8 @@ package com.naukma.ticketsservice.run;
 import com.naukma.ticketsservice.route.Route;
 import com.naukma.ticketsservice.route.RouteRepository;
 import com.naukma.ticketsservice.station.Station;
+import com.naukma.ticketsservice.ticket.Ticket;
+import com.naukma.ticketsservice.ticket.TicketService;
 import com.naukma.ticketsservice.train.Train;
 import com.naukma.ticketsservice.train.TrainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,14 @@ public class RunServiceImpl implements RunService{
     private final RunRepository runRepository;
     private final RouteRepository routeRepository;
     private final TrainRepository trainRepository;
+    private final TicketService ticketService;
 
     @Autowired
-    public RunServiceImpl( RunRepository runRepository, RouteRepository routeRepository, TrainRepository trainRepository) {
+    public RunServiceImpl(RunRepository runRepository, RouteRepository routeRepository, TrainRepository trainRepository, TicketService ticketService) {
         this.runRepository = runRepository;
         this.routeRepository = routeRepository;
         this.trainRepository = trainRepository;
+        this.ticketService = ticketService;
     }
 
     @Override
@@ -123,8 +127,14 @@ public class RunServiceImpl implements RunService{
 
     @Override
     public boolean delete(Long id) {
-       runRepository.deleteById(id);
-       return true;
+        Optional<Run> run = find(id);
+        if (run.isEmpty()) return false;
+        List<Ticket> tickets = ticketService.findTicketsByRun(run.get());
+        for (Ticket t : tickets) {
+            ticketService.delete(t.getId());
+        }
+        runRepository.deleteById(id);
+        return true;
     }
 
     @Override
