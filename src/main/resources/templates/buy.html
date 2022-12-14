@@ -5,22 +5,46 @@
     <title>Buy ticket</title>
 </head>
 <body>
-<header th:insert="base.html :: navbar"> </header>
-
-<form sec:authorize="hasRole('ROLE_USER')" th:action="@{/buy}" method="post" th:object="${ticketDto}">
-    <div>
-        <h3 th:text="'From ' + ${startStation.name} + ' on ' + ${run.getDepartureDateToString()}"></h3>
-        <h3 th:text="'To ' + ${finishStation.name} + ' on ' + ${run.getArrivalDateToString()}"></h3>
-        <h3 th:text="'Price: ' + ${ticketDto.getPrice()}"></h3>
+<header th:insert="base.html :: navbar"></header>
+<div class="container col-7 mt-3 mb-3">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Buy ticket</h2>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">From</th>
+                    <th scope="col">Departs</th>
+                    <th scope="col">To</th>
+                    <th scope="col">Arrives</th>
+                    <th scope="col">Train</th>
+                    <th scope="col">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${startStation.name}"></td>
+                    <td th:text="${run.getDepartureDateToString()}"></td>
+                    <td th:text="${finishStation.name}"></td>
+                    <td th:text="${run.getArrivalDateToString()}"></td>
+                    <td th:text="${run.train.name}"></td>
+                    <td th:text="${ticketDto.getPrice()}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <form sec:authorize="hasRole('ROLE_USER')" th:action="@{/buy}" method="post" th:object="${ticketDto}">
+                <div class="text-center">
+                    <input type="hidden" th:field="*{id}" th:value="${ticketDto.getId()}">
+                    <input type="hidden" th:field="*{price}" th:value="${ticketDto.getPrice()}">
+                    <input type="hidden" th:field="*{currency}" th:value="${ticketDto.getCurrency()}">
+                    <input type="hidden" th:field="*{runId}" th:value="${ticketDto.getRunId()}">
+                    <button type="submit" class="btn btn-primary mb-2">Buy</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <input type="hidden" th:field="*{id}" th:value="${ticketDto.getId()}">
-        <input type="hidden" th:field="*{price}" th:value="${ticketDto.getPrice()}">
-        <input type="hidden" th:field="*{currency}" th:value="${ticketDto.getCurrency()}">
-        <input type="hidden" th:field="*{runId}" th:value="${ticketDto.getRunId()}">
-        <button type="submit" class="btn btn-primary mb-2">Buy</button>
-    </div>
-</form>
-
+</div>
 </body>
 </html>
